@@ -26,22 +26,43 @@ function rotateCard(btn) {
     }
 }
 
-$(document).ready(function () {
+
+/*let showprofile = document.querySelector('#openProfile');
+let loginWrapper = document.querySelector('.login-wrapper');
+
+showprofile.addEventListener('click', function(){
+    pro +=1;
+    alert(pro);
+    loginWrapper.classList.toggle('open');
+});
+$("#openProfile").click(function(){
+    alert("test");
+    $('body').toggleClass("openProfile");
+    $('#exampleModalCenter').modal('show')
+});*/
+
+$().ready(function () {
     $("body").toggleClass("visibilitybtn");
     $('.btn').removeClass("active");
     $("#btnslide").click(function () {
         $("body").toggleClass("open");
     });
-    $("#openProfile").click(function(){
-        $('body').toggleClass("openProfile");
+    $('#openProfile').click(function(){
+        $("body").toggleClass("signupsuccess");
+        $("body").toggleClass("openlogout");
+        $("body").toggleClass("closelogin");
     });
-
+    $("#logout").click(function(){
+        $("body").toggleClass("signupsuccess");
+        $("body").toggleClass("openlogout");
+        $("body").toggleClass("closelogin");
+    });
 });
 
 
 $(function() {
 	$(".btn").click(function() {
-		$(".form-signin").toggleClass("form-signin-left");
+	$(".form-signin").toggleClass("form-signin-left");
     $(".form-signup").toggleClass("form-signup-left");
     $(".frame").toggleClass("frame-long");
     $(".signup-inactive").toggleClass("signup-active");

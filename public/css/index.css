@@ -430,17 +430,29 @@ body {
     background: none;
 }
 
-
 #profile {
-    display: none;
+  display: none;
 }
 
-.signupsuccess #profile{
+.signupsuccess #profile {
     display: inherit;
 }
 
+#logout {
+  display: none;
+}
 
+.openlogout #logout{
+  display: inherit;
+}
 
+.closelogin #login{
+  display: none;
+}
+
+.openlogin #login {
+  display: inherit;
+}
 
 
 html,
