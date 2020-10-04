@@ -42,6 +42,7 @@ $("#openProfile").click(function(){
 });*/
 
 $().ready(function () {
+    var check = 0;
     $("body").toggleClass("visibilitybtn");
     $('.btn').removeClass("active");
     $("#btnslide").click(function () {
@@ -51,11 +52,24 @@ $().ready(function () {
         $("body").toggleClass("signupsuccess");
         $("body").toggleClass("openlogout");
         $("body").toggleClass("closelogin");
+        check = 1;
     });
     $("#logout").click(function(){
         $("body").toggleClass("signupsuccess");
         $("body").toggleClass("openlogout");
         $("body").toggleClass("closelogin");
+        check = 0;
+    });
+    $("#pin").click(function(){
+        if(check == 1){
+            $("#pin").attr("data-toggle" , "");
+            $("#pin").attr("data-target" , "");
+            $("#pin").attr("href" , "Filter.html");
+        }else {
+            $("#pin").attr("href" , "#");
+            $("#pin").attr("data-toggle" , "modal");
+            $("#pin").attr("data-target" , "#exampleModalCenter");
+        }
     });
 });
 
