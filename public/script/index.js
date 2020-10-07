@@ -1,3 +1,5 @@
+
+/*//navbar
 $(document).ready(function () {
     $(window).scroll(function () {
         var scroll = $(window).scrollTop();
@@ -10,13 +12,15 @@ $(document).ready(function () {
 
         }
     })
-})
+})*/
 
+
+/*//card
 $().ready(function () {
     $('[rel="tooltip"]').tooltip();
 });
 
-function rotateCard(btn) {
+/*function rotateCard(btn) {
     var $card = $(btn).closest('.card-container');
     console.log($card);
     if ($card.hasClass('hover')) {
@@ -24,7 +28,7 @@ function rotateCard(btn) {
     } else {
         $card.addClass('hover');
     }
-}
+}*/
 
 
 /*let showprofile = document.querySelector('#openProfile');
@@ -41,6 +45,8 @@ $("#openProfile").click(function(){
     $('#exampleModalCenter').modal('show')
 });*/
 
+
+// hide card area and modal sign in
 $().ready(function () {
     var check = 0;
     $("body").toggleClass("visibilitybtn");
@@ -74,6 +80,8 @@ $().ready(function () {
 });
 
 
+
+// animation in modal
 $(function() {
 	$(".btn").click(function() {
 	$(".form-signin").toggleClass("form-signin-left");

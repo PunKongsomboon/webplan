@@ -1,139 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../public/css/Filter.css">
-    <script src="../public/script/Filter.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../public/css/Filter.css">
+  <script src="../public/script/Filter.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" media="screen">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 </head>
+
 <body>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark shadow">
-        <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item" id="profile">
-                    <a class="nav-link" href="profile.html">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter" id="login">Sign In<svg
-                            width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        </svg></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="logout">Sign Out</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark shadow">
+    <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item" id="profile">
+          <a class="nav-link" href="profile.html">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter" id="login">Sign In<svg
+              width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+            </svg></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="logout">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-    <header class="masthead">
-        <div class="container h-100">
-            <div class="row h-100 align-items-end py-5 mt-5 text-center">
-                <div class="col-12 text-center d-md-flex align-items-center">
-                    <h5 class="text-light col-md-4 pt-2">Where you would like to go?</h5>
-                    <input class="form-control mx-3 my-2 col-xl-3 col-md-3 col-sm-11 col-11" type="text"
-                        placeholder="จุดเริ่มต้น">
-                    <input class="form-control mx-3 my-2 col-xl-3 col-md-3 col-sm-11 col-11" type="text"
-                        placeholder="ปลายทาง">
-                    <a type="button" class="btn btn-secondary btn-sm mx-2" style="height: fit-content;" id="pin">GO</a>
-                </div>
-            </div>
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-end py-5 mt-5 text-center">
+        <div class="col-12 text-center d-md-flex align-items-center">
+          <h5 class="text-light col-md-4 pt-2">Where you would like to go?</h5>
+          <input class="form-control mx-3 my-2 col-xl-3 col-md-3 col-sm-11 col-11" type="text"
+            placeholder="จุดเริ่มต้น">
+          <input class="form-control mx-3 my-2 col-xl-3 col-md-3 col-sm-11 col-11" type="text" placeholder="ปลายทาง">
+          <a type="button" class="btn btn-secondary btn-sm mx-2" style="height: fit-content;" id="pin">GO</a>
         </div>
-    </header>
-
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="row text-center justify-content-center" >
-                <div class="filter col-6 rounded shadow">
-                    <h1 class="display-5">ต้องการไปฤดูไหน?</h1>
-                    <div class="form-group">
-                      <select class="form-control-sm" name="" id="">
-                        <option value="winter">ฤดูหนาว</option>
-                        <option value="summer">ฤดูร้อน</option>
-                        <option value="Rainly">ฤดูฝน</option>
-                      </select>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" class="img-fluid mb-3 rounded" alt="">
-                </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="row text-center justify-content-center" >
-                <div class="filter col-6 rounded shadow">
-                    <h1 class="display-5">ต้องการไปฤดูไหน?</h1>
-                    <div class="form-group">
-                      <select class="form-control-sm" name="" id="">
-                        <option value="winter">ฤดูหนาว</option>
-                        <option value="summer">ฤดูร้อน</option>
-                        <option value="Rainly">ฤดูฝน</option>
-                      </select>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" class="img-fluid mb-3 rounded" alt="">
-                </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="row text-center justify-content-center" >
-                <div class="filter col-6 rounded shadow">
-                    <h1 class="display-5">ต้องการไปฤดูไหน?</h1>
-                    <div class="form-group">
-                      <select class="form-control-sm" name="" id="">
-                        <option value="winter">ฤดูหนาว</option>
-                        <option value="summer">ฤดูร้อน</option>
-                        <option value="Rainly">ฤดูฝน</option>
-                      </select>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" class="img-fluid mb-3 rounded" alt="">
-                </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="row text-center justify-content-center" >
-                <div class="filter col-6 rounded shadow">
-                    <h1 class="display-5">ต้องการไปฤดูไหน?</h1>
-                    <div class="form-group">
-                      <select class="form-control-sm" name="" id="">
-                        <option value="winter">ฤดูหนาว</option>
-                        <option value="summer">ฤดูร้อน</option>
-                        <option value="Rainly">ฤดูฝน</option>
-                      </select>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" class="img-fluid mb-3 rounded" alt="">
-                </div>
-            </div>
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
       </div>
+    </div>
+  </header>
 
-    <!--section>
+  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="row text-center justify-content-center">
+          <div class="filter col-6 rounded shadow">
+            <h3 class="display-5 p-3">ต้องการไปฤดูไหน?</h3>
+            <div class="form-group">
+              <select class="form-control-sm" name="" id="">
+                <option value="winter">ฤดูหนาว</option>
+                <option value="summer">ฤดูร้อน</option>
+                <option value="Rainly">ฤดูฝน</option>
+              </select>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+              class="img-fluid mb-3 rounded" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="row text-center justify-content-center">
+          <div class="filter col-8 rounded shadow">
+            <h3 class="display-5 p-3">เลือกประเภท</h3>
+            <div class="row justify-content-center mt-5">
+              <div class="col-md-4 col-sm-6">
+                <div class="card-container manual-flip">
+                  <div class="card" style="border: none;">
+                    <div class="front">
+                      <div class="cover rounded shadow" onclick="rotateCard(this)">
+                        <img
+                          src="https://images.unsplash.com/photo-1478515463067-d20f52aace26?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80" />
+                      </div>
+                      <p class="mt-3">คนเดียว</p>
+                    </div> <!-- end front panel -->
+                    <div class="back align-items-end col-12">
+                      <div class="content">
+                        <div class="main">
+                          <h4 class="text-center">เลือกช่วงอายุ</h4>
+                          <hr class="my-2">
+                          <div class="card-body p-0">
+                            <div class="btn-area col-12">
+                              <h5 class="display-5 m-4">18-25</h5>
+                            </div>
+                            <hr class="my-2">
+                            <div class="btn-area col-12">
+                              <h5 class="display-5 m-4">26-30</h5>
+                            </div>
+                            <hr class="my-2">
+                            <div class="btn-area col-12">
+                              <h5 class="display-5 m-4">31-60</h5>
+                            </div>
+                            <hr class="my-2">
+                          </div>
+
+                        </div>
+                      </div>
+                      <footer>
+                        <button class="btn btn-simple col-12" rel="tooltip" title="Flip Card"
+                          onclick="rotateCard(this)">Back</button>
+                      </footer>
+                    </div>
+                  </div> <!-- end back panel -->
+                </div> <!-- end card -->
+              </div>
+
+              <div class="col-md-4 col-sm-6">
+                <div class="card-container manual-flip">
+                  <div class="card" style="border: none;">
+                    <div class="front">
+                      <div class="cover rounded shadow" onclick="rotateCard(this)">
+                        <img
+                          src="https://images.unsplash.com/photo-1500027014421-46ccc843776a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" />
+                      </div>
+                      <p class="mt-3">กลุ่มเพื่อน</p>
+                    </div> <!-- end front panel -->
+                    <div class="back align-items-end col-12">
+                      <div class="content">
+                        <div class="main">
+                          <h4 class="text-center">จำนวนคน</h4>
+                          <hr class="my-2">
+                          <div class="card-body p-0">
+                            <div class="btn-area col-12">
+                              <button class="btn btn-primary btn-lg" style="background: transparent;">+</button>
+                            </div>
+                            <div class="btn-area col-12">
+                              <h5 class="display-5 m-4">0</h5>
+                            </div>
+                            <div class="btn-area col-12">
+                              <button class="btn btn-primary btn-lg" style="background: transparent;">-</button>
+                            </div>
+                            <hr class="my-2">
+                          </div>
+
+                        </div>
+                      </div>
+                      <footer>
+                        <button class="btn btn-simple col-12" rel="tooltip" title="Flip Card"
+                          onclick="rotateCard(this)">Back</button>
+                      </footer>
+                    </div>
+                  </div> <!-- end back panel -->
+                </div> <!-- end card -->
+              </div>
+
+              <div class="col-md-4 col-sm-6">
+                <div class="card-container manual-flip">
+                  <div class="card" style="border: none;">
+                    <div class="front">
+                      <div class="cover rounded shadow">
+                        <img
+                          src="https://images.unsplash.com/photo-1529518152792-d08317b26e22?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" />
+                      </div>
+                      <p class="mt-3">ครอบครัว</p>
+                    </div>
+                  </div> <!-- end front panel -->
+                </div> <!-- end card -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="row text-center justify-content-center">
+          <div class="filter col-8 rounded shadow d-flex">
+            <div class="left col-6 text-center justify-content-center" style="border: 2px solid red;">
+              <h3 class="display-5 p-3">เลือกจำนวนวัน</h3>
+              <div id="sandbox-container" class="ml-5 pl-5">
+                <input type="text col-12" id="date" value="" style="width: 100%; display: none;">
+              </div>
+              <p class="display-5 p-3" id="outputdate"></p>
+              <button class="btn btn-primary btn-md" id="btndate">Apply</button>
+            </div>
+            <div class="right col-6 text-center justify-content-center" style="border: 2px solid red;">
+              <h3 class="display-5 p-3">ใส่จำนวนเงิน</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="row text-center justify-content-center">
+          <div class="filter col-6 rounded shadow">
+            <h1 class="display-5">ต้องการไปฤดูไหน?</h1>
+            <div class="form-group">
+              <select class="form-control-sm" name="" id="">
+                <option value="winter">ฤดูหนาว</option>
+                <option value="summer">ฤดูร้อน</option>
+                <option value="Rainly">ฤดูฝน</option>
+              </select>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+              class="img-fluid mb-3 rounded" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+  <!--section>
         <div class="container-fluid align-content-center" style="border: 2px solid red;">
 
             <button class="btn btn-outline-secondary btn-lg" id="btnleft"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -159,4 +256,5 @@
 
 
 </body>
+
 </html>
