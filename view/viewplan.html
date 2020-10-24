@@ -10,15 +10,99 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../public/css/viewplan.css">
 
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <button class="btn btn-primary btn-md">test</button>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark shadow">
+        <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item" id="profile">
+                    <a class="nav-link" href="profile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter" id="login">Sign
+                        In<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill"
+                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                        </svg></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logout">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container-fluid testimonial-group mb-5">
+        <div class="row text-center">
+            <div class="filter col-3 rounded shadow my-5 mx-3" style="border: 2px solid red;">
+                <h3 class="display-5 p-3">ต้องการไปฤดูไหน?</h3>
+                <div class="form-group">
+                    <select class="form-control-sm" name="" id="">
+                        <option value="winter">ฤดูหนาว</option>
+                        <option value="summer">ฤดูร้อน</option>
+                        <option value="Rainly">ฤดูฝน</option>
+                    </select>
+                </div>
+                <img src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                    class="img-fluid mb-3 rounded" alt="">
+            </div>
+            <div class="filter col-3 rounded shadow my-5 mx-3" style="border: 2px solid red;">
+                <h3 class="display-5 p-3">ต้องการไปฤดูไหน?</h3>
+                <div class="form-group">
+                    <select class="form-control-sm" name="" id="">
+                        <option value="winter">ฤดูหนาว</option>
+                        <option value="summer">ฤดูร้อน</option>
+                        <option value="Rainly">ฤดูฝน</option>
+                    </select>
+                </div>
+                <img src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                    class="img-fluid mb-3 rounded" alt="">
+            </div>
+            <div class="filter col-3 rounded shadow my-5 m-3" style="border: 2px solid red;">
+                <h3 class="display-5 p-3">ต้องการไปฤดูไหน?</h3>
+                <div class="form-group">
+                    <select class="form-control-sm" name="" id="">
+                        <option value="winter">ฤดูหนาว</option>
+                        <option value="summer">ฤดูร้อน</option>
+                        <option value="Rainly">ฤดูฝน</option>
+                    </select>
+                </div>
+                <img src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                    class="img-fluid mb-3 rounded" alt="">
+            </div>
+            <div class="filter col-3 rounded shadow my-5 mx-5" style="border: 2px solid red;">
+                <h3 class="display-5 p-3">ต้องการไปฤดูไหน?</h3>
+                <div class="form-group">
+                    <select class="form-control-sm" name="" id="">
+                        <option value="winter">ฤดูหนาว</option>
+                        <option value="summer">ฤดูร้อน</option>
+                        <option value="Rainly">ฤดูฝน</option>
+                    </select>
+                </div>
+                <img src="https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                    class="img-fluid mb-3 rounded" alt="">
+            </div>
+            
         </div>
     </div>
+
 </body>
 
 </html>

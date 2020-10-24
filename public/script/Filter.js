@@ -1,4 +1,15 @@
 $(document).ready(function () {
+
+  // var screen = $(window).height();
+  // console.log(screen);
+  // $('.carousel').height(screen);
+
+  // if(screen > 1000){
+  //   var areaFilter = $(".filter").height();
+  //   console.log(areaFilter);
+  //   //$('.filter').css("background-color" , "red");
+  // }
+
   $('.carousel').carousel({
     interval: false,
     wrap: false
