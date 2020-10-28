@@ -52,19 +52,21 @@ body, html {
 
 /*slide area*/
 
-.testimonial-group>.row {
-    /* display: flex; */
-    flex-wrap: nowrap;
-    overflow-x: auto;
+@media (min-width: 992px) {
+    .testimonial-group>.row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+    .testimonial-group>.row>.filter {
+        flex: 0 0 auto;
+    }
 }
-
-.testimonial-group>.row>.filter {
-    flex: 0 0 auto;
-}
-
 
 @media (max-width: 991px) {
-    
+    .testimonial-group>.row {
+        display: flex;
+    }
 }
 
 /*.filter {
@@ -111,4 +113,3 @@ body, html {
 .row::-webkit-scrollbar-button {
     display: none;
 }
-

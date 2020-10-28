@@ -1,34 +1,37 @@
-html, body * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+html, body * {
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
 
-body,html {
+body, html {
     height: auto;
     /*background: linear-gradient(90deg,#16703f,#c9c9c9);*/
     background-attachment: fixed;
 }
 
 /* navbar menu*/
+
 .nav {
     width: 100%;
     height: 100px;
     padding-top: 40px;
     opacity: 1;
     transition: all .5s ease;
-  }
-  
-  .nav-up {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-
-  .navbar-nav .nav-item .nav-link {
-    color: white;
-    border-bottom: 2px solid transparent;
-    transition: 0.3s ;
 }
 
-.navbav-nav .nav-item:active .nav-link,
-.navbar-nav .nav-item .nav-link:hover {
-    border-bottom: 2px solid rgba(246,247,249,0.8);
+.nav-up {
+    transform: translateY(-100px);
+    opacity: 0;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: white;
+    border-bottom: 2px solid transparent;
+    transition: 0.3s;
+}
+
+.navbav-nav .nav-item:active .nav-link, .navbar-nav .nav-item .nav-link:hover {
+    border-bottom: 2px solid rgba(246, 247, 249, 0.8);
     padding-bottom: .5rem;
 }
 
@@ -46,146 +49,149 @@ body,html {
     display: none;
 }
 
-
 /* header */
 
 .masthead {
-    background: rgba(246,247,249,0.8);
+    background: rgba(246, 247, 249, 0.8);
 }
 
 .masthead .col-12 {
     border-radius: 50px;
     background-color: rgba(44, 44, 44, 0.7);
-    
 }
 
-section .filter{
+section .filter {
     height: 100%;
-    
 }
 
 /*carousel filter*/
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  height: 100px;
-  width: 100px;
-  outline: black;
-  background-size: 100%, 100%;
-  background-image: none;
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    height: 100px;
+    width: 100px;
+    outline: black;
+    background-size: 100%, 100%;
+    background-image: none;
 }
 
-.carousel-control-next-icon:after
-{
-  content: '>';
-  font-size: 55px;
-  color: #333333;
+.carousel-control-next-icon:after {
+    content: '>';
+    font-size: 55px;
+    color: #333333;
 }
 
 .carousel-control-prev-icon:after {
-  content: '<';
-  font-size: 55px;
-  color: #333333;
+    content: '<';
+    font-size: 55px;
+    color: #333333;
 }
-
 
 /* card */
-.btn:hover,
-.btn:focus,
-.btn:active{
+
+.btn:hover, .btn:focus, .btn:active {
     outline: 0 !important;
 }
+
 /* entire container, keeps perspective */
+
 .card-container {
-	  -webkit-perspective: 800px;
-   -moz-perspective: 800px;
-     -o-perspective: 800px;
-        perspective: 800px;
-        margin-bottom: 30px;
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+    -o-perspective: 800px;
+    perspective: 800px;
+    margin-bottom: 30px;
 }
+
 /* flip the pane when hovered */
-.card-container:not(.manual-flip):hover .card,
-.card-container.hover.manual-flip .card{
-	-webkit-transform: rotateY( 180deg );
--moz-transform: rotateY( 180deg );
- -o-transform: rotateY( 180deg );
-    transform: rotateY( 180deg );
+
+.card-container:not(.manual-flip):hover .card, .card-container.hover.manual-flip .card {
+    -webkit-transform: rotateY( 180deg);
+    -moz-transform: rotateY( 180deg);
+    -o-transform: rotateY( 180deg);
+    transform: rotateY( 180deg);
 }
 
-
-.card-container.static:hover .card,
-.card-container.static.hover .card {
-	-webkit-transform: none;
--moz-transform: none;
- -o-transform: none;
+.card-container.static:hover .card, .card-container.static.hover .card {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -o-transform: none;
     transform: none;
 }
+
 /* flip speed goes here */
+
 .card {
-	 -webkit-transition: -webkit-transform .5s;
-   -moz-transition: -moz-transform .5s;
-     -o-transition: -o-transform .5s;
-        transition: transform .5s;
--webkit-transform-style: preserve-3d;
-   -moz-transform-style: preserve-3d;
-     -o-transform-style: preserve-3d;
-        transform-style: preserve-3d;
-	position: relative;
+    -webkit-transition: -webkit-transform .5s;
+    -moz-transition: -moz-transform .5s;
+    -o-transition: -o-transform .5s;
+    transition: transform .5s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    position: relative;
 }
 
 /* hide back of pane during swap */
+
 .front, .back {
-	-webkit-backface-visibility: hidden;
-   -moz-backface-visibility: hidden;
-     -o-backface-visibility: hidden;
-        backface-visibility: hidden;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background-color: #FFF;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #FFF;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.14);
 }
 
 /* front pane, placed above back */
+
 .front {
-	z-index: 2;
+    z-index: 2;
 }
 
 /* back, initially hidden pane */
+
 .back {
-		-webkit-transform: rotateY( 180deg );
-   -moz-transform: rotateY( 180deg );
-     -o-transform: rotateY( 180deg );
-        transform: rotateY( 180deg );
-        z-index: 3;
+    -webkit-transform: rotateY( 180deg);
+    -moz-transform: rotateY( 180deg);
+    -o-transform: rotateY( 180deg);
+    transform: rotateY( 180deg);
+    z-index: 3;
 }
 
-.back .btn-simple{
+.back .btn-simple {
     position: absolute;
     left: 0;
     bottom: 4px;
 }
 
 /*        Style       */
-.card{
+
+.card {
     background: none repeat scroll 0 0 #FFFFFF;
     border-radius: 4px;
     color: #444444;
 }
+
 .card-container, .front, .back {
-	width: 100%;
-	height: 420px;
-	border-radius: 4px;
-	-webkit-box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
--moz-box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
-box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
+    width: 100%;
+    height: 380px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.16);
+    -moz-box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.16);
 }
-.card .cover{
+
+.card .cover {
     height: 100%;
     overflow: hidden;
     border-radius: 4px 4px 0 0;
 }
-.card .cover img{
+
+.card .cover img {
     width: 100%;
     height: 300px;
     cursor: pointer;
@@ -195,49 +201,54 @@ box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
     box-shadow: none;
 }
 
-.front,.back {
-    height: 300px; 
+.front, .back {
+    height: 300px;
     width: auto;
 }
 
 .card .back {
-  width: 100%;
+    width: 100%;
 }
 
 .card hr {
-  width: 100%;
+    width: 100%;
 }
 
 .card .btn-area .btn {
-  border: none;
-  color: #333333;
+    border: none;
+    color: #333333;
 }
 
-.card .content{
+.card .content {
     background-color: rgba(0, 0, 0, 0);
     box-shadow: none;
     padding: 10px 20px 20px;
 }
+
 .card .content .main {
     min-height: 160px;
 }
+
 .card .back .content .main {
     height: 215px;
 }
+
 .card .name {
-		font-family: 'Arima Madurai', cursive;
+    font-family: 'Arima Madurai', cursive;
     font-size: 22px;
     line-height: 28px;
     margin: 10px 0 0;
     text-align: center;
     text-transform: capitalize;
 }
-.card h5{
+
+.card h5 {
     margin: 5px 0;
     font-weight: 400;
     line-height: 20px;
 }
-.card .profession{
+
+.card .profession {
     color: #999999;
     text-align: center;
     margin-bottom: 20px;
@@ -248,20 +259,20 @@ box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
     height: 90px;
 }
 
-
-.card .stats-container{
-	width: 100%;
-	margin-top: 50px;
+.card .stats-container {
+    width: 100%;
+    margin-top: 50px;
 }
-.card .stats{
-	float: left;
-	width: 33.333333%;
-	text-align: center;
+
+.card .stats {
+    float: left;
+    width: 33.333333%;
+    text-align: center;
 }
 
 /*      Just for presentation        */
 
-.title{
+.title {
     color: #506A85;
     text-align: center;
     font-weight: 300;
@@ -269,34 +280,40 @@ box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
     margin-bottom: 90px;
     line-height: 90%;
 }
-.title small{
+
+.title small {
     font-size: 17px;
     color: #999;
     text-transform: uppercase;
     margin: 0;
 }
-.space-30{
-	height: 30px;
-	display: block;
+
+.space-30 {
+    height: 30px;
+    display: block;
 }
-.space-50{
+
+.space-50 {
     height: 50px;
     display: block;
 }
-.space-200{
+
+.space-200 {
     height: 200px;
     display: block;
 }
-.white-board{
+
+.white-board {
     background-color: #FFFFFF;
     min-height: 200px;
     padding: 60px 60px 20px;
 }
-.ct-heart{
+
+.ct-heart {
     color: #F74933;
 }
 
- pre.prettyprint{
+pre.prettyprint {
     background-color: #ffffff;
     border: 1px solid #999;
     margin-top: 20px;
@@ -304,22 +321,95 @@ box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
     text-align: left;
 }
 
-
-.btn-simple{
+.btn-simple {
     opacity: .8;
     color: #666666;
     background-color: transparent;
 }
 
-.btn-simple:hover,
-.btn-simple:focus{
+.btn-simple:hover, .btn-simple:focus {
     background-color: transparent;
     box-shadow: none;
     opacity: 1;
 }
-.btn-simple i{
+
+.btn-simple i {
     font-size: 16px;
 }
+
+#btnfrontPersonCard {
+    opacity: 1;
+    transition: 90ms ease-in;
+}
+
+#frontFamilyCard {
+    opacity: 1;
+    transition: 90ms ease-in;
+}
+
+.PersonCard_ #btnfrontPersonCard {
+    pointer-events:none;
+    opacity: 0.5;
+}
+
+.disPersonCard_ #btnfrontPersonCard {
+    pointer-events:none;
+    opacity: 0.5;
+}
+
+.famCard #frontFamilyCard {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+#frontGroupCard {
+    opacity: 1;
+    transition: 90ms ease-in;
+}
+
+.GroupCard_ #frontGroupCard {
+    pointer-events:none;
+    opacity: 0.5;
+}
+
+#btnPerson18-25 {
+    cursor: pointer;
+    border: none;
+    border-radius: unset;
+    transition: 90ms ease-in;
+}
+
+#btnPerson18-25:hover {
+    border: 2px solid #666666;
+    border-radius: 20px;
+}
+
+#btnPerson26-30 {
+    cursor: pointer;
+    border: none;
+    border-radius: unset;
+    transition: 90ms ease-in;
+}
+
+#btnPerson26-30:hover {
+    border: 2px solid #666666;
+    border-radius: 20px;
+}
+
+#btnPerson31-60 {
+    cursor: pointer;
+    border: none;
+    border-radius: unset;
+    transition: 90ms ease-in;
+}
+
+#btnPerson31-60:hover {
+    border: 2px solid #666666;
+    border-radius: 20px;
+}
+
+
+/* date */
 
 .datepicker.datepicker-inline {
     box-shadow: 2px 5px 10px #333333;
@@ -330,4 +420,3 @@ box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
 table.table-condensed {
     margin: 0px;
 }
-
