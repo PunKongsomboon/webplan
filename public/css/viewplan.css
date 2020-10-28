@@ -53,13 +53,18 @@ body, html {
 /*slide area*/
 
 .testimonial-group>.row {
-    display: flex;
+    /* display: flex; */
     flex-wrap: nowrap;
     overflow-x: auto;
 }
 
 .testimonial-group>.row>.filter {
     flex: 0 0 auto;
+}
+
+
+@media (max-width: 991px) {
+    
 }
 
 /*.filter {
@@ -105,4 +110,5 @@ body, html {
 
 .row::-webkit-scrollbar-button {
     display: none;
-  }
+}
+
