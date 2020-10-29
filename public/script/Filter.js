@@ -82,6 +82,7 @@ $(document).ready(function () {
   $("#frontGroupCard").click(function () {
     numberPer = 1;
     $("#txtconcludeType").text("ประเภท : ไปกับเพื่อน " + numberPer);
+    $("#txttypeTravel").text("ประเภท : ไปกับผองเพื่อนอีก " + numberPer +" คน");
     var $rotbackPerson = $("#btnbackPersonCard").closest('.card-container');
     console.log($rotbackPerson);
     if ($rotbackPerson.hasClass('hover')) {
@@ -100,6 +101,7 @@ $(document).ready(function () {
   $("#backGroupCard").click(function () {
     numberPer = 1;
     $("#txtconcludeType").text("ประเภท : ");
+    $("#txttypeTravel").text("ประเภท : ");
     if (cardper == 1) {
       $("body").toggleClass("PersonCard_");
       cardper = 0;
@@ -236,6 +238,11 @@ $(document).ready(function () {
   //input money
   $("#inmoney").keyup(function(){
     $("#txtmoney").text("ใช้เงิน " + $("#inmoney").val() + " Baht");
+  });
+
+  // btn create plan
+  $("#btnCreateplan").click(function(){
+    window.location.replace("viewplan.html");
   });
 
 })
