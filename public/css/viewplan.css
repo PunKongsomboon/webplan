@@ -58,9 +58,7 @@ body, html {
         flex-wrap: nowrap;
         overflow-x: auto;
     }
-    .testimonial-group>.row>.filter {
-        flex: 0 0 auto;
-    }
+    
 }
 
 @media (max-width: 991px) {
