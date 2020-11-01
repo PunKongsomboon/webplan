@@ -54,27 +54,34 @@ $().ready(function () {
     $("#btnslide").click(function () {
         $("body").toggleClass("open");
     });
-    $('#openProfile').click(function(){
-        $("body").toggleClass("signupsuccess");
-        $("body").toggleClass("openlogout");
-        $("body").toggleClass("closelogin");
-        check = 1;
+
+    $('#openProfile').click(function () {
+        let username = $("#txtUserlogin").val();
+        let password = $("#txtPasslogin").val();
+        if (username == "punonly" && password == "pun1509966") {
+            window.location.replace("Admin.html");
+        } else {
+            $("body").toggleClass("signupsuccess");
+            $("body").toggleClass("openlogout");
+            $("body").toggleClass("closelogin");
+            check = 1;
+        }
     });
-    $("#logout").click(function(){
+    $("#logout").click(function () {
         $("body").toggleClass("signupsuccess");
         $("body").toggleClass("openlogout");
         $("body").toggleClass("closelogin");
         check = 0;
     });
-    $("#pin").click(function(){
-        if(check == 1){
-            $("#pin").attr("data-toggle" , "");
-            $("#pin").attr("data-target" , "");
-            $("#pin").attr("href" , "Filter.html");
-        }else {
-            $("#pin").attr("href" , "#");
-            $("#pin").attr("data-toggle" , "modal");
-            $("#pin").attr("data-target" , "#exampleModalCenter");
+    $("#pin").click(function () {
+        if (check == 1) {
+            $("#pin").attr("data-toggle", "");
+            $("#pin").attr("data-target", "");
+            $("#pin").attr("href", "Filter.html");
+        } else {
+            $("#pin").attr("href", "#");
+            $("#pin").attr("data-toggle", "modal");
+            $("#pin").attr("data-target", "#exampleModalCenter");
         }
     });
 });
@@ -82,16 +89,16 @@ $().ready(function () {
 
 
 // animation in modal
-$(function() {
-	$(".btn").click(function() {
-	$(".form-signin").toggleClass("form-signin-left");
-    $(".form-signup").toggleClass("form-signup-left");
-    $(".frame").toggleClass("frame-long");
-    $(".signup-inactive").toggleClass("signup-active");
-    $(".signin-active").toggleClass("signin-inactive");
-    $(".forgot").toggleClass("forgot-left");   
-    $(this).removeClass("idle").addClass("active");
-	});
+$(function () {
+    $(".btn").click(function () {
+        $(".form-signin").toggleClass("form-signin-left");
+        $(".form-signup").toggleClass("form-signup-left");
+        $(".frame").toggleClass("frame-long");
+        $(".signup-inactive").toggleClass("signup-active");
+        $(".signin-active").toggleClass("signin-inactive");
+        $(".forgot").toggleClass("forgot-left");
+        $(this).removeClass("idle").addClass("active");
+    });
 });
 
 
