@@ -1,5 +1,5 @@
 
-/*//navbar
+//navbar
 $(document).ready(function () {
     $(window).scroll(function () {
         var scroll = $(window).scrollTop();
@@ -12,15 +12,15 @@ $(document).ready(function () {
 
         }
     })
-})*/
+})
 
 
-/*//card
+//card
 $().ready(function () {
     $('[rel="tooltip"]').tooltip();
 });
 
-/*function rotateCard(btn) {
+function rotateCard(btn) {
     var $card = $(btn).closest('.card-container');
     console.log($card);
     if ($card.hasClass('hover')) {
@@ -28,10 +28,10 @@ $().ready(function () {
     } else {
         $card.addClass('hover');
     }
-}*/
+}
 
 
-/*let showprofile = document.querySelector('#openProfile');
+let showprofile = document.querySelector('#openProfile');
 let loginWrapper = document.querySelector('.login-wrapper');
 
 showprofile.addEventListener('click', function(){
@@ -43,7 +43,7 @@ $("#openProfile").click(function(){
     alert("test");
     $('body').toggleClass("openProfile");
     $('#exampleModalCenter').modal('show')
-});*/
+});
 
 
 // hide card area and modal sign in

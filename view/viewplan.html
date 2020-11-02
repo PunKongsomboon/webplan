@@ -12,6 +12,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../public/css/viewplan.css">
     <script src="../public/script/viewplan.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
+        rel="stylesheet" type="text/css" media="screen">
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 
 </head>
 
@@ -54,7 +58,7 @@
             <h2 class="col-12">แผนการเดินทางของคุณ</h2>
             <div class="mt-4 col-12 justify-content-between">
                 <button class="btn btn-outline-secondary btn-md mx-lg-5 mx-md-3 mx-sm-1 my-xs-5"
-                    id="btnEditplan">แก้ไขข้อมูลการเดินทางของคุณ</button>
+                    id="btnEditplan">แก้ไขข้อมูลแผนการเดินทาง</button>
             </div>
         </div>
     </div>
@@ -116,7 +120,7 @@
                     <p class="card-text">เวลา 2 วัน 5 ชม.</p>
                     <p class="card-text">งบประมาณ 5,000 บาท</p>
                     <p class="card-text">ท่องเที่ยว 17 ที่</p>
-                    <a href="Detailplan.html" class="btn btn-primary" >View</a>
+                    <a href="Detailplan.html" class="btn btn-primary">View</a>
                 </div>
             </div>
             <div class="card ml-sm-5 ml-md-5 mx-auto mt-5 m-lg-5 m-md-2 col-lg-3 col-md-5 col-sm-10 col-10 p-0 shadow"
@@ -131,6 +135,42 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modelEditplan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <h5 class="modal-title w-100">แก้ไขข้อมูล</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control-sm m-3" name="" id="weather">
+                        <option value="winter">ฤดูหนาว</option>
+                        <option value="summer">ฤดูร้อน</option>
+                        <option value="Rainly">ฤดูฝน</option>
+                    </select>
+                    <select class="form-control-sm m-3" name="" id="TypeTravel">
+                        <option value="person">คนเดียว</option>
+                        <option value="friend">เป็นกลุ่ม</option>
+                        <option value="family">ครอบครัว</option>
+                    </select>
+                    <div id="sandbox-container">
+                        <input type="text" class="col-8" id="date" value="">
+                    </div>
+                    <input type="number" class="form-control-sm m-3" placeholder="จำนวนเงิน">Baht
+                    
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 

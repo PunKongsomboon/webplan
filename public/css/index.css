@@ -438,343 +438,340 @@ label {
   display: inherit;
 }
 
-/* 
-html,
-body,
-.view {
-    height: 100%;
+html, body, .view {
+  height: 100%;
 }
 
-
-
-
-.btn:hover,
-.btn:focus,
-.btn:active{
-    outline: 0 !important;
+.btn:hover, .btn:focus, .btn:active {
+  outline: 0 !important;
 }
-entire container, keeps perspective
+
+/* entire container, keeps perspective */
+
 .card-container {
-	  -webkit-perspective: 800px;
-   -moz-perspective: 800px;
-     -o-perspective: 800px;
-        perspective: 800px;
-        margin-bottom: 30px;
-}
-flip the pane when hovered
-.card-container:not(.manual-flip):hover .card,
-.card-container.hover.manual-flip .card{
-	-webkit-transform: rotateY( 180deg );
--moz-transform: rotateY( 180deg );
- -o-transform: rotateY( 180deg );
-    transform: rotateY( 180deg );
+  -webkit-perspective: 800px;
+  -moz-perspective: 800px;
+  -o-perspective: 800px;
+  perspective: 800px;
+  margin-bottom: 30px;
 }
 
+/* flip the pane when hovered */
 
-.card-container.static:hover .card,
-.card-container.static.hover .card {
-	-webkit-transform: none;
--moz-transform: none;
- -o-transform: none;
-    transform: none;
+.card-container:not(.manual-flip):hover .card, .card-container.hover.manual-flip .card {
+  -webkit-transform: rotateY( 180deg);
+  -moz-transform: rotateY( 180deg);
+  -o-transform: rotateY( 180deg);
+  transform: rotateY( 180deg);
 }
-flip speed goes here
+
+.card-container.static:hover .card, .card-container.static.hover .card {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+
+/* flip speed goes here */
+
 .card {
-	 -webkit-transition: -webkit-transform .5s;
-   -moz-transition: -moz-transform .5s;
-     -o-transition: -o-transform .5s;
-        transition: transform .5s;
--webkit-transform-style: preserve-3d;
-   -moz-transform-style: preserve-3d;
-     -o-transform-style: preserve-3d;
-        transform-style: preserve-3d;
-	position: relative;
+  -webkit-transition: -webkit-transform .5s;
+  -moz-transition: -moz-transform .5s;
+  -o-transition: -o-transform .5s;
+  transition: transform .5s;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  position: relative;
 }
 
-hide back of pane during swap
+/* hide back of pane during swap */
+
 .front, .back {
-	-webkit-backface-visibility: hidden;
-   -moz-backface-visibility: hidden;
-     -o-backface-visibility: hidden;
-        backface-visibility: hidden;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background-color: #FFF;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.14);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #FFF;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.14);
 }
 
-front pane, placed above back
+/* front pane, placed above back */
+
 .front {
-	z-index: 2;
+  z-index: 2;
 }
 
-back, initially hidden pane
+/* back, initially hidden pane */
+
 .back {
-		-webkit-transform: rotateY( 180deg );
-   -moz-transform: rotateY( 180deg );
-     -o-transform: rotateY( 180deg );
-        transform: rotateY( 180deg );
-        z-index: 3;
+  -webkit-transform: rotateY( 180deg);
+  -moz-transform: rotateY( 180deg);
+  -o-transform: rotateY( 180deg);
+  transform: rotateY( 180deg);
+  z-index: 3;
 }
 
-.back .btn-simple{
-    position: absolute;
-    left: 0;
-    bottom: 4px;
+.back .btn-simple {
+  position: absolute;
+  left: 0;
+  bottom: 4px;
 }
 
-       Style      
-.card{
-    background: none repeat scroll 0 0 #FFFFFF;
-    border-radius: 4px;
-    color: #444444;
+/* Style       */
+
+.card {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-radius: 4px;
+  color: #444444;
 }
+
 .card-container, .front, .back {
-	width: 100%;
-	height: 420px;
-	border-radius: 4px;
-	-webkit-box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
--moz-box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
-box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.16);
+  width: 100%;
+  height: 420px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.16);
 }
-.card .cover{
-    height: 100%;
-    overflow: hidden;
-    border-radius: 4px 4px 0 0;
+
+.card .cover {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px 4px 0 0;
 }
-.card .cover img{
-    width: 100%;
-    height: 300px;
-    
+
+.card .cover img {
+  width: 100%;
+  height: 300px;
 }
 
 .card-container {
-    box-shadow: none;
+  box-shadow: none;
 }
 
-.front,.back {
-    height: 300px; 
-    width: auto;
+.front, .back {
+  height: 300px;
+  width: auto;
 }
+
 .card {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.card .front .btn{
-  
+.card .front .btn {
   background: none;
   border: none;
   color: transparent;
   transition: 770ms ease-in-out;
 }
 
-
-.visibilitybtn .card .front .btn{
-    
-    background: none;
-    border: none;
-    color: transparent;
-    transition: 770ms ease-in-out;
+.visibilitybtn .card .front .btn {
+  background: none;
+  border: none;
+  color: transparent;
+  transition: 770ms ease-in-out;
 }
 
-
-
-.card .front img{
-    filter: brightness(1);
-    transition: 770ms ease-in-out;
+.card .front img {
+  filter: brightness(1);
+  transition: 770ms ease-in-out;
 }
 
 .card:hover .front .btn {
-    
-    background: rgb(88, 119, 255);
-    border: 1px;
-    color: white;
-    transition: 770ms ease-in-out;
-    
+  background: rgb(88, 119, 255);
+  border: 1px;
+  color: white;
+  transition: 770ms ease-in-out;
 }
 
-.card:hover .front img{
-    filter: brightness(0.6);
+.card:hover .front img {
+  filter: brightness(0.6);
 }
 
-.card .content{
-    background-color: rgba(0, 0, 0, 0);
-    box-shadow: none;
-    padding: 10px 20px 20px;
+.card .content {
+  background-color: rgba(0, 0, 0, 0);
+  box-shadow: none;
+  padding: 10px 20px 20px;
 }
+
 .card .content .main {
-    min-height: 160px;
+  min-height: 160px;
 }
+
 .card .back .content .main {
-    height: 215px;
+  height: 215px;
 }
+
 .card .name {
-		font-family: 'Arima Madurai', cursive;
-    font-size: 22px;
-    line-height: 28px;
-    margin: 10px 0 0;
-    text-align: center;
-    text-transform: capitalize;
+  font-family: 'Arima Madurai', cursive;
+  font-size: 22px;
+  line-height: 28px;
+  margin: 10px 0 0;
+  text-align: center;
+  text-transform: capitalize;
 }
-.card h5{
-    margin: 5px 0;
-    font-weight: 400;
-    line-height: 20px;
+
+.card h5 {
+  margin: 5px 0;
+  font-weight: 400;
+  line-height: 20px;
 }
-.card .profession{
-    color: #999999;
-    text-align: center;
-    margin-bottom: 20px;
+
+.card .profession {
+  color: #999999;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .card {
-    padding: 15px 20px;
-    height: 90px;
+  padding: 15px 20px;
+  height: 90px;
 }
 
-
-.card .stats-container{
-	width: 100%;
-	margin-top: 50px;
-}
-.card .stats{
-	display: block;
-	float: left;
-	width: 33.333333%;
-	text-align: center;
+.card .stats-container {
+  width: 100%;
+  margin-top: 50px;
 }
 
-     Just for presentation       
-
-.title{
-    color: #506A85;
-    text-align: center;
-    font-weight: 300;
-    font-size: 44px;
-    margin-bottom: 90px;
-    line-height: 90%;
-}
-.title small{
-    font-size: 17px;
-    color: #999;
-    text-transform: uppercase;
-    margin: 0;
-}
-.space-30{
-	height: 30px;
-	display: block;
-}
-.space-50{
-    height: 50px;
-    display: block;
-}
-.space-200{
-    height: 200px;
-    display: block;
-}
-.white-board{
-    background-color: #FFFFFF;
-    min-height: 200px;
-    padding: 60px 60px 20px;
-}
-.ct-heart{
-    color: #F74933;
+.card .stats {
+  display: block;
+  float: left;
+  width: 33.333333%;
+  text-align: center;
 }
 
- pre.prettyprint{
-    background-color: #ffffff;
-    border: 1px solid #999;
-    margin-top: 20px;
-    padding: 20px;
-    text-align: left;
+/* Just for presentation        */
+
+.title {
+  color: #506A85;
+  text-align: center;
+  font-weight: 300;
+  font-size: 44px;
+  margin-bottom: 90px;
+  line-height: 90%;
 }
 
-
-.btn-simple{
-    opacity: .8;
-    color: #666666;
-    background-color: transparent;
+.title small {
+  font-size: 17px;
+  color: #999;
+  text-transform: uppercase;
+  margin: 0;
 }
 
-.btn-simple:hover,
-.btn-simple:focus{
-    background-color: transparent;
-    box-shadow: none;
-    opacity: 1;
-}
-.btn-simple i{
-    font-size: 16px;
+.space-30 {
+  height: 30px;
+  display: block;
 }
 
- hide card area 
+.space-50 {
+  height: 50px;
+  display: block;
+}
+
+.space-200 {
+  height: 200px;
+  display: block;
+}
+
+.white-board {
+  background-color: #FFFFFF;
+  min-height: 200px;
+  padding: 60px 60px 20px;
+}
+
+.ct-heart {
+  color: #F74933;
+}
+
+pre.prettyprint {
+  background-color: #ffffff;
+  border: 1px solid #999;
+  margin-top: 20px;
+  padding: 20px;
+  text-align: left;
+}
+
+.btn-simple {
+  opacity: .8;
+  color: #666666;
+  background-color: transparent;
+}
+
+.btn-simple:hover, .btn-simple:focus {
+  background-color: transparent;
+  box-shadow: none;
+  opacity: 1;
+}
+
+.btn-simple i {
+  font-size: 16px;
+}
+
+/* hide card area  */
+
 .fixed-slide {
-    
-    height: 490px;
-    overflow:hidden;
-    transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
+  height: 490px;
+  overflow: hidden;
+  transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
 }
 
 .slide-area {
-    background: white;
-    transform: translateY(-959px);
+  background: white;
+  transform: translateY(-959px);
+  transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
+}
+
+@media (max-width: 785px) {
+  .fixed-slide {
+    height: 450px;
+    overflow: hidden;
     transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
+  }
+  .slide-area {
+    background: white;
+    transform: translateY(-1900px);
+    transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
+  }
 }
 
-@media (max-width: 785px){
-
-    .fixed-slide {
-        height: 450px;
-        overflow:hidden;
-        transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
-    }
-
-    .slide-area {
-        background: white;
-        transform: translateY(-1900px);
-        transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
-    }
-}
-
-
-@media (max-width: 568px){
-
-    .slide-area {
-        background: white;
-        transform: translateY(-3700px);
-        transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
-    }
+@media (max-width: 568px) {
+  .slide-area {
+    background: white;
+    transform: translateY(-3700px);
+    transition: 770ms cubic-bezier(0.51, 0.04, 0.12, 0.99);
+  }
 }
 
 .open .slide-area {
-    background: white;
-    transform: translateY(0px);
+  background: white;
+  transform: translateY(0px);
 }
 
 .open .fixed-slide {
-    height: 100%;
+  height: 100%;
 }
 
-
-
-       Fix bug for IE      
+/* Fix bug for IE       */
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    .front, .back{
-        -ms-backface-visibility: visible;
-        backface-visibility: visible;
-    }
-
-    .back {
-        visibility: hidden;
-        -ms-transition: all 0.2s cubic-bezier(.92,.01,.83,.67);
-    }
-    .front{
-        z-index: 4;
-    }
-    .card-container:not(.manual-flip):hover .back,
-    .card-container.manual-flip.hover .back{
-        z-index: 5;
-        visibility: visible;
-    }
-}  */
+  .front, .back {
+    -ms-backface-visibility: visible;
+    backface-visibility: visible;
+  }
+  .back {
+    visibility: hidden;
+    -ms-transition: all 0.2s cubic-bezier(.92, .01, .83, .67);
+  }
+  .front {
+    z-index: 4;
+  }
+  .card-container:not(.manual-flip):hover .back, .card-container.manual-flip.hover .back {
+    z-index: 5;
+    visibility: visible;
+  }
+}
