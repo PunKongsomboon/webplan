@@ -31,14 +31,15 @@ function rotateCard(btn) {
 }
 
 
-let showprofile = document.querySelector('#openProfile');
-let loginWrapper = document.querySelector('.login-wrapper');
+// let showprofile = document.querySelector('#openProfile');
+// let loginWrapper = document.querySelector('.login-wrapper');
 
-showprofile.addEventListener('click', function(){
-    pro +=1;
-    alert(pro);
-    loginWrapper.classList.toggle('open');
-});
+// showprofile.addEventListener('click', function(){
+//     pro +=1;
+//     alert(pro);
+//     loginWrapper.classList.toggle('open');
+// });
+
 $("#openProfile").click(function(){
     alert("test");
     $('body').toggleClass("openProfile");
