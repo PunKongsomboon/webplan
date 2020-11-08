@@ -12,8 +12,10 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../public/script/Editplace.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-</head>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery.ui.touch-punch.min.js"></script>
 
 <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark shadow">
@@ -48,69 +50,84 @@
         </div>
     </nav>
 
-
-    <div class="page-content page-container mt-5 pt-5" id="page-content">
-        <div class="padding">
-            <div class="row container d-flex justify-content-center">
-                <div class="col-sm-12">
-                    <!-- Draggable default card start -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Drag and drop cards</h5>
-                        </div>
-                        <div class="card-block">
-                            <div class="row" id="sortable">
-                                <div class="col-lg-8 col-xl-3" >
-                                    <div class="card-sub"> <img class="card-img-top img-fluid"
-                                            src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1557925704/doruk-yemenici-1593970-unsplash.jpg"
-                                            alt="Card image cap">
-                                        <div class="card-block">
-                                            <h4 class="card-title">Product 1</h4>
-                                            <p class="card-text">For what reason would it be advisable for me to think
-                                                about business content?</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8 col-xl-3" >
-                                    <div class="card-sub"> <img class="card-img-top img-fluid"
-                                            src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1557925739/marek-levak-1591308-unsplash.jpg"
-                                            alt="Card image cap">
-                                        <div class="card-block">
-                                            <h4 class="card-title">Product 2</h4>
-                                            <p class="card-text">For what reason would it be advisable for me to think
-                                                about business content.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8 col-xl-3" draggable="false" >
-                                    <div class="card-sub"> <img class="card-img-top img-fluid"
-                                            src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1557925652/tomas-robertson-1594346-unsplash.jpg"
-                                            alt="Card image cap" draggable="false">
-                                        <div class="card-block">
-                                            <h4 class="card-title">Product 3</h4>
-                                            <p class="card-text">For what reason would it be advisable for me to think
-                                                about business content</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8 col-xl-3" >
-                                    <div class="card-sub"> <img class="card-img-top img-fluid"
-                                            src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1557925606/chen-feng-1594580-unsplash.jpg"
-                                            alt="Card image cap">
-                                        <div class="card-block">
-                                            <h4 class="card-title">Product 4</h4>
-                                            <p class="card-text">For what reason would it be advisable for me to think
-                                                about business content</p>
-                                        </div>
-                                    </div>
-                                </div>
+    <div class="container-fluid mt-5 pt-3">
+        <div class="row">
+            <div class="drag-And-droparea col-12 d-md-flex p-0 mb-5">
+                <div class="Primary-area col-md-6 col-sm-12 p-0 ">
+                    <h2 class="text-center mt-3 pt-3 border m-0">สถานที่ที่เลือกในแผนการเที่ยวของคุณ</h2>
+                    <ul id="sortable1" class="connectedSortable ui-sortable text-center">
+                        <div class="card ui-state-default ui-sortable-handle mx-auto col-10 p-0 m-3 shadow rounded">
+                            <img src="https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                                alt="Card image cap" class="card-img-top">
+                            <div class="card-img-overlay text-left align-items-end mask flex-center d-flex m-0">
+                                <h5 class="card-title text-light mt-5 mb-0">Card title</h5>
                             </div>
                         </div>
-                    </div> <!-- Draggable default card start -->
+                        <div class="card ui-state-default ui-sortable-handle mx-auto col-10 p-0 m-3 shadow rounded">
+                            <img src="https://images.unsplash.com/photo-1604542246838-907c4b619cac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                                alt="Card image cap" class="card-img-top">
+                            <div class="card-img-overlay text-left align-items-end mask flex-center d-flex m-0">
+                                <h5 class="card-title text-light mt-5 mb-0">Card title</h5>
+                            </div>
+                        </div>
+                        <div class="card ui-state-default ui-sortable-handle mx-auto col-10 p-0 m-3 shadow rounded">
+                            <img src="https://images.unsplash.com/photo-1604683946365-c45ee5528486?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                                alt="Card image cap" class="card-img-top">
+                            <div class="card-img-overlay text-left align-items-end mask flex-center d-flex m-0">
+                                <h5 class="card-title text-light mt-5 mb-0">Card title</h5>
+                            </div>
+                        </div>
+                    </ul>
                 </div>
+                <div class="Secondary-area col-md-6 col-sm-12 p-0">
+                    <h2 class="text-center mt-3 pt-3 border m-0">สถานที่ที่ระบบตัดออกจากแผนการเที่ยวของคุณ</h2>
+                    <ul id="sortable2" class="connectedSortable ui-sortable text-center">
+                        <div class="card ui-state-default ui-sortable-handle mx-auto col-10 p-0 m-3 shadow rounded">
+                            <img src="https://images.unsplash.com/photo-1604321951949-e9d5710716db?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80"
+                                alt="Card image cap" class="card-img-top">
+                            <div class="card-img-overlay text-left align-items-end mask flex-center d-flex m-0">
+                                <h5 class="card-title text-light mt-5 mb-0">Card title</h5>
+                            </div>
+                        </div>
+                        <div class="card ui-state-default ui-sortable-handle mx-auto col-10 p-0 m-3 shadow rounded">
+                            <img src="https://images.unsplash.com/photo-1604580824859-20d9665f58b5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=725&q=80"
+                                alt="Card image cap" class="card-img-top">
+                            <div class="card-img-overlay text-left align-items-end mask flex-center d-flex m-0">
+                                <h5 class="card-title text-light mt-5 mb-0">Card title</h5>
+                            </div>
+                        </div>
+                        <div class="card ui-state-default ui-sortable-handle mx-auto col-10 p-0 m-3 shadow rounded">
+                            <img src="https://images.unsplash.com/photo-1590119227988-a20d53ce33c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=875&q=80"
+                                alt="Card image cap" class="card-img-top">
+                            <div class="card-img-overlay text-left align-items-end mask flex-center d-flex m-0">
+                                <h5 class="card-title text-light mt-5 mb-0">Card title</h5>
+                            </div>
+                        </div>
+                        <div class="card ui-state-default ui-sortable-handle mx-auto col-10 p-0 m-3 shadow rounded">
+                            <img src="https://images.unsplash.com/photo-1520911831154-12889531673c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                                alt="Card image cap" class="card-img-top">
+                            <div class="card-img-overlay text-left align-items-end mask flex-center d-flex m-0">
+                                <h5 class="card-title text-light mt-5 mb-0">Card title</h5>
+                            </div>
+                        </div>
+                        <div class="card ui-state-default ui-sortable-handle mx-auto col-10 p-0 m-3 shadow rounded">
+                            <img src="https://images.unsplash.com/photo-1532270239525-86620e182354?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80"
+                                alt="Card image cap" class="card-img-top">
+                            <div class="card-img-overlay text-left align-items-end mask flex-center d-flex m-0">
+                                <h5 class="card-title text-light mt-5 mb-0">Card title</h5>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="conclusion-area col-12 text-center mb-3 mt-5">
+                <h3 class="mt-5">งบประมาณ 45000 บาท</h3>
+                <button class="btn btn-primary btn-md m-3" id="btnback">Back</button>
+                <button class="btn btn-success btn-md m-3" id="btnSave">Save</button>
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
