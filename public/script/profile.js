@@ -4,7 +4,7 @@ $(document).ready(function(){
     });
 
     $("#btnChange-password").click(function(){
-        alert("test");
+        $("#modelChange-password").modal("show");
     });
     
 });
