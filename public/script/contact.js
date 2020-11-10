@@ -1,4 +1,3 @@
-
 //navbar
 $(document).ready(function () {
     $(window).scroll(function () {
@@ -13,32 +12,6 @@ $(document).ready(function () {
         }
     })
 })
-
-
-//card
-$().ready(function () {
-    $('[rel="tooltip"]').tooltip();
-});
-
-function rotateCard(btn) {
-    var $card = $(btn).closest('.card-container');
-    console.log($card);
-    if ($card.hasClass('hover')) {
-        $card.removeClass('hover');
-    } else {
-        $card.addClass('hover');
-    }
-}
-
-
-// let showprofile = document.querySelector('#openProfile');
-// let loginWrapper = document.querySelector('.login-wrapper');
-
-// showprofile.addEventListener('click', function(){
-//     pro +=1;
-//     alert(pro);
-//     loginWrapper.classList.toggle('open');
-// });
 
 $("#openProfile").click(function(){
     alert("test");
@@ -101,10 +74,3 @@ $(function () {
         $(this).removeClass("idle").addClass("active");
     });
 });
-
-
-
-
-
-
-
