@@ -4,7 +4,7 @@ $(document).ready(function () {
     $(window).scroll(function () {
         var scroll = $(window).scrollTop();
         if (scroll > 100) {
-            $(".navbar").css("background", "#4285F4");
+            $(".navbar").css("background", "#578097");
             $(".navbar").style
         }
         else if (scroll < 100) {
@@ -101,7 +101,6 @@ $(function () {
         $(this).removeClass("idle").addClass("active");
     });
 });
-
 
 
 
