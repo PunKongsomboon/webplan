@@ -53,27 +53,27 @@ $(document).ready(function () {
   weathercheck = $("#weather").val();
   console.log(weathercheck);
   if (weathercheck == "winter") {
-    $("#selecttemp").prop("src", "https://media.tenor.com/images/3b5a671752fdfaa890a85384306d357e/tenor.png");
+    $("#selecttemp").prop("src", "../public/image/01.jpg");
   }
   else if (weathercheck == "summer") {
-    $("#selecttemp").prop("src", "https://i.kym-cdn.com/photos/images/newsfeed/000/512/020/364.png");
+    $("#selecttemp").prop("src", "../public/image/02.jpg");
   }
   else if (weathercheck == "Rainly") {
-    $("#selecttemp").prop("src", "https://thumbs.gfycat.com/RewardingAccomplishedGermanshepherd-size_restricted.gif");
+    $("#selecttemp").prop("src", "../public/image/03.jpg");
   }
   $("#weather").change(function () {
     weathercheck = $(this).val();
     if (weathercheck == "winter") {
-      $("#picturetemp").prop("src", "https://media.tenor.com/images/3b5a671752fdfaa890a85384306d357e/tenor.png");
-      $("#selecttemp").prop("src", "https://media.tenor.com/images/3b5a671752fdfaa890a85384306d357e/tenor.png");
+      $("#picturetemp").prop("src", "../public/image/01.jpg");
+      $("#selecttemp").prop("src", "../public/image/01.jpg");
     }
     else if (weathercheck == "summer") {
-      $("#picturetemp").prop("src", "https://i.kym-cdn.com/photos/images/newsfeed/000/512/020/364.png");
-      $("#selecttemp").prop("src", "https://i.kym-cdn.com/photos/images/newsfeed/000/512/020/364.png");
+      $("#picturetemp").prop("src", "../public/image/02.jpg");
+      $("#selecttemp").prop("src", "../public/image/02.jpg");
     }
     else if (weathercheck == "Rainly") {
-      $("#picturetemp").prop("src", "https://thumbs.gfycat.com/RewardingAccomplishedGermanshepherd-size_restricted.gif");
-      $("#selecttemp").prop("src", "https://thumbs.gfycat.com/RewardingAccomplishedGermanshepherd-size_restricted.gif");
+      $("#picturetemp").prop("src", "../public/image/03.jpg");
+      $("#selecttemp").prop("src",  "../public/image/03.jpg");
     }
   });
 
@@ -81,8 +81,8 @@ $(document).ready(function () {
   // group
   $("#frontGroupCard").click(function () {
     numberPer = 1;
-    $("#txtconcludeType").text("ประเภท : ไปกับเพื่อน " + numberPer);
-    $("#txttypeTravel").text("ประเภท : ไปกับผองเพื่อนอีก " + numberPer +" คน");
+    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer + " คน");
+    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer +" คน");
     var $rotbackPerson = $("#btnbackPersonCard").closest('.card-container');
     console.log($rotbackPerson);
     if ($rotbackPerson.hasClass('hover')) {
@@ -100,8 +100,8 @@ $(document).ready(function () {
   });
   $("#backGroupCard").click(function () {
     numberPer = 1;
-    $("#txtconcludeType").text("ประเภท : ");
-    $("#txttypeTravel").text("ประเภท : ");
+    $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
+    $("#txttypeTravel").text("การเดินทาง : ยังไม่ได้เลือก");
     if (cardper == 1) {
       $("body").toggleClass("PersonCard_");
       cardper = 0;
@@ -123,9 +123,9 @@ $(document).ready(function () {
 
   $("#btnPlus").click(function () {
     numberPer++;
-    $("#txtconcludeType").text("ประเภท : ไปกับเพื่อน " + numberPer);
+    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน" + numberPer + " คน");
     $("#countNumofgroup").text(numberPer);
-    $("#txttypeTravel").text("ประเภท : ไปกับผองเพื่อนอีก " + numberPer +" คน");
+    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer +" คน");
   });
 
   $("#btnMinus").click(function () {
@@ -134,15 +134,15 @@ $(document).ready(function () {
     } else if (numberPer > 1) {
       numberPer--;
     }
-    $("#txtconcludeType").text("ประเภท : ไปกับเพื่อน " + numberPer);
+    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer +" คน");
     $("#countNumofgroup").text(numberPer);
-    $("#txttypeTravel").text("ประเภท : ไปกับผองเพื่อนอีก " + numberPer +" คน");
+    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer +" คน");
   });
 
   // person
   $("#btnfrontPersonCard").click(function () {
     numberPer = 1;
-    $("#txtconcludeType").text("ประเภท : ");
+    $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
     var $rotbackGroup = $("#backGroupCard").closest('.card-container');
     console.log($rotbackGroup);
     if ($rotbackGroup.hasClass('hover')) {
@@ -160,7 +160,7 @@ $(document).ready(function () {
   });
   $("#btnbackPersonCard").click(function () {
     numberPer = 1;
-    $("#txtconcludeType").text("ประเภท : ");
+    $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
     if (cardgroup == 1) {
       $("body").toggleClass("GroupCard_");
       cardgroup = 0;
@@ -180,18 +180,18 @@ $(document).ready(function () {
   });
 
   $("#btnPerson18-25").click(function () {
-    $("#txtconcludeType").text("ประเภท : ตัวคนเดียวสินะ เห้อ น่าสงสัยจัง ช่วง 18-25");
-    $("#txttypeTravel").text("ประเภท : คนเดียว");
+    $("#txtconcludeType").text("การเดินทาง : ช่วงอายุ 18-25 เดินทางปลอดภัยนะ");
+    $("#txttypeTravel").text("การเดินทาง : เดินทางคนเดียว");
   });
 
   $("#btnPerson26-30").click(function () {
-    $("#txtconcludeType").text("ประเภท : ใช้เงินประหยัดๆ หน่อยนะ ช่วง 26-30");
-    $("#txttypeTravel").text("ประเภท : คนเดียว");
+    $("#txtconcludeType").text("การเดินทาง : ช่วงอายุ 26-30 เดินทางปลอดภัยนะ");
+    $("#txttypeTravel").text("การเดินทาง : เดินทางคนเดียว");
   });
 
   $("#btnPerson31-60").click(function () {
-    $("#txtconcludeType").text("ประเภท : แก่แล้วเที่ยวคนเดียวก็ระวังตัวด้วยนะ ช่วง 31-60");
-    $("#txttypeTravel").text("ประเภท : คนเดียว");
+    $("#txtconcludeType").text("การเดินทาง : ช่วงอายุ 31-60 เดินทางปลอดภัยนะ");
+    $("#txttypeTravel").text("การเดินทาง : เดินทางคนเดียว");
   });
 
 
@@ -213,12 +213,12 @@ $(document).ready(function () {
     }
 
     if(checkfam == 0){
-      $("#txtconcludeType").text("ประเภท : ครอบครัว");
-      $("#txttypeTravel").text("ประเภท : ครอบครัว");
+      $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับครอบครัว ขอให้สนุกนะ");
+      $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับครอบครัว");
       checkfam =1;
     }else if(checkfam == 1){
-      $("#txtconcludeType").text("ประเภท : ");
-      $("#txttypeTravel").text("ประเภท : ");
+      $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
+      $("#txttypeTravel").text("การเดินทาง : ยังไม่ได้เลือก");
       checkfam =0;
     }
     
