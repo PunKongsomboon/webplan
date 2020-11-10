@@ -53,27 +53,27 @@ $(document).ready(function () {
   weathercheck = $("#weather").val();
   console.log(weathercheck);
   if (weathercheck == "winter") {
-    $("#selecttemp").prop("src", "../public/image/01.jpg");
+    $("#selecttemp").prop("src", "../public/image/win.jpg");
   }
   else if (weathercheck == "summer") {
-    $("#selecttemp").prop("src", "../public/image/02.jpg");
+    $("#selecttemp").prop("src", "../public/image/sum.jpg");
   }
   else if (weathercheck == "Rainly") {
-    $("#selecttemp").prop("src", "../public/image/03.jpg");
+    $("#selecttemp").prop("src", "../public/image/rain.jpg");
   }
   $("#weather").change(function () {
     weathercheck = $(this).val();
     if (weathercheck == "winter") {
-      $("#picturetemp").prop("src", "../public/image/01.jpg");
-      $("#selecttemp").prop("src", "../public/image/01.jpg");
+      $("#picturetemp").prop("src", "../public/image/win.jpg");
+      $("#selecttemp").prop("src",  "../public/image/win.jpg");
     }
     else if (weathercheck == "summer") {
-      $("#picturetemp").prop("src", "../public/image/02.jpg");
-      $("#selecttemp").prop("src", "../public/image/02.jpg");
+      $("#picturetemp").prop("src", "../public/image/sum.jpg");
+      $("#selecttemp").prop("src",  "../public/image/sum.jpg");
     }
     else if (weathercheck == "Rainly") {
-      $("#picturetemp").prop("src", "../public/image/03.jpg");
-      $("#selecttemp").prop("src",  "../public/image/03.jpg");
+      $("#picturetemp").prop("src", "../public/image/rain.jpg");
+      $("#selecttemp").prop("src",  "../public/image/rain.jpg");
     }
   });
 
