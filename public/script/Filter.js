@@ -81,7 +81,7 @@ $(document).ready(function () {
   // group
   $("#frontGroupCard").click(function () {
     numberPer = 1;
-    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer + " คน");
+    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน  " + numberPer + " คน");
     $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer +" คน");
     var $rotbackPerson = $("#btnbackPersonCard").closest('.card-container');
     console.log($rotbackPerson);
@@ -123,7 +123,7 @@ $(document).ready(function () {
 
   $("#btnPlus").click(function () {
     numberPer++;
-    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน" + numberPer + " คน");
+    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer + " คน");
     $("#countNumofgroup").text(numberPer);
     $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer +" คน");
   });

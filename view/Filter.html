@@ -17,6 +17,9 @@
     rel="stylesheet" type="text/css" media="screen">
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <style>
+      p,h3,h4,h5{font-family: 'Prompt', sans-serif;}
+    </style>
 </head>
 
 <body>
@@ -68,11 +71,11 @@
     </div>
   </header>
 <!--choose filter-->
-  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="row text-center justify-content-center">
-          <div class="filter col-md-7 col-sm-7 col-6 rounded shadow m-5">
+  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false" >
+    <div class="carousel-inner" >
+      <div class="carousel-item active"  >
+        <div class="row text-center justify-content-center" >
+          <div class="filter col-md-7 col-sm-7 col-6 rounded shadow m-5" style="background-color: white;">
             <h3 class="p-3">คุณอยากเที่ยวเชียงรายฤดูไหน ?</h3>
             <div class="form-group">
               <select class="form-control-sm" name="" id="weather">
@@ -89,8 +92,8 @@
       </div>
       <div class="carousel-item">
         <div class="row text-center justify-content-center">
-          <div class="filter col-8 rounded shadow my-5">
-            <h3 class="display-5 p-3">คุณต้องการเกินทางไปกับใครบ้าง ?</h3>
+          <div class="filter col-8 rounded shadow my-5" style="background-color: white;">
+            <h3 class="display-5 p-3">คุณต้องการเดินทางไปกับใครบ้าง ?</h3>
             <div class="row justify-content-center mt-5">
               <div class="col-md-4 col-sm-6">
                 <div class="card-container manual-flip">
@@ -192,14 +195,14 @@
       </div>
       <div class="carousel-item">
         <div class="row text-center justify-content-center">
-          <div class="filter col-9 rounded shadow d-lg-flex justify-content-center my-5">
+          <div class="filter col-9 rounded shadow d-lg-flex justify-content-center my-5" style="background-color: white;">
             <div class="col-xl-6 col-lg-6 col-sm-12 text-center justify-content-center">
               <h3 class="display-5 align-self-center mt-3">ระบุจำนวนวันที่ต้องการเที่ยว</h3>
               <div id="sandbox-container">
                 <input type="text col-12" id="date" value="" style="display: none;">
               </div>
               <p class="display-5 p-3" id="outputdate"></p>
-              <button class="btn btn-primary btn-md mb-3 align-self-center" id="btndate">เลือก</button>
+              <button class="btn btn-success btn-md mb-3 align-self-center" id="btndate">ยืนยัน</button>
             </div>
             <div class="col-xl-6 col-lg-6 col-sm-12 text-center justify-content-center">
               <h3 class="display-5 p-3">กรอกจำนวนงบประมาณในการเที่ยว</h3>
@@ -215,7 +218,7 @@
       </div>
       <div class="carousel-item">
         <div class="row text-center justify-content-center">
-          <div class="filter col-lg-9 col-md-8 col-sm-7 col-6 rounded shadow my-5">
+          <div class="filter col-lg-9 col-md-8 col-sm-7 col-6 rounded shadow my-5" style="background-color: white;">
             <img
               src=""
               class="img-fluid mb-3 rounded my-3" alt="" id="selecttemp">
