@@ -1,4 +1,17 @@
 $(document).ready(function () {
+
+    $(window).scroll(function () {
+        var scroll = $(window).scrollTop();
+        if (scroll > 100) {
+            $(".navbar").css("background", "#578097");
+            $(".navbar").style
+        }
+        else if (scroll < 100) {
+            $(".navbar").css("background", "none");
+
+        }
+    })
+
     $("#btnEditplan").click(function () {
         $("#modelEditplan").modal("show");
     });
@@ -21,5 +34,18 @@ $(document).ready(function () {
         dates.sort(function (a, b) { return new Date(a).getTime() - new Date(b).getTime() });
         elem.data("selecteddates", dates.join(",")).datepicker('setDates', dates);
     });
+
+    $("#TypeTravel").change(function(){
+        let checkTypeTravel = $("#TypeTravel").val();
+        console.log(checkTypeTravel);
+        if(checkTypeTravel == "person"){
+            $("#numberPerson").css("display" , "none");
+            $("#RangeAge").css("display" , "");
+        }else if(checkTypeTravel == "family" || checkTypeTravel == "friend"){
+            $("#numberPerson").css("display" , "");
+            $("#RangeAge").css("display" , "none");
+        }
+    });
+
 
 });

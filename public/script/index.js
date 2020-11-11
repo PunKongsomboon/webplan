@@ -16,9 +16,9 @@ $(document).ready(function () {
 
 
 //card
-$().ready(function () {
-    $('[rel="tooltip"]').tooltip();
-});
+// $().ready(function () {
+//     $('[rel="tooltip"]').tooltip();
+// });
 
 function rotateCard(btn) {
     var $card = $(btn).closest('.card-container');
