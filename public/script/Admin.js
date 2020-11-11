@@ -84,18 +84,34 @@ $(document).ready(function () {
     const bus = [
         {
             "idcar": "11",
-            "namecar": "รถสองแถว",
-            "pricecar": "20",
+            "namecar": "รถสองแถวสีฟ้า",
+            "pricecar": "60",
             "pointStartcar": "มฟล",
-            "pointEndcar": "แม่สาย",
+            "pointEndcar": "ถนนคนเดิน",
 
         },
         {
             "idcar": "12",
-            "namecar": "รถสองแถว",
-            "pricecar": "20",
+            "namecar": "รถสองแถวสีเขียว",
+            "pricecar": "40",
             "pointStartcar": "มฟล",
-            "pointEndcar": "แม่สาย",
+            "pointEndcar": "เซนทรัล",
+
+        },
+        {
+            "idcar": "13",
+            "namecar": "city bus",
+            "pricecar": "20",
+            "pointStartcar": "สนามบิน",
+            "pointEndcar": "สถานีขนส่ง",
+
+        },
+        {
+            "idcar": "14",
+            "namecar": "รถสองแถวสีเหลือง",
+            "pricecar": "0",
+            "pointStartcar": "เซนทรัล",
+            "pointEndcar": "มฟล",
 
         }
     ]
@@ -104,9 +120,30 @@ $(document).ready(function () {
         {
             "idcar": "21",
             "namecar": "รถแท็กซี่",
-            "pricecar": "500",
-            "pointStartcar": "มฟล",
+            "pricecar": "100",
+            "pointStartcar": "สนามบิน",
+            "pointEndcar": "บ้านดู่",
+        },
+        {
+            "idcar": "22",
+            "namecar": "รถแท็กซี่",
+            "pricecar": "270",
+            "pointStartcar": "สนามบิน",
+            "pointEndcar": "ห้วยชมพู",
+        },
+        {
+            "idcar": "23",
+            "namecar": "รถแท็กซี่",
+            "pricecar": "650",
+            "pointStartcar": "สนามบิน",
             "pointEndcar": "แม่สาย",
+        },
+        {
+            "idcar": "24",
+            "namecar": "รถแท็กซี่",
+            "pricecar": "1500",
+            "pointStartcar": "สนามบิน",
+            "pointEndcar": "เชียงแสน",
         }
     ]
 
