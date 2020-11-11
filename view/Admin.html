@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Chakra+Petch:wght@300&family=Charm:wght@700&family=Lobster&family=Prompt:wght@200&family=Sriracha&display=swap" >
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -17,7 +18,9 @@
     <link rel="stylesheet" href="../public/css/Admin.css">
     <script src="../public/script/Admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+    <style>
+        p,a,button,h1,h2,h3,h4,h5,option,select,input{font-family: 'Prompt', sans-serif;}
+    </style>
 
 </head>
 
@@ -45,24 +48,24 @@
     <div class="container-fluid mt-5 pt-5">
         <select name="" id="dropdownMenu" class="form-control col-2">
             <option value="1">ข้อมูลรถโดยสาร</option>
-            <option value="2">ข้อมูลรถสถานที่</option>
+            <option value="2">ข้อมูลสถานที่</option>
         </select>
         <div class="d-flex my-4">
             <div id="menushowcar">
                 <a class='nav-link px-3' style='cursor: pointer;' id='menuallcar'>ทั้งหมด</a>
                 <a class='nav-link px-3' id='menubus'
-                    style='border-left: 1px solid #666666; cursor: pointer;'>รถประจำทาง</a>
+                    style='border-left: 1px solid #ffffff; cursor: pointer;'>รถประจำทาง</a>
                 <a class='nav-link px-3' id='menutaxi'
-                    style='border-left: 1px solid #666666; cursor: pointer;'>รถรับจ้าง</a>
+                    style='border-left: 1px solid #ffffff; cursor: pointer;'>รถรับจ้าง</a>
             </div>
             <div id="menushowplace">
                 <a class='nav-link px-3' style='cursor: pointer;' id="menuallplace">ทั้งหมด</a>
-                <a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'
+                <a class='nav-link px-3' style='border-left: 1px solid #ffffff; cursor: pointer;'
                     id="menunormal">ทั่วไป</a>
-                <a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;' id="menutem">วัด</a>
-                <a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'
+                <a class='nav-link px-3' style='border-left: 1px solid #ffffff; cursor: pointer;' id="menutem">วัด</a>
+                <a class='nav-link px-3' style='border-left: 1px solid #ffffff; cursor: pointer;'
                     id="menuen">สถานบันเทิง</a>
-                <a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'
+                <a class='nav-link px-3' style='border-left: 1px solid #ffffff; cursor: pointer;'
                     id="menunat">ที่ท่องเที่ยวธรรมชาติ</a>
             </div>
         </div>
@@ -76,7 +79,7 @@
                         d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                 </svg></button>
         </div>
-        <table id="myTable" class="table table-striped table-bordered table-hover table-nowrap text-center"
+        <table id="myTable" class="table table-light table-borderless table-hover text-center"
             style="width: 100%;">
         </table>
     </div>
