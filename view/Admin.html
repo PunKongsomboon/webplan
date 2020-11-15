@@ -118,8 +118,8 @@
                     <input type="text" id="txtPointEndcar" class="form-control mt-2" placeholder="จุดปลายทาง">
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button id="btnSaveAddcar" type="button" class="btn btn-outline-primary">Save</button>
-                    <button type="button" id="btnClosecar" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button id="btnSaveAddcar" type="button" class="btn btn-success">Save</button>
+                    <button type="button" id="btnClosecar" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -143,8 +143,8 @@
                     <input type="text" id="EdittxtPointEndcar" class="form-control mt-2" placeholder="จุดปลายทาง">
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button id="btnSaveEditcar" type="button" class="btn btn-outline-primary">Save</button>
-                    <button type="button" id="btnCloseEditcar" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button id="btnSaveEditcar" type="button" class="btn btn-success">Save</button>
+                    <button type="button" id="btnCloseEditcar" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -186,12 +186,23 @@
                     <input type="text" id="txtIdplace" class="form-control mb-2" placeholder="รหัส" disabled>
                     <input type="text" id="txtNameplace" class="form-control mb-2" placeholder="ชื่อสถานที่">
                     <input type="text" id="txtInfoplace" class="form-control mt-2" placeholder="ข้อมูลสถานที่">
-                    <input type="text" id="txtTimeplace" class="form-control mt-2" placeholder="เวลาทำการ">
+                    <label for="" class="mt-2">เวลาเปิดทำการ</label>
+                    <select name="" id="selectTimeOpen" class="form-control mt-2">
+                        <option value=""></option>
+                    </select>
+                    <label for="" class="mt-2">เวลาปิดทำการ</label>
+                    <select name="" id="selectTimeClose" class="form-control mt-2">
+                        <option value=""></option>
+                    </select>
+                    <label for="" class="mt-2">วันเปิดทำการ</label>
+                    <select name="" id="selectDaywork" class="form-control mt-2">
+                        <option value=""></option>
+                    </select>
                     <input type="text" id="txtPriceplace" class="form-control mt-2" placeholder="ราคาเข้าชม">
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button id="btnSaveAdd" type="button" class="btn btn-outline-primary">Save</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button id="btnSaveAdd" type="button" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
