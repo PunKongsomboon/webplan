@@ -1,730 +1,1205 @@
 $(document).ready(function () {
+    console.log(localStorage.id)
+    if (localStorage.id == 0 || localStorage == undefined) {
+        window.location.replace("/");
+    }
     var rowID;
-    var selectCarType = 0;
-    var newrunNumbus;
-    var newrunNumtaxi;
-
-    const normalTypeplace = [
-        {
-            "idplace": "11",
-            "nameplace": "สิงห์ปาร์ค",
-            "infoplace": "เป็นไร่ของบริษัทบุญรอดบริวเวอรี่ จำกัด ผู้ผลิตเบียร์สิงห์, ลีโอ ไร่บุญรอด ที่นี่เป็นสถานที่ท่องเที่ยวเชิงเกษตร บนพื้นที่นับพันไร่ ในบรรยากาศโอบล้อมด้วยภูเขา และ ธรรมชาติ ที่เพิ่งจะเปิดให้เข้าชมเมื่อไม่กี่ปีที่ผ่านมา",
-            "timeOpen": "8AM",
-            "timeClose": "6PM",
-            "Daywork": "ทุกวัน",
-            "priceplace": "100"
+    var table;
+    var checkEditmodecar = 0;
+    var checkEditmodeplace = 0;
+    var numberAddplaceinR = "";
+    var numberEditplaceinR = "";
+    $("#showplace").text(numberAddplaceinR);
+    $("#showplace").text(numberEditplaceinR);
+    $.ajax({
+        method: 'GET',
+        url: '/typecar',
+    }).done(function (data, state, xhr) {
+        let createOption = "";
+        for (let i = 0; i < data.length; i++) {
+            createOption += "<option value='" + data[i].TypecarID + "'>" + data[i].nameType_car + "</option>";
         }
-    ];
+        $("#EditTypecar").html(createOption);
+        $("#AddTypecar").html(createOption);
+    }).fail(function (xhr, state) {
+        alert(xhr.responeText);
+    });
 
-    const template = [
-        {
-            "idplace": "21",
-            "nameplace": "วัดร่องขุ่น",
-            "infoplace": "ออกแบบและก่อสร้างโดยอาจารย์เฉลิมชัย โฆษิตพิพัฒน์ ซึ่งปรารถนาจะสร้างวัดให้เหมือนเมืองสวรรค์ที่มนุษย์สัมผัสได้ เริ่มสร้างตั้งแต่ พ.ศ.2540 จากเดิมมีเนื้อที่3 ไร่",
-            "timeOpen": "8AM",
-            "timeClose": "5PM",
-            "Daywork": "ทุกวัน",
-            "priceplace": "0"
-        },
-        {
-            "idplace": "22",
-            "nameplace": "วัดร่องเสือเต้น",
-            "infoplace": "วัดร่องเสือเต้น ตั้งอยู่หมู่บ้านร่องเสือเต้น ต.ริมกก อ.เมือง จ.เชียงราย โดยตั้งอยู่ริมแม่น้ำกก ฝั่งด้านซ้ายทางทิศตะวันออกของเทศบาลนครเมืองเชียงราย ไม่ไกลจากตัวเมืองเชียงรายมากนัก ในอดีตสถานที่แห่งนี้เคยเป็นที่ตั้งของวัดร้าง เมื่อ 80-100 ปีก่อน",
-            "timeOpen": "7AM",
-            "timeClose": "8PM",
-            "Daywork": "ทุกวัน",
-            "priceplace": "0"
-        },
-        {
-            "idplace": "23",
-            "nameplace": "วัดห้วยปลากั้ง",
-            "infoplace": "เริ่มก่อตั้งขึ้นในปี พ.ศ.2544 โดยคณะศรัทธาวัดห้วยปลากั้งเริ่มกันก่อตั้งเป็นสำนักสงฆ์ จนกระทั่งวันที่ 19 พฤศจิกายน 2548 ได้มีพระอาจารย์พบโชค ติสฺสวํโสได้เดินทางมาปฏิบัติธรรมและเริ่มมีการก่อตั้งศาสนวัตถุ เริ่มตั้งแต่กุฏิสงฆ์ ศาลาการเปรียญ หอฉัน เจดีย์และเมื่อวันที่ 24 กรกฎาคม 2552 ทางสำนักงานพุทธศาสนาแห่งชาติ ได้มีประกาศแต่งตั้งให้เป็นวัดโดยชื่อว่า วัดห้วยปลากั้ง โดยมีพระอธิการพบโชค ติสฺสวํโส เป็นเจ้าอาวาสรูปแรก ปัจจุบันวัดห้วยปลากั้งเป็นวัดที่มีศรัทธาจากต่างจังหวัด ต่างประเทศ เข้ามากราบไหว้นมัสการ และปฏิบัติธรรมเป็นจำนวนมาก ถือเป็นจุดกำเนิดพุทธศาสนาในเชียงรายแห่งหนึ่งที่สำคัญ ภายในวัดยังมีพระมหาพบโชคธรรมเจดีย์ 9 ชั้น ภายในมีพระโพธิสัตว์เจ้าแม่กวนอิมจำลองแกะสลักจากไม้หอม และแต่ละชั้นจะมีพระพุทธรูปประจำชั้นประดิษฐานอยู่",
-            "timeOpen": "7AM",
-            "timeClose": "9:30PM",
-            "Daywork": "ทุกวัน",
-            "priceplace": "0"
+    $.ajax({
+        method: 'GET',
+        url: '/typeplace',
+    }).done(function (data, state, xhr) {
+        let createOption = "";
+        for (let i = 0; i < data.length; i++) {
+            createOption += "<option value='" + data[i].TypeplaceID + "'>" + data[i].nametype_place + "</option>";
         }
-    ];
+        $("#AddTypeplace").html(createOption);
+        $("#EditTypeplace").html(createOption);
+    }).fail(function (xhr, state) {
+        alert(xhr.responeText);
+    });
 
-    const Entertainment = [
-        {
-            "idplace": "31",
-            "nameplace": "วังหลัง",
-            "infoplace": "ร้านเหล้า",
-            "timeOpen": "6PM",
-            "timeClose": "12PM",
-            "Daywork": "ทุกวัน",
-            "priceplace": "0"
-        },
-        {
-            "idplace": "32",
-            "nameplace": "เยิ้ม",
-            "infoplace": "ร้านเหล้า",
-            "timeOpen": "6PM",
-            "timeClose": "12PM",
-            "Daywork": "ทุกวัน",
-            "priceplace": "0"
-        },
-        {
-            "idplace": "33",
-            "nameplace": "พาคลับ",
-            "infoplace": "ร้านเหล้า",
-            "timeOpen": "9PM",
-            "timeClose": "2AM",
-            "Daywork": "ทุกวัน",
-            "priceplace": "0"
-        },
-    ]
-
-    const natural = [
-        {
-            "idplace": "41",
-            "nameplace": "ถ้ำหลวง-ขุนน้ำนางนอน",
-            "infoplace": "วนอุทยาน ถ้ำหลวง-ขุนน้ำนางนอน ตั้งอยู่ที่ตำบลโป่งผา อำเภอแม่สาย จังหวัดเชียงราย อยู่ในเขตป่าสงวนแห่งชาติป่าดอยนางนอน มีเนื้อที่ประมาณ 5,000 ไร่ มีพื้นที่สำหรับบริการนักท่องท่องอยู่ 2 แห่ง",
-            "timeOpen": "24hours",
-            "timeClose": "24hours",
-            "Daywork": "ทุกวัน",
-            "priceplace": "0"
-        },
-        {
-            "idplace": "42",
-            "nameplace": "ไร่ชาฉุยฟง",
-            "infoplace": "ไร่ชาฉุยฟง แหล่งเพาะปลูกใบชาชื่อดัง ที่เปิดให้นักท่องเที่ยวได้เข้ามาสัมผัสกับบรรยากาศของไร่ชาได้อย่างใกล้ชิด อีกทั้งยังมีร้านคาเฟ่บริเวณด้านบนให้นักท่องเที่ยวได้มานั่งจิบชา",
-            "timeOpen": "8:30AM",
-            "timeClose": "5:30PM",
-            "Daywork": "ทุกวัน",
-            "priceplace": "0"
+    $.ajax({
+        method: 'POST',
+        url: '/DataCar',
+    }).done(function (data, state, xhr) {
+        let createOption = "";
+        for (let i = 0; i < data.length; i++) {
+            createOption += "<option value='" + data[i].carID + "'>" + ("ชื่อ " + data[i].name_car + " ความจุ " + data[i].capacity) + "</option>";
         }
-    ]
+        $("#Route_carid").html(createOption);
+        // $("#EditTypeplace").html(createOption);
+    }).fail(function (xhr, state) {
+        alert(xhr.responeText);
+    });
 
-    const hotel = []
-
-
-    // car
-    const bus = [
-        {
-            "idcar": "11",
-            "namecar": "รถสองแถวสีฟ้า",
-            "pricecar": "60",
-            "pointStartcar": "มฟล",
-            "pointEndcar": "ถนนคนเดิน",
-
-        },
-        {
-            "idcar": "12",
-            "namecar": "รถสองแถวสีเขียว",
-            "pricecar": "40",
-            "pointStartcar": "มฟล",
-            "pointEndcar": "เซนทรัล",
-
-        },
-        {
-            "idcar": "13",
-            "namecar": "city bus",
-            "pricecar": "20",
-            "pointStartcar": "สนามบิน",
-            "pointEndcar": "สถานีขนส่ง",
-
-        },
-        {
-            "idcar": "14",
-            "namecar": "รถสองแถวสีเหลือง",
-            "pricecar": "0",
-            "pointStartcar": "เซนทรัล",
-            "pointEndcar": "มฟล",
-
+    $.ajax({
+        method: 'POST',
+        url: '/DataPlace',
+    }).done(function (data, state, xhr) {
+        let createOption = "";
+        for (let i = 0; i < data.length; i++) {
+            createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
         }
-    ]
+        $("#Route_Origin").html(createOption);
+        $("#Route_Destination").html(createOption);
+        $("#Route_place").html(createOption);
+        $("#EditRoute_place").html(createOption);
+        // $("#EditTypeplace").html(createOption);
+    }).fail(function (xhr, state) {
+        alert(xhr.responeText);
+    });
 
-    const taxi = [
-        {
-            "idcar": "21",
-            "namecar": "รถแท็กซี่",
-            "pricecar": "100",
-            "pointStartcar": "สนามบิน",
-            "pointEndcar": "บ้านดู่",
-        },
-        {
-            "idcar": "22",
-            "namecar": "รถแท็กซี่",
-            "pricecar": "270",
-            "pointStartcar": "สนามบิน",
-            "pointEndcar": "ห้วยชมพู",
-        },
-        {
-            "idcar": "23",
-            "namecar": "รถแท็กซี่",
-            "pricecar": "650",
-            "pointStartcar": "สนามบิน",
-            "pointEndcar": "แม่สาย",
-        },
-        {
-            "idcar": "24",
-            "namecar": "รถแท็กซี่",
-            "pricecar": "1500",
-            "pointStartcar": "สนามบิน",
-            "pointEndcar": "เชียงแสน",
+
+
+    $("#addplaceRoute").click(function () {
+        let valplace = $("#Route_place").children(":selected").attr("value");
+        numberAddplaceinR += valplace + ",";
+        $("#showplace").text(numberAddplaceinR);
+    });
+
+    $("#EditaddplaceRoute").click(function () {
+        let valplace = $("#EditRoute_place").children(":selected").attr("value");
+        numberEditplaceinR += valplace + ",";
+        $("#Editshowplace").text(numberEditplaceinR);
+    });
+
+    $("#clear_placeRoute").click(function () {
+        numberAddplaceinR = "";
+        $("#showplace").text(numberAddplaceinR);
+    });
+
+    $("#Editclear_placeRoute").click(function () {
+        numberEditplaceinR = "";
+        $("#Editshowplace").text(numberEditplaceinR);
+    });
+
+    $("#Route_Origin").change(function () {
+        // alert("test");
+        // alert($(this).children(":selected").attr("value"))
+        let valplace1 = $("#Route_Origin").children(":selected").attr("value");
+        let valplace2 = $("#Route_Destination").children(":selected").attr("value");
+        // $("#Route_Destination[value='"+ valplace +"']").remove();
+        // alert(valplace);
+        if (valplace1 == valplace2) {
+            $.ajax({
+                method: 'POST',
+                url: '/select_Route',
+                data: { selectRoute: valplace1 }
+            }).done(function (data, state, xhr) {
+                // alert(data[0].);
+                let createOption = "";
+                for (let i = 0; i < data.length; i++) {
+                    createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+                }
+                console.log(createOption);
+                // $("#txtOrigin").text(text);
+                $("#Route_Destination").html(createOption);
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            })
         }
-    ]
+    });
 
-    // display data
-    var car = $.merge($.merge([], bus), taxi);
-    var place = $.merge($.merge($.merge($.merge([], normalTypeplace), template), Entertainment), natural);
-    console.log(car);
-    console.log(place);
-
+    $("#Route_Destination").change(function () {
+        // alert("test");
+        // alert($(this).children(":selected").attr("value"))
+        let valplace1 = $("#Route_Origin").children(":selected").attr("value");
+        let valplace2 = $("#Route_Destination").children(":selected").attr("value");
+        // alert(valplace);
+        if (valplace1 == valplace2) {
+            $.ajax({
+                method: 'POST',
+                url: '/select_Route',
+                data: { selectRoute: valplace2 }
+            }).done(function (data, state, xhr) {
+                // alert(data[0].);
+                let createOption = "";
+                for (let i = 0; i < data.length; i++) {
+                    createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+                }
+                console.log(createOption);
+                $("#Route_Origin").html(createOption);
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            })
+        }
+    });
 
     // table.clear();
     // table = $("#myTable").dataTable().fnDestroy();
     // $('#myTable').empty();
-    var table = $('#myTable').DataTable({
-        data: car,
-        columns: [
-            { data: "idcar", title: "รหัส" },
-            { data: "namecar", title: "ชื่อรถ" },
-            { data: "pricecar", title: "ราคา" },
-            { data: "pointStartcar", title: "จุดเริ่มต้น" },
-            { data: "pointEndcar", title: "จุดปลายทาง" },
-            { title: "Action", orderable: false, defaultContent: "<a class='btn btn-warning mx-auto'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
 
+    table = $('#myTable').DataTable({
+        responsive: true,
+        ajax: {
+            method: 'POST',
+            url: "/DataCar",
+            dataSrc: function (data) {
+                for (let row = 0; row < data.length; row++) {
+                    if (data[row].TypecarID == 1) {
+                        data[row].TypecarID = "รถประจำทาง";
+                    } else {
+                        data[row].TypecarID = "รถรับจ้าง";
+                    }
+                }
+                return data;
+            }
+        },
+        columns: [
+            { data: "carID", title: "รหัส" },
+            { data: "name_car", title: "ชื่อ" },
+            { data: "capacity", title: "ความจุ" },
+            { data: "TypecarID", title: "ประเทภรถ" },
+            { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
         ]
     })
 
     $("#menushowplace").css("display", "none");
     $("#menushowHotel").css("display", "none");
+    $("#menushowRoute").css("display", "none");
     // $("#menuTable").html("<a class='nav-link px-3' style='cursor: pointer;' id='menuallcar'>ทั้งหมด</a><a class='nav-link px-3' id='menubus' style='border-left: 1px solid #666666; cursor: pointer;'>รถประจำทาง</a><a class='nav-link px-3' id='menutaxi' style='border-left: 1px solid #666666; cursor: pointer;'>รถรับจ้าง</a>");
 
     // menubar 
     $("#menuallcar").click(function () {
+        checkEditmodecar = 0;
         table.clear();
         table = $("#myTable").dataTable().fnDestroy();
         $('#myTable').empty();
         table = $('#myTable').DataTable({
-            data: car,
+            responsive: true,
+            ajax: {
+                method: 'POST',
+                url: "/DataCar",
+                dataSrc: function (data) {
+                    for (let row = 0; row < data.length; row++) {
+                        if (data[row].TypecarID == 1) {
+                            data[row].TypecarID = "รถประจำทาง";
+                        } else {
+                            data[row].TypecarID = "รถรับจ้าง";
+                        }
+                    }
+                    return data;
+                }
+            },
             columns: [
-                { data: "idcar", title: "รหัส" },
-                { data: "namecar", title: "ชื่อรถ" },
-                { data: "pricecar", title: "ราคา" },
-                { data: "pointStartcar", title: "จุดเริ่มต้น" },
-                { data: "pointEndcar", title: "จุดปลายทาง" },
-                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
+                { data: "carID", title: "รหัส" },
+                { data: "name_car", title: "ชื่อ" },
+                { data: "capacity", title: "ความจุ" },
+                { data: "TypecarID", title: "ประเทภรถ" },
+                { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
             ]
         })
-        $("#myTable tbody").on("click", ".btn-warning", function () {
+        $("#myTable tbody").on("click", ".btnEditcar", function () {
             const currentRow = $(this).parents("tr");
             const tableallCar = table.row(currentRow).data();
             rowID = table.row(currentRow).index();
-            // console.log(testdata.idcar + " " + rowID);
-            $("#EdittxtIdcar").val(tableallCar.idcar);
-            $("#EdittxtNamecar").val(tableallCar.namecar);
-            $("#EdittxtPricecar").val(tableallCar.pricecar);
-            $("#EdittxtPointStartcar").val(tableallCar.pointStartcar);
-            $("#EdittxtPointEndcar").val(tableallCar.pointEndcar);
+            console.log(tableallCar.carID + " " + rowID);
+            $("#EdittxtIdcar").val(tableallCar.carID);
+            $("#EdittxtNamecar").val(tableallCar.name_car);
+            // $("#EdittxtPricecar").val(tableallCar.price_car);
+            $("#EdittxtCapacity").val(tableallCar.capacity);
             $("#modelEditcar").modal("show");
         });
-        $("#myTable tbody").on("click", ".btn-danger", function () {
+        $("#myTable tbody").on("click", ".btnDeletecar", function () {
             const currentRow = $(this).parents("tr");
             let checktableCar = table.row(currentRow).data();
             rowID = table.row(currentRow).index();
             Swal.fire({
                 title: "Warning",
-                text: "Are you sure to delete ID " + car[rowID].idcar,
+                text: "Are you sure to delete ID " + checktableCar.carID,
                 icon: "warning",
                 showCancelButton: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let checkEditcar = checktableCar.idcar[0];
-                    if (checkEditcar == 1) {
-                        for (let i = 0; i < bus.length; i++) {
-                            if (checktableCar.idcar == bus[i].idcar) {
-                                bus.splice(i, 1);
-                                break;
-                            }
-                        }
-                        console.log(bus);
-                        car = $.merge($.merge([], bus), taxi);
+                    $.ajax({
+                        method: 'POST',
+                        url: '/Deletecar',
+                        data: { IDcar: checktableCar.carID }
+                    }).done(function (data, state, xhr) {
                         table.row(rowID).remove().draw();
-
-                    } else if (checkEditcar == 2) {
-                        for (let i = 0; i < taxi.length; i++) {
-                            if (checktableCar.idcar == taxi[i].idcar) {
-                                taxi.splice(i, 1);
-                                break;
-                            }
-                        }
-                        console.log(taxi);
-                        car = $.merge($.merge([], bus), taxi);
-                        table.row(rowID).remove().draw();
-                    }
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "The record has been deleted.",
-                        icon: "success"
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The record has been deleted.",
+                            icon: "success"
+                        })
+                    }).fail(function (xhr, state) {
+                        Swal.fire({
+                            title: "Delete error!",
+                            text: "It's has something wrong.",
+                            icon: "error"
+                        })
                     })
+
                 }
             });
         });
     });
     $("#menubus").click(function () {
+        checkEditmodecar = 1;
         table.clear();
         table = $("#myTable").dataTable().fnDestroy();
         $('#myTable').empty();
-        table = $('#myTable').DataTable({
-            data: bus,
-            columns: [
-                { data: "idcar", title: "รหัส" },
-                { data: "namecar", title: "ชื่อรถ" },
-                { data: "pricecar", title: "ราคา" },
-                { data: "pointStartcar", title: "จุดเริ่มต้น" },
-                { data: "pointEndcar", title: "จุดปลายทาง" },
-                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-            ]
-        })
-        $("#myTable tbody").on("click", ".btn-warning", function () {
-            const currentRow = $(this).parents("tr");
-            const tableallCar = table.row(currentRow).data();
-            rowID = table.row(currentRow).index();
-            // console.log(testdata.idcar + " " + rowID);
-            $("#EdittxtIdcar").val(tableallCar.idcar);
-            $("#EdittxtNamecar").val(tableallCar.namecar);
-            $("#EdittxtPricecar").val(tableallCar.pricecar);
-            $("#EdittxtPointStartcar").val(tableallCar.pointStartcar);
-            $("#EdittxtPointEndcar").val(tableallCar.pointEndcar);
-            $("#modelEditcar").modal("show");
-        });
-        $("#myTable tbody").on("click", ".btn-danger", function () {
-            const currentRow = $(this).parents("tr");
-            let checktableCar = table.row(currentRow).data();
-            rowID = table.row(currentRow).index();
-            Swal.fire({
-                title: "Warning",
-                text: "Are you sure to delete ID " + bus[rowID].idcar,
-                icon: "warning",
-                showCancelButton: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    for (let i = 0; i < bus.length; i++) {
-                        if (checktableCar.idcar == bus[i].idcar) {
-                            bus.splice(i, 1);
-                            break;
-                        }
-                    }
-                    console.log(bus);
-                    car = $.merge($.merge([], bus), taxi);
-                    table.row(rowID).remove().draw();
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "The record has been deleted.",
-                        icon: "success"
-                    })
-                }
+        $.ajax({
+            method: 'POST',
+            url: '/DataCar',
+            data: { type: 1 }
+        }).done(function (data, state, xhr) {
+            table = $('#myTable').DataTable({
+                responsive: true,
+                data: data,
+                columns: [
+                    { data: "carID", title: "รหัส" },
+                    { data: "name_car", title: "ชื่อ" },
+                    { data: "capacity", title: "ความจุ" },
+                    { data: "nameType_car", title: "ประเภทรถ" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
+                ]
+            })
+            $("#myTable tbody").on("click", ".btnEditcar", function () {
+                const currentRow = $(this).parents("tr");
+                const tableallCar = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                console.log(tableallCar.carID + " " + rowID);
+                $("#EdittxtIdcar").val(tableallCar.carID);
+                $("#EdittxtNamecar").val(tableallCar.name_car);
+                // $("#EdittxtPricecar").val(tableallCar.price_car);
+                $("#EdittxtCapacity").val(tableallCar.capacity);
+                $("#modelEditcar").modal("show");
             });
-        });
+            $("#myTable tbody").on("click", ".btnDeletecar", function () {
+                const currentRow = $(this).parents("tr");
+                let checktableCar = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                Swal.fire({
+                    title: "Warning",
+                    text: "Are you sure to delete ID " + checktableCar.carID,
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/Deletecar',
+                            data: { IDcar: checktableCar.carID }
+                        }).done(function (data, state, xhr) {
+                            table.row(rowID).remove().draw();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
+                        })
 
+                    }
+                });
+            });
+
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
+        });
     });
 
     $("#menutaxi").click(function () {
+        checkEditmodecar = 2;
         table.clear();
         table = $("#myTable").dataTable().fnDestroy();
         $('#myTable').empty();
-        table = $('#myTable').DataTable({
-            data: taxi,
-            columns: [
-                { data: "idcar", title: "รหัส" },
-                { data: "namecar", title: "ชื่อรถ" },
-                { data: "pricecar", title: "ราคา" },
-                { data: "pointStartcar", title: "จุดเริ่มต้น" },
-                { data: "pointEndcar", title: "จุดปลายทาง" },
-                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-            ]
-        })
-        $("#myTable tbody").on("click", ".btn-warning", function () {
-            const currentRow = $(this).parents("tr");
-            const tableallCar = table.row(currentRow).data();
-            rowID = table.row(currentRow).index();
-            // console.log(testdata.idcar + " " + rowID);
-            $("#EdittxtIdcar").val(tableallCar.idcar);
-            $("#EdittxtNamecar").val(tableallCar.namecar);
-            $("#EdittxtPricecar").val(tableallCar.pricecar);
-            $("#EdittxtPointStartcar").val(tableallCar.pointStartcar);
-            $("#EdittxtPointEndcar").val(tableallCar.pointEndcar);
-            $("#modelEditcar").modal("show");
+        $.ajax({
+            method: 'POST',
+            url: '/DataCar',
+            data: { type: 2 }
+        }).done(function (data, state, xhr) {
+            table = $('#myTable').DataTable({
+                responsive: true,
+                data: data,
+                columns: [
+                    { data: "carID", title: "รหัส" },
+                    { data: "name_car", title: "ชื่อ" },
+                    { data: "capacity", title: "ความจุ" },
+                    { data: "nameType_car", title: "ประเภทรถ" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
+                ]
+            })
+            $("#myTable tbody").on("click", ".btnEditcar", function () {
+                const currentRow = $(this).parents("tr");
+                const tableallCar = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                console.log(tableallCar.carID + " " + rowID);
+                $("#EdittxtIdcar").val(tableallCar.carID);
+                $("#EdittxtNamecar").val(tableallCar.name_car);
+                // $("#EdittxtPricecar").val(tableallCar.price_car);
+                $("#EdittxtCapacity").val(tableallCar.capacity);
+                $("#modelEditcar").modal("show");
+            });
+
+            $("#myTable tbody").on("click", ".btnDeletecar", function () {
+                const currentRow = $(this).parents("tr");
+                let checktableCar = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                Swal.fire({
+                    title: "Warning",
+                    text: "Are you sure to delete ID " + checktableCar.carID,
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/Deletecar',
+                            data: { IDcar: checktableCar.carID }
+                        }).done(function (data, state, xhr) {
+                            table.row(rowID).remove().draw();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
+                        })
+
+                    }
+                });
+            });
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
         });
 
-        $("#myTable tbody").on("click", ".btn-danger", function () {
-            const currentRow = $(this).parents("tr");
-            let checktableCar = table.row(currentRow).data();
-            rowID = table.row(currentRow).index();
-            Swal.fire({
-                title: "Warning",
-                text: "Are you sure to delete ID " + taxi[rowID].idcar,
-                icon: "warning",
-                showCancelButton: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    for (let i = 0; i < taxi.length; i++) {
-                        if (checktableCar.idcar == taxi[i].idcar) {
-                            taxi.splice(i, 1);
-                            break;
-                        }
-                    }
-                    console.log(taxi);
-                    car = $.merge($.merge([], bus), taxi);
-                    table.row(rowID).remove().draw();
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "The record has been deleted.",
-                        icon: "success"
-                    })
-                }
-            });
-        });
 
     });
 
     $("#menuallplace").click(function () {
+        checkEditmodeplace = 0;
         table.clear();
         table = $("#myTable").dataTable().fnDestroy();
         $('#myTable').empty();
         table = $('#myTable').DataTable({
-            data: place,
+            responsive: true,
+            ajax: {
+                method: 'POST',
+                url: "/DataPlace",
+                dataSrc: function (data) {
+                    for (let row = 0; row < data.length; row++) {
+                        if (data[row].typeplaceID == 1) {
+                            data[row].typeplaceID = "ทั่วไป";
+                        } else if (data[row].typeplaceID == 2) {
+                            data[row].typeplaceID = "วัด";
+                        } else if (data[row].typeplaceID == 3) {
+                            data[row].typeplaceID = "สถานบันเทิง";
+                        } else if (data[row].typeplaceID == 4) {
+                            data[row].typeplaceID = "ที่ท่องเที่ยวธรรมชาติ";
+                        }
+                    }
+                    return data;
+                }
+            },
             columns: [
-                { data: "idplace", title: "รหัส" },
-                { data: "nameplace", title: "ชื่อสถานที่" },
-                { data: "infoplace", title: "ข้อมูลสถานที่" },
-                { data: "timeOpen", title: "เวลาเปิดทำการ" },
-                { data: "timeClose", title: "เวลาปิดทำการ" },
-                { data: "Daywork", title: "วันเปิดทำการ" },
-                { data: "priceplace", title: "ราคาเข้าชม" },
-                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
+                { data: "placeID", title: "รหัส" },
+                { data: "name_place", title: "ชื่อสถานที่" },
+                { data: "pic_place", title: "รูป" },
+                { data: "info_place", title: "ข้อมูล" },
+                { data: "price_place", title: "ราคาเข้าชม" },
+                { data: "timeopen_place", title: "เวลาเปิด" },
+                { data: "timeclose_place", title: "เวลาปิด" },
+                { data: "CloseDay", title: "วันปิดทำการ" },
+                { data: "typeplaceID", title: "ประเทภสถานที่" },
+                { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
             ]
+        });
+        $("#myTable tbody").on("click", ".btnEditplace", function () {
+            const currentRow = $(this).parents("tr");
+            const tableallplace = table.row(currentRow).data();
+            rowID = table.row(currentRow).index();
+            console.log(tableallplace.placeID + " " + rowID);
+            console.log(tableallplace);
+            $("#EdittxtIDplace").val(tableallplace.placeID);
+            $("#EdittxtNameplace").val(tableallplace.name_place);
+            $("#EdittxtInfoplace").val(tableallplace.info_place);
+            $("#EditTimeOpen").val(tableallplace.timeopen_place);
+            $("#EditTimeClose").val(tableallplace.timeclose_place);
+            $("#EdittxtPriceplace").val(tableallplace.price_place);
+            $("#modelEditplace").modal("show");
+        });
+        $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+            const currentRow = $(this).parents("tr");
+            let checktableplace = table.row(currentRow).data();
+            rowID = table.row(currentRow).index();
+            Swal.fire({
+                title: "Warning",
+                text: "Are you sure to delete ID " + checktableplace.placeID,
+                icon: "warning",
+                showCancelButton: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/Deleteplace',
+                        data: { placeID: checktableplace.placeID }
+                    }).done(function (data, state, xhr) {
+                        table.row(rowID).remove().draw();
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The record has been deleted.",
+                            icon: "success"
+                        })
+                    }).fail(function (xhr, state) {
+                        Swal.fire({
+                            title: "Delete error!",
+                            text: "It's has something wrong.",
+                            icon: "error"
+                        })
+                    })
+
+                }
+            });
         });
 
     });
 
     $("#menunormal").click(function () {
+        checkEditmodeplace = 1;
         table.clear();
         table = $("#myTable").dataTable().fnDestroy();
         $('#myTable').empty();
-        table = $('#myTable').DataTable({
-            data: normalTypeplace,
-            columns: [
-                { data: "idplace", title: "รหัส" },
-                { data: "nameplace", title: "ชื่อสถานที่" },
-                { data: "infoplace", title: "ข้อมูลสถานที่" },
-                { data: "timeOpen", title: "เวลาเปิดทำการ" },
-                { data: "timeClose", title: "เวลาปิดทำการ" },
-                { data: "Daywork", title: "วันเปิดทำการ" },
-                { data: "priceplace", title: "ราคาเข้าชม" },
-                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-            ]
+        $.ajax({
+            method: 'POST',
+            url: '/DataPlace',
+            data: { type: 1 }
+        }).done(function (data, state, xhr) {
+            table = $('#myTable').DataTable({
+                responsive: true,
+                data: data,
+                columns: [
+                    { data: "placeID", title: "รหัส" },
+                    { data: "name_place", title: "ชื่อสถานที่" },
+                    { data: "pic_place", title: "รูป" },
+                    { data: "info_place", title: "ข้อมูล" },
+                    { data: "price_place", title: "ราคาเข้าชม" },
+                    { data: "timeopen_place", title: "เวลาเปิด" },
+                    { data: "timeclose_place", title: "เวลาปิด" },
+                    { data: "CloseDay", title: "วันปิดทำการ" },
+                    { data: "nametype_place", title: "ประเทภสถานที่" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                ]
+            })
+            $("#myTable tbody").on("click", ".btnEditplace", function () {
+                const currentRow = $(this).parents("tr");
+                const tableallplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                console.log(tableallplace.placeID + " " + rowID);
+                console.log(tableallplace);
+                $("#EdittxtIDplace").val(tableallplace.placeID);
+                $("#EdittxtNameplace").val(tableallplace.name_place);
+                $("#EdittxtInfoplace").val(tableallplace.info_place);
+                $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                $("#EditTimeClose").val(tableallplace.timeclose_place);
+                $("#EdittxtPriceplace").val(tableallplace.price_place);
+                $("#modelEditplace").modal("show");
+            });
+
+            $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                const currentRow = $(this).parents("tr");
+                let checktableplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                Swal.fire({
+                    title: "Warning",
+                    text: "Are you sure to delete ID " + checktableplace.placeID,
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/Deleteplace',
+                            data: { placeID: checktableplace.placeID }
+                        }).done(function (data, state, xhr) {
+                            table.row(rowID).remove().draw();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
+                        })
+
+                    }
+                });
+            });
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
         });
     });
 
     $("#menutem").click(function () {
+        checkEditmodeplace = 2;
         table.clear();
         table = $("#myTable").dataTable().fnDestroy();
         $('#myTable').empty();
-        table = $('#myTable').DataTable({
-            data: template,
-            columns: [
-                { data: "idplace", title: "รหัส" },
-                { data: "nameplace", title: "ชื่อสถานที่" },
-                { data: "infoplace", title: "ข้อมูลสถานที่" },
-                { data: "timeOpen", title: "เวลาเปิดทำการ" },
-                { data: "timeClose", title: "เวลาปิดทำการ" },
-                { data: "Daywork", title: "วันเปิดทำการ" },
-                { data: "priceplace", title: "ราคาเข้าชม" },
-                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-            ]
+        $.ajax({
+            method: 'POST',
+            url: '/DataPlace',
+            data: { type: 2 }
+        }).done(function (data, state, xhr) {
+            table = $('#myTable').DataTable({
+                responsive: true,
+                data: data,
+                columns: [
+                    { data: "placeID", title: "รหัส" },
+                    { data: "name_place", title: "ชื่อสถานที่" },
+                    { data: "pic_place", title: "รูป" },
+                    { data: "info_place", title: "ข้อมูล" },
+                    { data: "price_place", title: "ราคาเข้าชม" },
+                    { data: "timeopen_place", title: "เวลาเปิด" },
+                    { data: "timeclose_place", title: "เวลาปิด" },
+                    { data: "CloseDay", title: "วันปิดทำการ" },
+                    { data: "nametype_place", title: "ประเทภสถานที่" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                ]
+            })
+            $("#myTable tbody").on("click", ".btnEditplace", function () {
+                const currentRow = $(this).parents("tr");
+                const tableallplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                console.log(tableallplace.placeID + " " + rowID);
+                console.log(tableallplace);
+                $("#EdittxtIDplace").val(tableallplace.placeID);
+                $("#EdittxtNameplace").val(tableallplace.name_place);
+                $("#EdittxtInfoplace").val(tableallplace.info_place);
+                $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                $("#EditTimeClose").val(tableallplace.timeclose_place);
+                $("#EdittxtPriceplace").val(tableallplace.price_place);
+                $("#modelEditplace").modal("show");
+            });
+
+            $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                const currentRow = $(this).parents("tr");
+                let checktableplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                Swal.fire({
+                    title: "Warning",
+                    text: "Are you sure to delete ID " + checktableplace.placeID,
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/Deleteplace',
+                            data: { placeID: checktableplace.placeID }
+                        }).done(function (data, state, xhr) {
+                            table.row(rowID).remove().draw();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
+                        })
+
+                    }
+                });
+            });
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
         });
+
     });
 
     $("#menuen").click(function () {
+        checkEditmodeplace = 3;
         table.clear();
         table = $("#myTable").dataTable().fnDestroy();
         $('#myTable').empty();
-        table = $('#myTable').DataTable({
-            data: Entertainment,
-            columns: [
-                { data: "idplace", title: "รหัส" },
-                { data: "nameplace", title: "ชื่อสถานที่" },
-                { data: "infoplace", title: "ข้อมูลสถานที่" },
-                { data: "timeOpen", title: "เวลาเปิดทำการ" },
-                { data: "timeClose", title: "เวลาปิดทำการ" },
-                { data: "Daywork", title: "วันเปิดทำการ" },
-                { data: "priceplace", title: "ราคาเข้าชม" },
-                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-            ]
+        $.ajax({
+            method: 'POST',
+            url: '/DataPlace',
+            data: { type: 3 }
+        }).done(function (data, state, xhr) {
+            table = $('#myTable').DataTable({
+                responsive: true,
+                data: data,
+                columns: [
+                    { data: "placeID", title: "รหัส" },
+                    { data: "name_place", title: "ชื่อสถานที่" },
+                    { data: "pic_place", title: "รูป" },
+                    { data: "info_place", title: "ข้อมูล" },
+                    { data: "price_place", title: "ราคาเข้าชม" },
+                    { data: "timeopen_place", title: "เวลาเปิด" },
+                    { data: "timeclose_place", title: "เวลาปิด" },
+                    { data: "CloseDay", title: "วันปิดทำการ" },
+                    { data: "nametype_place", title: "ประเทภสถานที่" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                ]
+            })
+            $("#myTable tbody").on("click", ".btnEditplace", function () {
+                const currentRow = $(this).parents("tr");
+                const tableallplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                console.log(tableallplace.placeID + " " + rowID);
+                console.log(tableallplace);
+                $("#EdittxtIDplace").val(tableallplace.placeID);
+                $("#EdittxtNameplace").val(tableallplace.name_place);
+                $("#EdittxtInfoplace").val(tableallplace.info_place);
+                $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                $("#EditTimeClose").val(tableallplace.timeclose_place);
+                $("#EdittxtPriceplace").val(tableallplace.price_place);
+                $("#modelEditplace").modal("show");
+            });
+
+            $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                const currentRow = $(this).parents("tr");
+                let checktableplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                Swal.fire({
+                    title: "Warning",
+                    text: "Are you sure to delete ID " + checktableplace.placeID,
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/Deleteplace',
+                            data: { placeID: checktableplace.placeID }
+                        }).done(function (data, state, xhr) {
+                            table.row(rowID).remove().draw();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
+                        })
+
+                    }
+                });
+            });
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
         });
     });
 
     $("#menunat").click(function () {
+        checkEditmodeplace = 4;
         table.clear();
         table = $("#myTable").dataTable().fnDestroy();
         $('#myTable').empty();
-        table = $('#myTable').DataTable({
-            data: natural,
-            columns: [
-                { data: "idplace", title: "รหัส" },
-                { data: "nameplace", title: "ชื่อสถานที่" },
-                { data: "infoplace", title: "ข้อมูลสถานที่" },
-                { data: "timeOpen", title: "เวลาเปิดทำการ" },
-                { data: "timeClose", title: "เวลาปิดทำการ" },
-                { data: "Daywork", title: "วันเปิดทำการ" },
-                { data: "priceplace", title: "ราคาเข้าชม" },
-                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-            ]
+        $.ajax({
+            method: 'POST',
+            url: '/DataPlace',
+            data: { type: 4 }
+        }).done(function (data, state, xhr) {
+            table = $('#myTable').DataTable({
+                responsive: true,
+                data: data,
+                columns: [
+                    { data: "placeID", title: "รหัส" },
+                    { data: "name_place", title: "ชื่อสถานที่" },
+                    { data: "pic_place", title: "รูป" },
+                    { data: "info_place", title: "ข้อมูล" },
+                    { data: "price_place", title: "ราคาเข้าชม" },
+                    { data: "timeopen_place", title: "เวลาเปิด" },
+                    { data: "timeclose_place", title: "เวลาปิด" },
+                    { data: "CloseDay", title: "วันปิดทำการ" },
+                    { data: "nametype_place", title: "ประเทภสถานที่" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                ]
+            })
+            $("#myTable tbody").on("click", ".btnEditplace", function () {
+                const currentRow = $(this).parents("tr");
+                const tableallplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                console.log(tableallplace.placeID + " " + rowID);
+                console.log(tableallplace);
+                $("#EdittxtIDplace").val(tableallplace.placeID);
+                $("#EdittxtNameplace").val(tableallplace.name_place);
+                $("#EdittxtInfoplace").val(tableallplace.info_place);
+                $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                $("#EditTimeClose").val(tableallplace.timeclose_place);
+                $("#EdittxtPriceplace").val(tableallplace.price_place);
+                $("#modelEditplace").modal("show");
+            });
+
+            $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                const currentRow = $(this).parents("tr");
+                let checktableplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                Swal.fire({
+                    title: "Warning",
+                    text: "Are you sure to delete ID " + checktableplace.placeID,
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/Deleteplace',
+                            data: { placeID: checktableplace.placeID }
+                        }).done(function (data, state, xhr) {
+                            table.row(rowID).remove().draw();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
+                        })
+
+                    }
+                });
+            });
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
         });
+    });
+
+    $("#menuallRoute").click(function () {
+        // alert("test");
+        checkEditmodecar = 0;
+        checkEditmodeplace = 0;
+        $("#menushowplace").css("display", "none");
+        $("#menushowcar").css("display", "none");
+        $("#menushowHotel").css("display", "none");
+        $("#menushowRoute").css("display", "");
+        table.clear();
+        table = $("#myTable").dataTable().fnDestroy();
+        $('#myTable').empty();
+        $.ajax({
+            method: 'GET',
+            url: '/Routes'
+        }).done(function (data, state, xhr) {
+            console.log(data);
+            table = $('#myTable').DataTable({
+                responsive: true,
+                data: data,
+                columns: [
+                    { data: "Route_ID", title: "รหัส" },
+                    { data: "Origin", title: "ต้นทาง" },
+                    { data: "Destination", title: "ปลายทาง" },
+                    { data: "name_car", title: "ประเภทรถ" },
+                    { data: "price_route", title: "ราคาต่อการเดินทาง" },
+                    { data: "time_route", title: "เวลาที่ใช้ในการเดินทาง" },
+                    { data: "place_in_route", title: "สถานที่ระหว่างทาง" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeleteRoute'>Delete</button><button class='btn btn-warning btnEditroute mr-2'>Edit</button>" }
+                ]
+
+            });
+
+            $("#myTable tbody").on("click", ".btnEditroute", function () {
+                const currentRow = $(this).parents("tr");
+                const tableallroute = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                console.log(tableallroute.Route_ID + " " + rowID);
+                console.log(tableallroute);
+                $.ajax({
+                    method: 'POST',
+                    url: '/DataCar',
+                }).done(function (data, state, xhr) {
+                    let createOption = "";
+                    for (let i = 0; i < data.length; i++) {
+                        createOption += "<option value='" + data[i].carID + "'>" + ("ชื่อ " + data[i].name_car + " ความจุ " + data[i].capacity) + "</option>";
+                    }
+                    $("#EditRoute_carid").html(createOption);
+                    $("#EditRoute_carid").val(tableallroute.carID);
+                    // $("#EditTypeplace").html(createOption);
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
+                });
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/DataPlace',
+                }).done(function (data, state, xhr) {
+                    let createOption = "";
+                    for (let i = 0; i < data.length; i++) {
+                        createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+                    }
+                    $("#EditRoute_Origin").html(createOption);
+                    $("#EditRoute_Destination").html(createOption);
+                    $("#EditRoute_Origin").val(tableallroute.IDorigin);
+                    $("#EditRoute_Destination").val(tableallroute.IDdestination);
+                    // $("#EditTypeplace").html(createOption);
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
+                });
+                $("#EditRouteID").val(tableallroute.Route_ID);
+                $("#Editprice_route").val(tableallroute.price_route);
+                $("#Edittime_route").val(tableallroute.time_route);
+                $("#Editshowplace").text(numberEditplaceinR);
+                $("#modelEditRoute").modal("show");
+            });
+
+            $("#myTable tbody").on("click", ".btnDeleteRoute", function () {
+                const currentRow = $(this).parents("tr");
+                let checktableRoute = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                Swal.fire({
+                    title: "Warning",
+                    text: "Are you sure to delete ID " + checktableRoute.Route_ID,
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/DeleteRoute',
+                            data: { Route_ID: checktableRoute.Route_ID }
+                        }).done(function (data, state, xhr) {
+                            table.row(rowID).remove().draw();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
+                        })
+
+                    }
+                });
+            });
+
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
+        })
+        numberAddplaceinR = "";
+        $("#showplace").text(numberAddplaceinR);
     });
 
     // modal add data
     $("#btnAdd").click(function () {
         let dropdown = $("#dropdownMenu").val();
         if (dropdown == 1) {
-            if (bus.length == 0) {
-                newrunNumbus = 1;
-                $("#txtIdcar").val("1" + newrunNumbus);
-            } else if (bus.length > 0) {
-                let runNumbus = bus[(bus.length) - 1].idcar;
-                newrunNumbus = runNumbus.substring(1, runNumbus.length);
-                newrunNumbus++;
-
-            }
-            if (taxi.length == 0) {
-                newrunNumtaxi = 1;
-                $("#txtIdcar").val("2" + newrunNumtaxi);
-            } else if (bus.length > 0) {
-                let runNumtaxi = taxi[(taxi.length) - 1].idcar;
-                newrunNumtaxi = runNumtaxi.substring(1, runNumtaxi.length);
-                newrunNumtaxi++;
-
-            }
-            if ($("#radioBus").is(":checked")) {
-                selectCarType = 0;
-                $("#txtIdcar").val("1" + newrunNumbus);
-            } else if ($("#radioTaxi").is(":checked")) {
-                selectCarType = 1;
-                $("#txtIdcar").val("2" + newrunNumtaxi);
-
-            }
             $("#modelcar").modal("show");
         } else if (dropdown == 2) {
             $("#modelplace").modal("show");
+        } else if (dropdown == 3) {
+            $("#modelAddhotel").modal("show");
+        } else if (dropdown == 4) {
+            $("#modelAddRoute").modal("show");
         }
 
     });
 
-    $("#radioBus").click(function () {
-        selectCarType = 0;
-        $("#txtIdcar").val("1" + newrunNumbus);
-    });
-    $("#radioTaxi").click(function () {
-        selectCarType = 1;
-        $("#txtIdcar").val("2" + newrunNumtaxi);
+    $("#formAddplace").submit(function (e) {
+        e.preventDefault();
+        const dataForm = new FormData(this);
+
+        $.ajax({
+            method: 'POST',
+            url: '/Addplace',
+            data: dataForm,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                // alert(response);
+                checkEditmodecar = 0;
+                checkEditmodeplace = 0;
+                $("#menushowplace").css("display", "");
+                $("#menushowcar").css("display", "none");
+                $("#menushowHotel").css("display", "none");
+                // $("#menuTable").html("<a class='nav-link px-3' style='cursor: pointer;'>ทั้งหมด</a><a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'>ทั่วไป</a><a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'>วัด</a><a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'>สถานที่บันเทิง</a><a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'>ที่ท่องเที่ยวธรรมชาติ</a>");
+                table.clear();
+                table = $("#myTable").dataTable().fnDestroy();
+                $('#myTable').empty();
+                table = $('#myTable').DataTable({
+                    responsive: true,
+                    ajax: {
+                        method: 'POST',
+                        url: "/DataPlace",
+                        dataSrc: function (data) {
+                            for (let row = 0; row < data.length; row++) {
+                                if (data[row].typeplaceID == 1) {
+                                    data[row].typeplaceID = "ทั่วไป";
+                                } else if (data[row].typeplaceID == 2) {
+                                    data[row].typeplaceID = "วัด";
+                                } else if (data[row].typeplaceID == 3) {
+                                    data[row].typeplaceID = "สถานบันเทิง";
+                                } else if (data[row].typeplaceID == 4) {
+                                    data[row].typeplaceID = "ที่ท่องเที่ยวธรรมชาติ";
+                                }
+                            }
+                            return data;
+                        }
+                    },
+                    columns: [
+                        { data: "placeID", title: "รหัส" },
+                        { data: "name_place", title: "ชื่อสถานที่" },
+                        { data: "pic_place", title: "รูป" },
+                        { data: "info_place", title: "ข้อมูล" },
+                        { data: "price_place", title: "ราคาเข้าชม" },
+                        { data: "timeopen_place", title: "เวลาเปิด" },
+                        { data: "timeclose_place", title: "เวลาปิด" },
+                        { data: "CloseDay", title: "วันปิดทำการ" },
+                        { data: "typeplaceID", title: "ประเทภสถานที่" },
+                        { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeleteplace'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                    ]
+
+                });
+
+                $("#myTable tbody").on("click", ".btnEditplace", function () {
+                    const currentRow = $(this).parents("tr");
+                    const tableallplace = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    console.log(tableallplace.placeID + " " + rowID);
+                    console.log(tableallplace);
+                    $("#EdittxtIDplace").val(tableallplace.placeID);
+                    $("#EdittxtNameplace").val(tableallplace.name_place);
+                    $("#EdittxtInfoplace").val(tableallplace.info_place);
+                    $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                    $("#EditTimeClose").val(tableallplace.timeclose_place);
+                    $("#EdittxtPriceplace").val(tableallplace.price_place);
+                    $("#modelEditplace").modal("show");
+                });
+
+                $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                    const currentRow = $(this).parents("tr");
+                    let checktableplace = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Are you sure to delete ID " + checktableplace.placeID,
+                        icon: "warning",
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                method: 'POST',
+                                url: '/Deleteplace',
+                                data: { placeID: checktableplace.placeID }
+                            }).done(function (data, state, xhr) {
+                                table.row(rowID).remove().draw();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The record has been deleted.",
+                                    icon: "success"
+                                })
+                            }).fail(function (xhr, state) {
+                                Swal.fire({
+                                    title: "Delete error!",
+                                    text: "It's has something wrong.",
+                                    icon: "error"
+                                })
+                            })
+
+                        }
+                    });
+                });
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+
+        $.ajax({
+            method: 'POST',
+            url: '/DataPlace',
+        }).done(function (data, state, xhr) {
+            let createOption = "";
+            for (let i = 0; i < data.length; i++) {
+                createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+            }
+            $("#Route_Origin").html(createOption);
+            $("#Route_Destination").html(createOption);
+            // $("#EditTypeplace").html(createOption);
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
+        });
+
+        $("#txtNameplace").val("");
+        $("#txtInfoplace").val("");
+        $("#txtInfoplace").val("");
+        $("#selectTimeOpen").val("");
+        $("#selectTimeClose").val("");
+        $("#txtPriceplace").val("");
+        $("#gallery-photo-add").val('');
+        $(".gallery img:last-child").remove();
+        $("#modelplace").modal("hide");
     });
 
     $("#btnSaveAddcar").click(function () {
-        let IdCar = $("#txtIdcar").val();
+        let typecar = $("#AddTypecar").val();
         let NameCar = $("#txtNamecar").val();
-        let PriceCar = $("#txtPricecar").val();
-        let pstartCar = $("#txtPointStartcar").val();
-        let pEndCar = $("#txtPointEndcar").val();
-        if (selectCarType == 0) {
-            if (IdCar != "" && NameCar != "") {
-                if (PriceCar != "" && pstartCar != "") {
-                    if (pEndCar != "") {
-                        bus.push({ "idcar": IdCar, "namecar": NameCar, "pricecar": PriceCar, "pointStartcar": pstartCar, "pointEndcar": pEndCar });
-                        console.log(bus);
-                        car = $.merge($.merge([], bus), taxi);
-                        table.clear();
-                        table = $("#myTable").dataTable().fnDestroy();
-                        $('#myTable').empty();
-                        table = $('#myTable').DataTable({
-                            data: car,
-                            columns: [
-                                { data: "idcar", title: "รหัส" },
-                                { data: "namecar", title: "ชื่อรถ" },
-                                { data: "pricecar", title: "ราคา" },
-                                { data: "pointStartcar", title: "จุดเริ่มต้น" },
-                                { data: "pointEndcar", title: "จุดปลายทาง" },
-                                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-                            ]
-                        });
-                        $("#myTable tbody").on("click", ".btn-warning", function () {
-                            const currentRow = $(this).parents("tr");
-                            const tableallCar = table.row(currentRow).data();
-                            rowID = table.row(currentRow).index();
-                            // console.log(testdata.idcar + " " + rowID);
-                            $("#EdittxtIdcar").val(tableallCar.idcar);
-                            $("#EdittxtNamecar").val(tableallCar.namecar);
-                            $("#EdittxtPricecar").val(tableallCar.pricecar);
-                            $("#EdittxtPointStartcar").val(tableallCar.pointStartcar);
-                            $("#EdittxtPointEndcar").val(tableallCar.pointEndcar);
-                            $("#modelEditcar").modal("show");
-                        });
-                        $("#myTable tbody").on("click", ".btn-danger", function () {
-                            const currentRow = $(this).parents("tr");
-                            let checktableCar = table.row(currentRow).data();
-                            rowID = table.row(currentRow).index();
-                            Swal.fire({
-                                title: "Warning",
-                                text: "Are you sure to delete ID " + car[rowID].idcar,
-                                icon: "warning",
-                                showCancelButton: true
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    let checkEditcar = checktableCar.idcar[0];
-                                    if (checkEditcar == 1) {
-                                        for (let i = 0; i < bus.length; i++) {
-                                            if (checktableCar.idcar == bus[i].idcar) {
-                                                bus.splice(i, 1);
-                                                break;
-                                            }
-                                        }
-                                        console.log(bus);
-                                        car = $.merge($.merge([], bus), taxi);
-                                        table.row(rowID).remove().draw();
-
-                                    } else if (checkEditcar == 2) {
-                                        for (let i = 0; i < taxi.length; i++) {
-                                            if (checktableCar.idcar == taxi[i].idcar) {
-                                                taxi.splice(i, 1);
-                                                break;
-                                            }
-                                        }
-                                        console.log(taxi);
-                                        car = $.merge($.merge([], bus), taxi);
-                                        table.row(rowID).remove().draw();
-                                    }
-                                    Swal.fire({
-                                        title: "Deleted!",
-                                        text: "The record has been deleted.",
-                                        icon: "success"
-                                    })
+        // let PriceCar = $("#txtPricecar").val();
+        let Capa = $("#txtCapacity").val();
+        // alert(typecar+" "+NameCar+" "+PriceCar+" "+Capa);
+        if (Capa != "" && NameCar != "") {
+            $.ajax({
+                method: 'POST',
+                url: '/Addcar',
+                data: { name_car: NameCar, capacity: Capa, TypecarID: typecar }
+            }).done(function (err, result) {
+                // table.clear();
+                table = $("#myTable").dataTable().fnDestroy();
+                $('#myTable').empty();
+                table = $('#myTable').DataTable({
+                    responsive: true,
+                    ajax: {
+                        method: 'POST',
+                        url: "/DataCar",
+                        dataSrc: function (data) {
+                            for (let row = 0; row < data.length; row++) {
+                                if (data[row].TypecarID == 1) {
+                                    data[row].TypecarID = "รถประจำทาง";
+                                } else {
+                                    data[row].TypecarID = "รถรับจ้าง";
                                 }
-                            });
-                        });
-                        $("#txtNamecar").val("");
-                        $("#txtPricecar").val("");
-                        $("#txtPointStartcar").val("");
-                        $("#txtPointEndcar").val("");
-                        $("#modelcar").modal("hide");
-                        // alert(IdCar + " " + NameCar + " " + PriceCar + " " + pstartCar + " " + pEndCar);
-                    } else {
-                        alert("Please complete your information!");
-                    }
-                } else {
-                    alert("Please complete your information!");
-                }
-            } else {
-                alert("Please complete your information!");
-            }
-        } else if (selectCarType == 1) {
-            if (IdCar != "" && NameCar != "") {
-                if (PriceCar != "" && pstartCar != "") {
-                    if (pEndCar != "") {
-                        taxi.push({ "idcar": IdCar, "namecar": NameCar, "pricecar": PriceCar, "pointStartcar": pstartCar, "pointEndcar": pEndCar });
-                        console.log(taxi);
-                        car = $.merge($.merge([], bus), taxi);
-                        table.clear();
-                        table = $("#myTable").dataTable().fnDestroy();
-                        $('#myTable').empty();
-                        table = $('#myTable').DataTable({
-                            data: car,
-                            columns: [
-                                { data: "idcar", title: "รหัส" },
-                                { data: "namecar", title: "ชื่อรถ" },
-                                { data: "pricecar", title: "ราคา" },
-                                { data: "pointStartcar", title: "จุดเริ่มต้น" },
-                                { data: "pointEndcar", title: "จุดปลายทาง" },
-                                { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-                            ]
-                        });
-                        $("#myTable tbody").on("click", ".btn-warning", function () {
-                            const currentRow = $(this).parents("tr");
-                            const tableallCar = table.row(currentRow).data();
-                            rowID = table.row(currentRow).index();
-                            // console.log(testdata.idcar + " " + rowID);
-                            $("#EdittxtIdcar").val(tableallCar.idcar);
-                            $("#EdittxtNamecar").val(tableallCar.namecar);
-                            $("#EdittxtPricecar").val(tableallCar.pricecar);
-                            $("#EdittxtPointStartcar").val(tableallCar.pointStartcar);
-                            $("#EdittxtPointEndcar").val(tableallCar.pointEndcar);
-                            $("#modelEditcar").modal("show");
-                        });
-                        $("#myTable tbody").on("click", ".btn-danger", function () {
-                            const currentRow = $(this).parents("tr");
-                            let checktableCar = table.row(currentRow).data();
-                            rowID = table.row(currentRow).index();
-                            Swal.fire({
-                                title: "Warning",
-                                text: "Are you sure to delete ID " + car[rowID].idcar,
-                                icon: "warning",
-                                showCancelButton: true
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    let checkEditcar = checktableCar.idcar[0];
-                                    if (checkEditcar == 1) {
-                                        for (let i = 0; i < bus.length; i++) {
-                                            if (checktableCar.idcar == bus[i].idcar) {
-                                                bus.splice(i, 1);
-                                                break;
-                                            }
-                                        }
-                                        console.log(bus);
-                                        car = $.merge($.merge([], bus), taxi);
-                                        table.row(rowID).remove().draw();
+                            }
+                            return data;
+                        }
+                    },
+                    columns: [
+                        { data: "carID", title: "รหัส" },
+                        { data: "name_car", title: "ชื่อ" },
+                        { data: "capacity", title: "ความจุ" },
+                        { data: "TypecarID", title: "ประเทภรถ" },
+                        { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
+                    ]
+                })
+                $("#myTable tbody").on("click", ".btnEditcar", function () {
+                    const currentRow = $(this).parents("tr");
+                    const tableallCar = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    console.log(tableallCar.carID + " " + rowID);
+                    $("#EdittxtIdcar").val(tableallCar.carID);
+                    $("#EdittxtNamecar").val(tableallCar.name_car);
+                    // $("#EdittxtPricecar").val(tableallCar.price_car);
+                    $("#EdittxtCapacity").val(tableallCar.capacity);
+                    $("#modelEditcar").modal("show");
+                });
 
-                                    } else if (checkEditcar == 2) {
-                                        for (let i = 0; i < taxi.length; i++) {
-                                            if (checktableCar.idcar == taxi[i].idcar) {
-                                                taxi.splice(i, 1);
-                                                break;
-                                            }
-                                        }
-                                        console.log(taxi);
-                                        car = $.merge($.merge([], bus), taxi);
-                                        table.row(rowID).remove().draw();
-                                    }
-                                    Swal.fire({
-                                        title: "Deleted!",
-                                        text: "The record has been deleted.",
-                                        icon: "success"
-                                    })
-                                }
-                            });
-                        });
-                        $("#txtNamecar").val("");
-                        $("#txtPricecar").val("");
-                        $("#txtPointStartcar").val("");
-                        $("#txtPointEndcar").val("");
-                        $("#modelcar").modal("hide");
-                        // alert(IdCar + " " + NameCar + " " + PriceCar + " " + pstartCar + " " + pEndCar);
-                    } else {
-                        alert("Please complete your information!");
-                    }
-                } else {
-                    alert("Please complete your information!");
-                }
-            } else {
-                alert("Please complete your information!");
-            }
+                $("#myTable tbody").on("click", ".btnDeletecar", function () {
+                    const currentRow = $(this).parents("tr");
+                    let checktableCar = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Are you sure to delete ID " + checktableCar.carID,
+                        icon: "warning",
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                method: 'POST',
+                                url: '/Deletecar',
+                                data: { IDcar: checktableCar.carID }
+                            }).done(function (data, state, xhr) {
+                                table.row(rowID).remove().draw();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The record has been deleted.",
+                                    icon: "success"
+                                })
+                            }).fail(function (xhr, state) {
+                                Swal.fire({
+                                    title: "Delete error!",
+                                    text: "It's has something wrong.",
+                                    icon: "error"
+                                })
+                            })
 
+                        }
+                    });
+                });
+                Swal.fire({
+                    title: "Add Success!",
+                    text: "The Data has been Added.",
+                    icon: "success"
+                })
+                $("#txtNamecar").val("");
+                // $("#txtPricecar").val("");
+                $("#txtCapacity").val("");
+                $("#modelcar").modal("hide");
+            }).fail(function (err, result) {
+                Swal.fire({
+                    title: "Add error!",
+                    text: "It's has something wrong.",
+                    icon: "error"
+                })
+            });
         }
+
+        $.ajax({
+            method: 'POST',
+            url: '/DataCar',
+        }).done(function (data, state, xhr) {
+            let createOption = "";
+            for (let i = 0; i < data.length; i++) {
+                createOption += "<option value='" + data[i].carID + "'>" + ("ชื่อ " + data[i].name_car + " ความจุ " + data[i].capacity) + "</option>";
+            }
+            $("#Route_carid").html(createOption);
+            // $("#EditTypeplace").html(createOption);
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
+        });
+
 
     });
 
     $("#btnClosecar").click(function () {
         $("#txtNamecar").val("");
-        $("#txtPricecar").val("");
-        $("#txtPointStartcar").val("");
-        $("#txtPointEndcar").val("");
+        // $("#txtPricecar").val("");
+        $("#txtCapacity").val("");
     });
 
     $("#btnresetRunnum").click(function () {
         $("#txtNamecar").val("");
-        $("#txtPricecar").val("");
+        // $("#txtPricecar").val("");
         $("#txtPointStartcar").val("");
         $("#txtPointEndcar").val("");
     });
@@ -733,235 +1208,1662 @@ $(document).ready(function () {
     $("#dropdownMenu").change(function () {
         let dropdown = $(this).val();
         if (dropdown == 1) {
+            checkEditmodecar = 0;
+            checkEditmodeplace = 0;
             $("#menushowplace").css("display", "none");
             $("#menushowHotel").css("display", "none");
             $("#menushowcar").css("display", "");
+            $("#menushowRoute").css("display", "none");
             // $("#menuTable").html("<a class='nav-link px-3' style='cursor: pointer;' id='menuallcar'>ทั้งหมด</a><a class='nav-link px-3' id='menubus' style='border-left: 1px solid #666666; cursor: pointer;'>รถประจำทาง</a><a class='nav-link px-3' id='menutaxi' style='border-left: 1px solid #666666; cursor: pointer;'>รถรับจ้าง</a>");
             table.clear();
             table = $("#myTable").dataTable().fnDestroy();
             $('#myTable').empty();
             table = $('#myTable').DataTable({
-                data: car,
+                responsive: true,
+                ajax: {
+                    method: 'POST',
+                    url: "/DataCar",
+                    dataSrc: function (data) {
+                        for (let row = 0; row < data.length; row++) {
+                            if (data[row].TypecarID == 1) {
+                                data[row].TypecarID = "รถประจำทาง";
+                            } else {
+                                data[row].TypecarID = "รถรับจ้าง";
+                            }
+                        }
+                        return data;
+                    }
+                },
                 columns: [
-                    { data: "idcar", title: "รหัส" },
-                    { data: "namecar", title: "ชื่อรถ" },
-                    { data: "pricecar", title: "ราคา" },
-                    { data: "pointStartcar", title: "จุดเริ่มต้น" },
-                    { data: "pointEndcar", title: "จุดปลายทาง" },
-                    { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
+                    { data: "carID", title: "รหัส" },
+                    { data: "name_car", title: "ชื่อ" },
+                    { data: "capacity", title: "ความจุ" },
+                    { data: "TypecarID", title: "ประเทภรถ" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
                 ]
             })
-            $("#myTable tbody").on("click", ".btn-warning", function () {
+            $("#myTable tbody").on("click", ".btnEditcar", function () {
                 const currentRow = $(this).parents("tr");
                 const tableallCar = table.row(currentRow).data();
                 rowID = table.row(currentRow).index();
-                // console.log(testdata.idcar + " " + rowID);
-                $("#EdittxtIdcar").val(tableallCar.idcar);
-                $("#EdittxtNamecar").val(tableallCar.namecar);
-                $("#EdittxtPricecar").val(tableallCar.pricecar);
-                $("#EdittxtPointStartcar").val(tableallCar.pointStartcar);
-                $("#EdittxtPointEndcar").val(tableallCar.pointEndcar);
+                console.log(tableallCar.carID + " " + rowID);
+                $("#EdittxtIdcar").val(tableallCar.carID);
+                $("#EdittxtNamecar").val(tableallCar.name_car);
+                // $("#EdittxtPricecar").val(tableallCar.price_car);
+                $("#EdittxtCapacity").val(tableallCar.capacity);
                 $("#modelEditcar").modal("show");
             });
-            $("#myTable tbody").on("click", ".btn-danger", function () {
+            $("#myTable tbody").on("click", ".btnDeletecar", function () {
                 const currentRow = $(this).parents("tr");
                 let checktableCar = table.row(currentRow).data();
                 rowID = table.row(currentRow).index();
                 Swal.fire({
                     title: "Warning",
-                    text: "Are you sure to delete ID " + car[rowID].idcar,
+                    text: "Are you sure to delete ID " + checktableCar.carID,
                     icon: "warning",
                     showCancelButton: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let checkEditcar = checktableCar.idcar[0];
-                        if (checkEditcar == 1) {
-                            for (let i = 0; i < bus.length; i++) {
-                                if (checktableCar.idcar == bus[i].idcar) {
-                                    bus.splice(i, 1);
-                                    break;
-                                }
-                            }
-                            console.log(bus);
-                            car = $.merge($.merge([], bus), taxi);
+                        $.ajax({
+                            method: 'POST',
+                            url: '/Deletecar',
+                            data: { IDcar: checktableCar.carID }
+                        }).done(function (data, state, xhr) {
                             table.row(rowID).remove().draw();
-
-                        } else if (checkEditcar == 2) {
-                            for (let i = 0; i < taxi.length; i++) {
-                                if (checktableCar.idcar == taxi[i].idcar) {
-                                    taxi.splice(i, 1);
-                                    break;
-                                }
-                            }
-                            console.log(taxi);
-                            car = $.merge($.merge([], bus), taxi);
-                            table.row(rowID).remove().draw();
-                        }
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "The record has been deleted.",
-                            icon: "success"
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
                         })
+
                     }
                 });
             });
 
         } else if (dropdown == 2) {
+            checkEditmodecar = 0;
+            checkEditmodeplace = 0;
             $("#menushowplace").css("display", "");
             $("#menushowcar").css("display", "none");
             $("#menushowHotel").css("display", "none");
+            $("#menushowRoute").css("display", "none");
             // $("#menuTable").html("<a class='nav-link px-3' style='cursor: pointer;'>ทั้งหมด</a><a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'>ทั่วไป</a><a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'>วัด</a><a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'>สถานที่บันเทิง</a><a class='nav-link px-3' style='border-left: 1px solid #666666; cursor: pointer;'>ที่ท่องเที่ยวธรรมชาติ</a>");
             table.clear();
             table = $("#myTable").dataTable().fnDestroy();
             $('#myTable').empty();
             table = $('#myTable').DataTable({
-                data: place,
+                responsive: true,
+                ajax: {
+                    method: 'POST',
+                    url: "/DataPlace",
+                    dataSrc: function (data) {
+                        for (let row = 0; row < data.length; row++) {
+                            if (data[row].typeplaceID == 1) {
+                                data[row].typeplaceID = "ทั่วไป";
+                            } else if (data[row].typeplaceID == 2) {
+                                data[row].typeplaceID = "วัด";
+                            } else if (data[row].typeplaceID == 3) {
+                                data[row].typeplaceID = "สถานบันเทิง";
+                            } else if (data[row].typeplaceID == 4) {
+                                data[row].typeplaceID = "ที่ท่องเที่ยวธรรมชาติ";
+                            }
+                        }
+                        return data;
+                    }
+                },
                 columns: [
-                    { data: "idplace", title: "รหัส" },
-                    { data: "nameplace", title: "ชื่อสถานที่" },
-                    { data: "infoplace", title: "ข้อมูลสถานที่" },
-                    { data: "timeOpen", title: "เวลาเปิดทำการ" },
-                    { data: "timeClose", title: "เวลาปิดทำการ" },
-                    { data: "Daywork", title: "วันเปิดทำการ" },
-                    { data: "priceplace", title: "ราคาเข้าชม" },
-                    { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
+                    { data: "placeID", title: "รหัส" },
+                    { data: "name_place", title: "ชื่อสถานที่" },
+                    { data: "pic_place", title: "รูป" },
+                    { data: "info_place", title: "ข้อมูล" },
+                    { data: "price_place", title: "ราคาเข้าชม" },
+                    { data: "timeopen_place", title: "เวลาเปิด" },
+                    { data: "timeclose_place", title: "เวลาปิด" },
+                    { data: "CloseDay", title: "วันปิดทำการ" },
+                    { data: "typeplaceID", title: "ประเทภสถานที่" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeleteplace'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
                 ]
+
+            });
+
+            $("#myTable tbody").on("click", ".btnEditplace", function () {
+                const currentRow = $(this).parents("tr");
+                const tableallplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                console.log(tableallplace.placeID + " " + rowID);
+                console.log(tableallplace);
+                $("#EdittxtIDplace").val(tableallplace.placeID);
+                $("#EdittxtNameplace").val(tableallplace.name_place);
+                $("#EdittxtInfoplace").val(tableallplace.info_place);
+                $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                $("#EditTimeClose").val(tableallplace.timeclose_place);
+                $("#EdittxtPriceplace").val(tableallplace.price_place);
+                $("#modelEditplace").modal("show");
+            });
+
+            $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                const currentRow = $(this).parents("tr");
+                let checktableplace = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+                Swal.fire({
+                    title: "Warning",
+                    text: "Are you sure to delete ID " + checktableplace.placeID,
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/Deleteplace',
+                            data: { placeID: checktableplace.placeID }
+                        }).done(function (data, state, xhr) {
+                            table.row(rowID).remove().draw();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The record has been deleted.",
+                                icon: "success"
+                            })
+                        }).fail(function (xhr, state) {
+                            Swal.fire({
+                                title: "Delete error!",
+                                text: "It's has something wrong.",
+                                icon: "error"
+                            })
+                        })
+
+                    }
+                });
             });
 
 
         } else if (dropdown == 3) {
+            checkEditmodecar = 0;
+            checkEditmodeplace = 0;
             $("#menushowplace").css("display", "none");
             $("#menushowcar").css("display", "none");
             $("#menushowHotel").css("display", "");
+            $("#menushowRoute").css("display", "none");
             table.clear();
             table = $("#myTable").dataTable().fnDestroy();
             $('#myTable').empty();
-            table = $('#myTable').DataTable({
-                data: hotel,
-                columns: [
-                    { title: "รหัส" },
-                    { title: "ชื่อที่พัก" },
-                    { title: "ราคาต่อคืน / ห้องปกติ" },
-                    { title: "อยู่แถวไหน" },
-                    { title: "Action", orderable: false, defaultContent: "<a class='btn mx-auto btn-warning'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-pen' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a><a class='btn mx-3 btn-danger'><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></button>" }
-                ]
-            });
+            $.ajax({
+                method: 'GET',
+                url: '/DataHotel'
+            }).done(function (data, state, xhr) {
+                console.log(data);
+                table = $('#myTable').DataTable({
+                    responsive: true,
+                    data: data,
+                    columns: [
+                        { data: "hotelID", title: "รหัส" },
+                        { data: "name_hotel", title: "ชื่อที่พัก" },
+                        { data: "pic_hotel", title: "รูป" },
+                        { data: "price_per_day", title: "ราคา" },
+                        { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeletehotel'>Delete</button><button class='btn btn-warning btnEdithotel mr-2'>Edit</button>" }
+                    ]
+
+                });
+
+                $("#myTable tbody").on("click", ".btnEdithotel", function () {
+                    const currentRow = $(this).parents("tr");
+                    const tableallhotel = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    console.log(tableallhotel.hotelID + " " + rowID);
+                    console.log(tableallhotel);
+                    $("#EdittxtIDhotel").val(tableallhotel.hotelID);
+                    $("#EdittxtNamehotel").val(tableallhotel.name_hotel);
+                    $("#EdittxtPricehotel").val(tableallhotel.price_per_day);
+                    $("#modelEdithotel").modal("show");
+                });
+
+                $("#myTable tbody").on("click", ".btnDeletehotel", function () {
+                    const currentRow = $(this).parents("tr");
+                    let checktablehotel = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Are you sure to delete ID " + checktablehotel.hotelID,
+                        icon: "warning",
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                method: 'POST',
+                                url: '/Deletehotel',
+                                data: { hotelID: checktablehotel.hotelID }
+                            }).done(function (data, state, xhr) {
+                                table.row(rowID).remove().draw();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The record has been deleted.",
+                                    icon: "success"
+                                })
+                            }).fail(function (xhr, state) {
+                                Swal.fire({
+                                    title: "Delete error!",
+                                    text: "It's has something wrong.",
+                                    icon: "error"
+                                })
+                            })
+
+                        }
+                    });
+                });
+
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            })
+
+        } else if (dropdown == 4) {
+            checkEditmodecar = 0;
+            checkEditmodeplace = 0;
+            $("#menushowplace").css("display", "none");
+            $("#menushowcar").css("display", "none");
+            $("#menushowHotel").css("display", "none");
+            $("#menushowRoute").css("display", "");
+            table.clear();
+            table = $("#myTable").dataTable().fnDestroy();
+            $('#myTable').empty();
+            $.ajax({
+                method: 'GET',
+                url: '/Routes'
+            }).done(function (data, state, xhr) {
+                console.log(data);
+                table = $('#myTable').DataTable({
+                    responsive: true,
+                    data: data,
+                    columns: [
+                        { data: "Route_ID", title: "รหัส" },
+                        { data: "Origin", title: "ต้นทาง" },
+                        { data: "Destination", title: "ปลายทาง" },
+                        { data: "name_car", title: "ประเภทรถ" },
+                        { data: "price_route", title: "ราคาต่อการเดินทาง" },
+                        { data: "time_route", title: "เวลาที่ใช้ในการเดินทาง" },
+                        { data: "place_in_route", title: "สถานที่ระหว่างทาง" },
+                        { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeleteRoute'>Delete</button><button class='btn btn-warning btnEditroute mr-2'>Edit</button>" }
+                    ]
+
+                });
+
+                $("#myTable tbody").on("click", ".btnEditroute", function () {
+                    const currentRow = $(this).parents("tr");
+                    const tableallroute = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    console.log(tableallroute.Route_ID + " " + rowID);
+                    console.log(tableallroute);
+                    $.ajax({
+                        method: 'POST',
+                        url: '/DataCar',
+                    }).done(function (data, state, xhr) {
+                        let createOption = "";
+                        for (let i = 0; i < data.length; i++) {
+                            createOption += "<option value='" + data[i].carID + "'>" + ("ชื่อ " + data[i].name_car + " ความจุ " + data[i].capacity) + "</option>";
+                        }
+                        $("#EditRoute_carid").html(createOption);
+                        $("#EditRoute_carid").val(tableallroute.carID);
+                        // $("#EditTypeplace").html(createOption);
+                    }).fail(function (xhr, state) {
+                        alert(xhr.responeText);
+                    });
+
+                    $.ajax({
+                        method: 'POST',
+                        url: '/DataPlace',
+                    }).done(function (data, state, xhr) {
+                        let createOption = "";
+                        for (let i = 0; i < data.length; i++) {
+                            createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+                        }
+                        $("#EditRoute_Origin").html(createOption);
+                        $("#EditRoute_Destination").html(createOption);
+                        $("#EditRoute_Origin").val(tableallroute.IDorigin);
+                        $("#EditRoute_Destination").val(tableallroute.IDdestination);
+                        // $("#EditTypeplace").html(createOption);
+                    }).fail(function (xhr, state) {
+                        alert(xhr.responeText);
+                    });
+                    $("#EditRouteID").val(tableallroute.Route_ID);
+                    $("#Editprice_route").val(tableallroute.price_route);
+                    $("#Edittime_route").val(tableallroute.time_route);
+                    $("#Editshowplace").text(numberEditplaceinR);
+                    $("#modelEditRoute").modal("show");
+                });
+
+                $("#myTable tbody").on("click", ".btnDeleteRoute", function () {
+                    const currentRow = $(this).parents("tr");
+                    let checktableRoute = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Are you sure to delete ID " + checktableRoute.Route_ID,
+                        icon: "warning",
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                method: 'POST',
+                                url: '/DeleteRoute',
+                                data: { Route_ID: checktableRoute.Route_ID }
+                            }).done(function (data, state, xhr) {
+                                table.row(rowID).remove().draw();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The record has been deleted.",
+                                    icon: "success"
+                                })
+                            }).fail(function (xhr, state) {
+                                Swal.fire({
+                                    title: "Delete error!",
+                                    text: "It's has something wrong.",
+                                    icon: "error"
+                                })
+                            })
+
+                        }
+                    });
+                });
+
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            })
+            numberAddplaceinR = "";
+            $("#showplace").text(numberAddplaceinR);
         }
     });
 
+    $("#btnSaveEdithotel").click(function () {
+        // alert("test");
+        let edithotelID = $("#EdittxtIDhotel").val();
+        let editNamehotel = $("#EdittxtNamehotel").val();
+        let editPricehotel = $("#EdittxtPricehotel").val();
+        // alert(hotelID+" "+Namehotel+" "+Pricehotel);
+        $.ajax({
+            method: 'POST',
+            url: '/Edithotel',
+            data: { hotelID: edithotelID, name_hotel: editNamehotel, price_per_day: editPricehotel }
+        }).done(function (data, state, xhr) {
+            table.clear();
+            table = $("#myTable").dataTable().fnDestroy();
+            $('#myTable').empty();
+            $.ajax({
+                method: 'GET',
+                url: '/DataHotel'
+            }).done(function (data, state, xhr) {
+                table = $('#myTable').DataTable({
+                    responsive: true,
+                    data: data,
+                    columns: [
+                        { data: "hotelID", title: "รหัส" },
+                        { data: "name_hotel", title: "ชื่อที่พัก" },
+                        { data: "pic_hotel", title: "รูป" },
+                        { data: "price_per_day", title: "ราคา" },
+                        { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeletehotel'>Delete</button><button class='btn btn-warning btnEdithotel mr-2'>Edit</button>" }
+                    ]
+                })
+                $("#myTable tbody").on("click", ".btnEdithotel", function () {
+                    const currentRow = $(this).parents("tr");
+                    const tableallhotel = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    console.log(tableallhotel.hotelID + " " + rowID);
+                    console.log(tableallhotel);
+                    $("#EdittxtIDhotel").val(tableallhotel.hotelID);
+                    $("#EdittxtNamehotel").val(tableallhotel.name_hotel);
+                    $("#EdittxtPricehotel").val(tableallhotel.price_per_day);
+                    $("#modelEdithotel").modal("show");
+                });
+
+                $("#myTable tbody").on("click", ".btnDeletehotel", function () {
+                    const currentRow = $(this).parents("tr");
+                    let checktablehotel = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Are you sure to delete ID " + checktablehotel.hotelID,
+                        icon: "warning",
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                method: 'POST',
+                                url: '/Deletehotel',
+                                data: { hotelID: checktablehotel.hotelID }
+                            }).done(function (data, state, xhr) {
+                                table.row(rowID).remove().draw();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The record has been deleted.",
+                                    icon: "success"
+                                })
+                            }).fail(function (xhr, state) {
+                                Swal.fire({
+                                    title: "Delete error!",
+                                    text: "It's has something wrong.",
+                                    icon: "error"
+                                })
+                            })
+
+                        }
+                    });
+                });
+
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            });
+
+        }).fail(function (xhr, state) {
+            alert(xhr.responeText);
+        });
+        $("#modelEdithotel").modal("hide");
+    });
+
+
 
     // edit data car
-    $("#myTable tbody").on("click", ".btn-warning", function () {
+    $("#myTable tbody").on("click", ".btnEditcar", function () {
         const currentRow = $(this).parents("tr");
         const tableallCar = table.row(currentRow).data();
         rowID = table.row(currentRow).index();
-        // console.log(testdata.idcar + " " + rowID);
-        $("#EdittxtIdcar").val(tableallCar.idcar);
-        $("#EdittxtNamecar").val(tableallCar.namecar);
-        $("#EdittxtPricecar").val(tableallCar.pricecar);
-        $("#EdittxtPointStartcar").val(tableallCar.pointStartcar);
-        $("#EdittxtPointEndcar").val(tableallCar.pointEndcar);
+        console.log(tableallCar.carID + " " + rowID);
+        $("#EdittxtIdcar").val(tableallCar.carID);
+        $("#EdittxtNamecar").val(tableallCar.name_car);
+        // $("#EdittxtPricecar").val(tableallCar.price_car);
+        $("#EdittxtCapacity").val(tableallCar.capacity);
         $("#modelEditcar").modal("show");
     });
 
-    $("#myTable tbody").on("click", ".btn-danger", function () {
+    $("#myTable tbody").on("click", ".btnDeletecar", function () {
         const currentRow = $(this).parents("tr");
         let checktableCar = table.row(currentRow).data();
         rowID = table.row(currentRow).index();
         Swal.fire({
             title: "Warning",
-            text: "Are you sure to delete ID " + car[rowID].idcar,
+            text: "Are you sure to delete ID " + checktableCar.carID,
             icon: "warning",
             showCancelButton: true
         }).then((result) => {
             if (result.isConfirmed) {
-                let checkEditcar = checktableCar.idcar[0];
-                if (checkEditcar == 1) {
-                    for (let i = 0; i < bus.length; i++) {
-                        if (checktableCar.idcar == bus[i].idcar) {
-                            bus.splice(i, 1);
-                            break;
-                        }
-                    }
-                    console.log(bus);
-                    car = $.merge($.merge([], bus), taxi);
+                $.ajax({
+                    method: 'POST',
+                    url: '/Deletecar',
+                    data: { IDcar: checktableCar.carID }
+                }).done(function (data, state, xhr) {
                     table.row(rowID).remove().draw();
-
-                } else if (checkEditcar == 2) {
-                    for (let i = 0; i < taxi.length; i++) {
-                        if (checktableCar.idcar == taxi[i].idcar) {
-                            taxi.splice(i, 1);
-                            break;
-                        }
-                    }
-                    console.log(taxi);
-                    car = $.merge($.merge([], bus), taxi);
-                    table.row(rowID).remove().draw();
-                }
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "The record has been deleted.",
-                    icon: "success"
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "The record has been deleted.",
+                        icon: "success"
+                    })
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
                 })
+
             }
         });
     });
 
     $("#btnSaveEditcar").click(function () {
-        const editidcar = $("#EdittxtIdcar").val();
+        const editIDcar = $("#EdittxtIdcar").val();
         const editnamecar = $("#EdittxtNamecar").val();
-        const editpricecar = $("#EdittxtPricecar").val();
-        const editstartcar = $("#EdittxtPointStartcar").val();
-        const editendcar = $("#EdittxtPointEndcar").val();
-        // alert(editidcar + editnamecar + editpricecar + editstartcar + editendcar);
-        let checkEditcar = editidcar[0];
-        if (checkEditcar == 1) {
-            for (let i = 0; i < bus.length; i++) {
-                if (editidcar == bus[i].idcar) {
-                    bus[i].namecar = editnamecar;
-                    bus[i].pricecar = editpricecar;
-                    bus[i].pointStartcar = editstartcar;
-                    bus[i].pointEndcar = editendcar;
+        // const editpricecar = $("#EdittxtPricecar").val();
+        const editCapacity = $("#EdittxtCapacity").val();
+        const editTypecar = $("#EditTypecar").val();
+        // alert(editIDcar+" "+editnamecar+" "+editpricecar+" "+editCapacity+" "+editTypecar);
+        $.ajax({
+            method: 'POST',
+            url: '/Editcar',
+            data: { carID: editIDcar, name_car: editnamecar, capacity: editCapacity, TypecarID: editTypecar }
+        }).done(function (data, state, xhr) {
+            if (checkEditmodecar == 0) {
+                table.clear();
+                table = $("#myTable").dataTable().fnDestroy();
+                $('#myTable').empty();
+                table = $('#myTable').DataTable({
+                    responsive: true,
+                    ajax: {
+                        method: 'POST',
+                        url: "/DataCar",
+                        dataSrc: function (data) {
+                            for (let row = 0; row < data.length; row++) {
+                                if (data[row].TypecarID == 1) {
+                                    data[row].TypecarID = "รถประจำทาง";
+                                } else {
+                                    data[row].TypecarID = "รถรับจ้าง";
+                                }
+                            }
+                            return data;
+                        }
+                    },
+                    columns: [
+                        { data: "carID", title: "รหัส" },
+                        { data: "name_car", title: "ชื่อ" },
+                        { data: "capacity", title: "ความจุ" },
+                        { data: "TypecarID", title: "ประเทภรถ" },
+                        { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
+                    ]
+                })
+                $("#myTable tbody").on("click", ".btnEditcar", function () {
+                    const currentRow = $(this).parents("tr");
+                    const tableallCar = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    console.log(tableallCar.carID + " " + rowID);
+                    $("#EdittxtIdcar").val(tableallCar.carID);
+                    $("#EdittxtNamecar").val(tableallCar.name_car);
+                    // $("#EdittxtPricecar").val(tableallCar.price_car);
+                    $("#EdittxtCapacity").val(tableallCar.capacity);
+                    $("#modelEditcar").modal("show");
+                });
+                $("#myTable tbody").on("click", ".btnDeletecar", function () {
+                    const currentRow = $(this).parents("tr");
+                    let checktableCar = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Are you sure to delete ID " + checktableCar.carID,
+                        icon: "warning",
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                method: 'POST',
+                                url: '/Deletecar',
+                                data: { IDcar: checktableCar.carID }
+                            }).done(function (data, state, xhr) {
+                                table.row(rowID).remove().draw();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The record has been deleted.",
+                                    icon: "success"
+                                })
+                            }).fail(function (xhr, state) {
+                                Swal.fire({
+                                    title: "Delete error!",
+                                    text: "It's has something wrong.",
+                                    icon: "error"
+                                })
+                            })
 
-                    let temp = table.row(rowID).data();
-                    temp.namecar = editnamecar;
-                    temp.pricecar = editpricecar;
-                    temp.pointStartcar = editstartcar;
-                    temp.pointEndcar = editendcar;
-                    table.row(rowID).data(temp).invalidate();
-                    $("#modelEditcar").modal("hide");
-                    break;
-                }
+                        }
+                    });
+                });
+            } else if (checkEditmodecar == 1) {
+                table.clear();
+                table = $("#myTable").dataTable().fnDestroy();
+                $('#myTable').empty();
+                $.ajax({
+                    method: 'POST',
+                    url: '/DataCar',
+                    data: { type: 1 }
+                }).done(function (data, state, xhr) {
+                    table = $('#myTable').DataTable({
+                        responsive: true,
+                        data: data,
+                        columns: [
+                            { data: "carID", title: "รหัส" },
+                            { data: "name_car", title: "ชื่อ" },
+                            { data: "capacity", title: "ความจุ" },
+                            { data: "nameType_car", title: "ประเภทรถ" },
+                            { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
+                        ]
+                    })
+                    $("#myTable tbody").on("click", ".btnEditcar", function () {
+                        const currentRow = $(this).parents("tr");
+                        const tableallCar = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        console.log(tableallCar.carID + " " + rowID);
+                        $("#EdittxtIdcar").val(tableallCar.carID);
+                        $("#EdittxtNamecar").val(tableallCar.name_car);
+                        // $("#EdittxtPricecar").val(tableallCar.price_car);
+                        $("#EdittxtCapacity").val(tableallCar.capacity);
+                        $("#modelEditcar").modal("show");
+                    });
+                    $("#myTable tbody").on("click", ".btnDeletecar", function () {
+                        const currentRow = $(this).parents("tr");
+                        let checktableCar = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        Swal.fire({
+                            title: "Warning",
+                            text: "Are you sure to delete ID " + checktableCar.carID,
+                            icon: "warning",
+                            showCancelButton: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/Deletecar',
+                                    data: { IDcar: checktableCar.carID }
+                                }).done(function (data, state, xhr) {
+                                    table.row(rowID).remove().draw();
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "The record has been deleted.",
+                                        icon: "success"
+                                    })
+                                }).fail(function (xhr, state) {
+                                    Swal.fire({
+                                        title: "Delete error!",
+                                        text: "It's has something wrong.",
+                                        icon: "error"
+                                    })
+                                })
+
+                            }
+                        });
+                    });
+
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
+                });
+            } else if (checkEditmodecar == 2) {
+                table.clear();
+                table = $("#myTable").dataTable().fnDestroy();
+                $('#myTable').empty();
+                $.ajax({
+                    method: 'POST',
+                    url: '/DataCar',
+                    data: { type: 2 }
+                }).done(function (data, state, xhr) {
+                    table = $('#myTable').DataTable({
+                        responsive: true,
+                        data: data,
+                        columns: [
+                            { data: "carID", title: "รหัส" },
+                            { data: "name_car", title: "ชื่อ" },
+                            { data: "capacity", title: "ความจุ" },
+                            { data: "nameType_car", title: "ประเภทรถ" },
+                            { title: "Action", defaultContent: "<button class='btn btn-danger btnDeletecar mr-2'>Delete</button><button class='btn btn-warning btnEditcar mr-2'>Edit</button>" }
+                        ]
+                    })
+                    $("#myTable tbody").on("click", ".btnEditcar", function () {
+                        const currentRow = $(this).parents("tr");
+                        const tableallCar = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        console.log(tableallCar.carID + " " + rowID);
+                        $("#EdittxtIdcar").val(tableallCar.carID);
+                        $("#EdittxtNamecar").val(tableallCar.name_car);
+                        // $("#EdittxtPricecar").val(tableallCar.price_car);
+                        $("#EdittxtCapacity").val(tableallCar.capacity);
+                        $("#modelEditcar").modal("show");
+                    });
+                    $("#myTable tbody").on("click", ".btnDeletecar", function () {
+                        const currentRow = $(this).parents("tr");
+                        let checktableCar = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        Swal.fire({
+                            title: "Warning",
+                            text: "Are you sure to delete ID " + checktableCar.carID,
+                            icon: "warning",
+                            showCancelButton: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/Deletecar',
+                                    data: { IDcar: checktableCar.carID }
+                                }).done(function (data, state, xhr) {
+                                    table.row(rowID).remove().draw();
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "The record has been deleted.",
+                                        icon: "success"
+                                    })
+                                }).fail(function (xhr, state) {
+                                    Swal.fire({
+                                        title: "Delete error!",
+                                        text: "It's has something wrong.",
+                                        icon: "error"
+                                    })
+                                })
+
+                            }
+                        });
+                    });
+
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
+                });
             }
-            console.log(bus);
-        } else if (checkEditcar == 2) {
-            for (let i = 0; i < taxi.length; i++) {
-                if (editidcar == taxi[i].idcar) {
-                    taxi[i].namecar = editnamecar;
-                    taxi[i].pricecar = editpricecar;
-                    taxi[i].pointStartcar = editstartcar;
-                    taxi[i].pointEndcar = editendcar;
+            $("#modelEditcar").modal("hide");
+        }).fail(function (xhr, state) {
+            Swal.fire({
+                title: "Edit error!",
+                text: "It's has something wrong.",
+                icon: "error"
+            })
+        });
+    });
 
-                    let temp = table.row(rowID).data();
-                    temp.namecar = editnamecar;
-                    temp.pricecar = editpricecar;
-                    temp.pointStartcar = editstartcar;
-                    temp.pointEndcar = editendcar;
-                    table.row(rowID).data(temp).invalidate();
-                    $("#modelEditcar").modal("hide");
-                    break;
+    $("#btnSaveEditplace").click(function () {
+        // alert("test");
+        const editTypeplace = $("#EditTypeplace").val();
+        const editIDplace = $("#EdittxtIDplace").val();
+        const editnameplace = $("#EdittxtNameplace").val();
+        const editinfoplace = $("#EdittxtInfoplace").val();
+        const editTimeopen = $("#EditTimeOpen").val();
+        const editTimeclose = $("#EditTimeClose").val();
+        const editDayclose = $("#EditDayclose").val();
+        const editpriceplace = $("#EdittxtPriceplace").val();
+        if (checkEditmodeplace == 0) {
+            $.ajax({
+                method: 'POST',
+                url: '/Editplace',
+                data: { placeID: editIDplace, name_place: editnameplace, info_place: editinfoplace, price_place: editpriceplace, timeopen_place: editTimeopen, timeclose_place: editTimeclose, CloseDay: editDayclose, typeplaceID: editTypeplace }
+            }).done(function (data, state, xhr) {
+                // alert(data);
+                table.clear();
+                table = $("#myTable").dataTable().fnDestroy();
+                $('#myTable').empty();
+                table = $('#myTable').DataTable({
+                    responsive: true,
+                    ajax: {
+                        method: 'POST',
+                        url: "/DataPlace",
+                        dataSrc: function (data) {
+                            for (let row = 0; row < data.length; row++) {
+                                if (data[row].typeplaceID == 1) {
+                                    data[row].typeplaceID = "ทั่วไป";
+                                } else if (data[row].typeplaceID == 2) {
+                                    data[row].typeplaceID = "วัด";
+                                } else if (data[row].typeplaceID == 3) {
+                                    data[row].typeplaceID = "สถานบันเทิง";
+                                } else if (data[row].typeplaceID == 4) {
+                                    data[row].typeplaceID = "ที่ท่องเที่ยวธรรมชาติ";
+                                }
+                            }
+                            return data;
+                        }
+                    },
+                    columns: [
+                        { data: "placeID", title: "รหัส" },
+                        { data: "name_place", title: "ชื่อสถานที่" },
+                        { data: "pic_place", title: "รูป" },
+                        { data: "info_place", title: "ข้อมูล" },
+                        { data: "price_place", title: "ราคาเข้าชม" },
+                        { data: "timeopen_place", title: "เวลาเปิด" },
+                        { data: "timeclose_place", title: "เวลาปิด" },
+                        { data: "CloseDay", title: "วันปิดทำการ" },
+                        { data: "typeplaceID", title: "ประเทภสถานที่" },
+                        { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeleteplace'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                    ]
+
+                });
+
+                $("#myTable tbody").on("click", ".btnEditplace", function () {
+                    const currentRow = $(this).parents("tr");
+                    const tableallplace = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    console.log(tableallplace.placeID + " " + rowID);
+                    console.log(tableallplace);
+                    $("#EdittxtIDplace").val(tableallplace.placeID);
+                    $("#EdittxtNameplace").val(tableallplace.name_place);
+                    $("#EdittxtInfoplace").val(tableallplace.info_place);
+                    $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                    $("#EditTimeClose").val(tableallplace.timeclose_place);
+                    $("#EdittxtPriceplace").val(tableallplace.price_place);
+                    $("#modelEditplace").modal("show");
+                });
+
+                $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                    const currentRow = $(this).parents("tr");
+                    let checktableplace = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Are you sure to delete ID " + checktableplace.placeID,
+                        icon: "warning",
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                method: 'POST',
+                                url: '/Deleteplace',
+                                data: { placeID: checktableplace.placeID }
+                            }).done(function (data, state, xhr) {
+                                table.row(rowID).remove().draw();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The record has been deleted.",
+                                    icon: "success"
+                                })
+                            }).fail(function (xhr, state) {
+                                Swal.fire({
+                                    title: "Delete error!",
+                                    text: "It's has something wrong.",
+                                    icon: "error"
+                                })
+                            })
+
+                        }
+                    });
+                });
+                $("#modelEditplace").modal("hide");
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            });
+        } else if (checkEditmodeplace == 1) {
+            $.ajax({
+                method: 'POST',
+                url: '/Editplace',
+                data: { placeID: editIDplace, name_place: editnameplace, info_place: editinfoplace, price_place: editpriceplace, timeopen_place: editTimeopen, timeclose_place: editTimeclose, CloseDay: editDayclose, typeplaceID: editTypeplace }
+            }).done(function (data, state, xhr) {
+                // alert(data);
+                $.ajax({
+                    method: 'POST',
+                    url: '/DataPlace',
+                    data: { type: 1 }
+                }).done(function (data, state, xhr) {
+                    // alert(data);
+                    table.clear();
+                    table = $("#myTable").dataTable().fnDestroy();
+                    $('#myTable').empty();
+                    table = $('#myTable').DataTable({
+                        responsive: true,
+                        data: data,
+                        columns: [
+                            { data: "placeID", title: "รหัส" },
+                            { data: "name_place", title: "ชื่อสถานที่" },
+                            { data: "pic_place", title: "รูป" },
+                            { data: "info_place", title: "ข้อมูล" },
+                            { data: "price_place", title: "ราคาเข้าชม" },
+                            { data: "timeopen_place", title: "เวลาเปิด" },
+                            { data: "timeclose_place", title: "เวลาปิด" },
+                            { data: "CloseDay", title: "วันปิดทำการ" },
+                            { data: "nametype_place", title: "ประเทภสถานที่" },
+                            { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                        ]
+                    })
+                    $("#myTable tbody").on("click", ".btnEditplace", function () {
+                        const currentRow = $(this).parents("tr");
+                        const tableallplace = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        console.log(tableallplace.placeID + " " + rowID);
+                        console.log(tableallplace);
+                        $("#EdittxtIDplace").val(tableallplace.placeID);
+                        $("#EdittxtNameplace").val(tableallplace.name_place);
+                        $("#EdittxtInfoplace").val(tableallplace.info_place);
+                        $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                        $("#EditTimeClose").val(tableallplace.timeclose_place);
+                        $("#EdittxtPriceplace").val(tableallplace.price_place);
+                        $("#modelEditplace").modal("show");
+                    });
+
+                    $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                        const currentRow = $(this).parents("tr");
+                        let checktableplace = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        Swal.fire({
+                            title: "Warning",
+                            text: "Are you sure to delete ID " + checktableplace.placeID,
+                            icon: "warning",
+                            showCancelButton: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/Deleteplace',
+                                    data: { placeID: checktableplace.placeID }
+                                }).done(function (data, state, xhr) {
+                                    table.row(rowID).remove().draw();
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "The record has been deleted.",
+                                        icon: "success"
+                                    })
+                                }).fail(function (xhr, state) {
+                                    Swal.fire({
+                                        title: "Delete error!",
+                                        text: "It's has something wrong.",
+                                        icon: "error"
+                                    })
+                                })
+
+                            }
+                        });
+                        $("#modelEditplace").modal("hide");
+                    });
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
+                });
+                $("#modelEditplace").modal("hide");
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            });
+        } else if (checkEditmodeplace == 2) {
+            $.ajax({
+                method: 'POST',
+                url: '/Editplace',
+                data: { placeID: editIDplace, name_place: editnameplace, info_place: editinfoplace, price_place: editpriceplace, timeopen_place: editTimeopen, timeclose_place: editTimeclose, CloseDay: editDayclose, typeplaceID: editTypeplace }
+            }).done(function (data, state, xhr) {
+                // alert(data);
+                $.ajax({
+                    method: 'POST',
+                    url: '/DataPlace',
+                    data: { type: 2 }
+                }).done(function (data, state, xhr) {
+                    // alert(data);
+                    table.clear();
+                    table = $("#myTable").dataTable().fnDestroy();
+                    $('#myTable').empty();
+                    table = $('#myTable').DataTable({
+                        responsive: true,
+                        data: data,
+                        columns: [
+                            { data: "placeID", title: "รหัส" },
+                            { data: "name_place", title: "ชื่อสถานที่" },
+                            { data: "pic_place", title: "รูป" },
+                            { data: "info_place", title: "ข้อมูล" },
+                            { data: "price_place", title: "ราคาเข้าชม" },
+                            { data: "timeopen_place", title: "เวลาเปิด" },
+                            { data: "timeclose_place", title: "เวลาปิด" },
+                            { data: "CloseDay", title: "วันปิดทำการ" },
+                            { data: "nametype_place", title: "ประเทภสถานที่" },
+                            { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                        ]
+                    })
+                    $("#myTable tbody").on("click", ".btnEditplace", function () {
+                        const currentRow = $(this).parents("tr");
+                        const tableallplace = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        console.log(tableallplace.placeID + " " + rowID);
+                        console.log(tableallplace);
+                        $("#EdittxtIDplace").val(tableallplace.placeID);
+                        $("#EdittxtNameplace").val(tableallplace.name_place);
+                        $("#EdittxtInfoplace").val(tableallplace.info_place);
+                        $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                        $("#EditTimeClose").val(tableallplace.timeclose_place);
+                        $("#EdittxtPriceplace").val(tableallplace.price_place);
+                        $("#modelEditplace").modal("show");
+                    });
+
+                    $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                        const currentRow = $(this).parents("tr");
+                        let checktableplace = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        Swal.fire({
+                            title: "Warning",
+                            text: "Are you sure to delete ID " + checktableplace.placeID,
+                            icon: "warning",
+                            showCancelButton: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/Deleteplace',
+                                    data: { placeID: checktableplace.placeID }
+                                }).done(function (data, state, xhr) {
+                                    table.row(rowID).remove().draw();
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "The record has been deleted.",
+                                        icon: "success"
+                                    })
+                                }).fail(function (xhr, state) {
+                                    Swal.fire({
+                                        title: "Delete error!",
+                                        text: "It's has something wrong.",
+                                        icon: "error"
+                                    })
+                                })
+
+                            }
+                        });
+                        $("#modelEditplace").modal("hide");
+                    });
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
+                });
+                $("#modelEditplace").modal("hide");
+
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            });
+        } else if (checkEditmodeplace == 3) {
+            $.ajax({
+                method: 'POST',
+                url: '/Editplace',
+                data: { placeID: editIDplace, name_place: editnameplace, info_place: editinfoplace, price_place: editpriceplace, timeopen_place: editTimeopen, timeclose_place: editTimeclose, CloseDay: editDayclose, typeplaceID: editTypeplace }
+            }).done(function (data, state, xhr) {
+                // alert(data);
+                $.ajax({
+                    method: 'POST',
+                    url: '/DataPlace',
+                    data: { type: 3 }
+                }).done(function (data, state, xhr) {
+                    // alert(data);
+                    table.clear();
+                    table = $("#myTable").dataTable().fnDestroy();
+                    $('#myTable').empty();
+                    table = $('#myTable').DataTable({
+                        responsive: true,
+                        data: data,
+                        columns: [
+                            { data: "placeID", title: "รหัส" },
+                            { data: "name_place", title: "ชื่อสถานที่" },
+                            { data: "pic_place", title: "รูป" },
+                            { data: "info_place", title: "ข้อมูล" },
+                            { data: "price_place", title: "ราคาเข้าชม" },
+                            { data: "timeopen_place", title: "เวลาเปิด" },
+                            { data: "timeclose_place", title: "เวลาปิด" },
+                            { data: "CloseDay", title: "วันปิดทำการ" },
+                            { data: "nametype_place", title: "ประเทภสถานที่" },
+                            { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                        ]
+                    })
+                    $("#myTable tbody").on("click", ".btnEditplace", function () {
+                        const currentRow = $(this).parents("tr");
+                        const tableallplace = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        console.log(tableallplace.placeID + " " + rowID);
+                        console.log(tableallplace);
+                        $("#EdittxtIDplace").val(tableallplace.placeID);
+                        $("#EdittxtNameplace").val(tableallplace.name_place);
+                        $("#EdittxtInfoplace").val(tableallplace.info_place);
+                        $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                        $("#EditTimeClose").val(tableallplace.timeclose_place);
+                        $("#EdittxtPriceplace").val(tableallplace.price_place);
+                        $("#modelEditplace").modal("show");
+                    });
+
+                    $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                        const currentRow = $(this).parents("tr");
+                        let checktableplace = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        Swal.fire({
+                            title: "Warning",
+                            text: "Are you sure to delete ID " + checktableplace.placeID,
+                            icon: "warning",
+                            showCancelButton: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/Deleteplace',
+                                    data: { placeID: checktableplace.placeID }
+                                }).done(function (data, state, xhr) {
+                                    table.row(rowID).remove().draw();
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "The record has been deleted.",
+                                        icon: "success"
+                                    })
+                                }).fail(function (xhr, state) {
+                                    Swal.fire({
+                                        title: "Delete error!",
+                                        text: "It's has something wrong.",
+                                        icon: "error"
+                                    })
+                                })
+
+                            }
+                        });
+                        $("#modelEditplace").modal("hide");
+                    });
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
+                });
+                $("#modelEditplace").modal("hide");
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            });
+        } else if (checkEditmodeplace == 4) {
+            $.ajax({
+                method: 'POST',
+                url: '/Editplace',
+                data: { placeID: editIDplace, name_place: editnameplace, info_place: editinfoplace, price_place: editpriceplace, timeopen_place: editTimeopen, timeclose_place: editTimeclose, CloseDay: editDayclose, typeplaceID: editTypeplace }
+            }).done(function (data, state, xhr) {
+                // alert(data);
+                $.ajax({
+                    method: 'POST',
+                    url: '/DataPlace',
+                    data: { type: 4 }
+                }).done(function (data, state, xhr) {
+                    // alert(data);
+                    table.clear();
+                    table = $("#myTable").dataTable().fnDestroy();
+                    $('#myTable').empty();
+                    table = $('#myTable').DataTable({
+                        responsive: true,
+                        data: data,
+                        columns: [
+                            { data: "placeID", title: "รหัส" },
+                            { data: "name_place", title: "ชื่อสถานที่" },
+                            { data: "pic_place", title: "รูป" },
+                            { data: "info_place", title: "ข้อมูล" },
+                            { data: "price_place", title: "ราคาเข้าชม" },
+                            { data: "timeopen_place", title: "เวลาเปิด" },
+                            { data: "timeclose_place", title: "เวลาปิด" },
+                            { data: "CloseDay", title: "วันปิดทำการ" },
+                            { data: "nametype_place", title: "ประเทภสถานที่" },
+                            { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteplace mr-2'>Delete</button><button class='btn btn-warning btnEditplace mr-2'>Edit</button>" }
+                        ]
+                    })
+                    $("#myTable tbody").on("click", ".btnEditplace", function () {
+                        const currentRow = $(this).parents("tr");
+                        const tableallplace = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        console.log(tableallplace.placeID + " " + rowID);
+                        console.log(tableallplace);
+                        $("#EdittxtIDplace").val(tableallplace.placeID);
+                        $("#EdittxtNameplace").val(tableallplace.name_place);
+                        $("#EdittxtInfoplace").val(tableallplace.info_place);
+                        $("#EditTimeOpen").val(tableallplace.timeopen_place);
+                        $("#EditTimeClose").val(tableallplace.timeclose_place);
+                        $("#EdittxtPriceplace").val(tableallplace.price_place);
+                        $("#modelEditplace").modal("show");
+                    });
+
+                    $("#myTable tbody").on("click", ".btnDeleteplace", function () {
+                        const currentRow = $(this).parents("tr");
+                        let checktableplace = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        Swal.fire({
+                            title: "Warning",
+                            text: "Are you sure to delete ID " + checktableplace.placeID,
+                            icon: "warning",
+                            showCancelButton: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/Deleteplace',
+                                    data: { placeID: checktableplace.placeID }
+                                }).done(function (data, state, xhr) {
+                                    table.row(rowID).remove().draw();
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "The record has been deleted.",
+                                        icon: "success"
+                                    })
+                                }).fail(function (xhr, state) {
+                                    Swal.fire({
+                                        title: "Delete error!",
+                                        text: "It's has something wrong.",
+                                        icon: "error"
+                                    })
+                                })
+
+                            }
+                        });
+                        $("#modelEditplace").modal("hide");
+                    });
+                }).fail(function (xhr, state) {
+                    alert(xhr.responeText);
+                });
+                $("#modelEditplace").modal("hide");
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            });
+        }
+    });
+
+    $("#formAddhotel").submit(function (e) {
+        e.preventDefault();
+        const dataForm = new FormData(this);
+
+        $.ajax({
+            method: 'POST',
+            url: '/Addhotel',
+            data: dataForm,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                // alert(response);
+                checkEditmodecar = 0;
+                checkEditmodeplace = 0;
+                table.clear();
+                table = $("#myTable").dataTable().fnDestroy();
+                $('#myTable').empty();
+                $.ajax({
+                    method: 'GET',
+                    url: '/DataHotel'
+                }).done(function (data, state, xhr) {
+                    table = $('#myTable').DataTable({
+                        responsive: true,
+                        data: data,
+                        columns: [
+                            { data: "hotelID", title: "รหัส" },
+                            { data: "name_hotel", title: "ชื่อ" },
+                            { data: "pic_hotel", title: "รูป" },
+                            { data: "price_per_day", title: "ราคาต่อวัน" },
+                            { title: "Action", defaultContent: "<button class='btn btn-danger btnDeleteHotel mr-2'>Delete</button><button class='btn btn-warning btnEditHotel mr-2'>Edit</button>" }
+                        ]
+
+                    });
+
+                    $("#myTable tbody").on("click", ".btnEdithotel", function () {
+                        const currentRow = $(this).parents("tr");
+                        const tableallhotel = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        console.log(tableallhotel.hotelID + " " + rowID);
+                        console.log(tableallhotel);
+                        $("#EdittxtIDhotel").val(tableallhotel.hotelID);
+                        $("#EdittxtNamehotel").val(tableallhotel.name_hotel);
+                        $("#EdittxtPricehotel").val(tableallhotel.price_per_day);
+                        $("#modelEdithotel").modal("show");
+                    });
+
+                    $("#myTable tbody").on("click", ".btnDeletehotel", function () {
+                        const currentRow = $(this).parents("tr");
+                        let checktablehotel = table.row(currentRow).data();
+                        rowID = table.row(currentRow).index();
+                        Swal.fire({
+                            title: "Warning",
+                            text: "Are you sure to delete ID " + checktablehotel.hotelID,
+                            icon: "warning",
+                            showCancelButton: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/Deletehotel',
+                                    data: { hotelID: checktablehotel.hotelID }
+                                }).done(function (data, state, xhr) {
+                                    table.row(rowID).remove().draw();
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "The record has been deleted.",
+                                        icon: "success"
+                                    })
+                                }).fail(function (xhr, state) {
+                                    Swal.fire({
+                                        title: "Delete error!",
+                                        text: "It's has something wrong.",
+                                        icon: "error"
+                                    })
+                                })
+
+                            }
+                        });
+                    });
+
+                }).fail(function (xhr, state) {
+
+                })
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+        $("#txtNamehotel").val("");
+        $("#txtPricehotel").val("");
+        $("#gallery-hotel-add").val('');
+        $(".galleryhotel img:last-child").remove();
+        $("#modelAddhotel").modal("hide");
+
+    });
+
+
+    $("#btnSaveAddRoute").click(function () {
+        // alert("test");
+        let origin = $("#Route_Origin").val();
+        let destination = $("#Route_Destination").val();
+        let route_carid = $("#Route_carid").val();
+        let price_route = $("#price_route").val();
+        let time_route = $("#time_route").val();
+        // alert(origin+" "+destination+" "+route_carid+" "+price_route+" "+time_route);
+        if (origin == destination) {
+            alert("Please don't select origin and destination in the same place!");
+        } else {
+            if (price_route == "") {
+                alert("Please insert price of route!");
+            } else {
+                if (time_route == "") {
+                    alert("Please insert time that use in this route!");
+                } else {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/AddRoute',
+                        data: { Origin: origin, Destination: destination, carID: route_carid, price_route: price_route, time_route: time_route, place_in_route: numberAddplaceinR }
+                    }).done(function (data, state, xhr) {
+                        // alert(data);
+                        checkEditmodecar = 0;
+                        checkEditmodeplace = 0;
+                        $("#menushowplace").css("display", "none");
+                        $("#menushowcar").css("display", "none");
+                        $("#menushowHotel").css("display", "none");
+                        $("#menushowRoute").css("display", "");
+                        table.clear();
+                        table = $("#myTable").dataTable().fnDestroy();
+                        $('#myTable').empty();
+                        $.ajax({
+                            method: 'GET',
+                            url: '/Routes'
+                        }).done(function (data, state, xhr) {
+                            console.log(data);
+                            table = $('#myTable').DataTable({
+                                responsive: true,
+                                data: data,
+                                columns: [
+                                    { data: "Route_ID", title: "รหัส" },
+                                    { data: "Origin", title: "ต้นทาง" },
+                                    { data: "Destination", title: "ปลายทาง" },
+                                    { data: "name_car", title: "ประเภทรถ" },
+                                    { data: "price_route", title: "ราคาต่อการเดินทาง" },
+                                    { data: "time_route", title: "เวลาที่ใช้ในการเดินทาง" },
+                                    { data: "place_in_route", title: "สถานที่ระหว่างทาง" },
+                                    { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeleteRoute'>Delete</button><button class='btn btn-warning btnEditroute mr-2'>Edit</button>" }
+                                ]
+
+                            });
+
+                            $("#myTable tbody").on("click", ".btnEditroute", function () {
+                                const currentRow = $(this).parents("tr");
+                                const tableallroute = table.row(currentRow).data();
+                                rowID = table.row(currentRow).index();
+                                console.log(tableallroute.Route_ID + " " + rowID);
+                                console.log(tableallroute);
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/DataCar',
+                                }).done(function (data, state, xhr) {
+                                    let createOption = "";
+                                    for (let i = 0; i < data.length; i++) {
+                                        createOption += "<option value='" + data[i].carID + "'>" + ("ชื่อ " + data[i].name_car + " ความจุ " + data[i].capacity) + "</option>";
+                                    }
+                                    $("#EditRoute_carid").html(createOption);
+                                    $("#EditRoute_carid").val(tableallroute.carID);
+                                    // $("#EditTypeplace").html(createOption);
+                                }).fail(function (xhr, state) {
+                                    alert(xhr.responeText);
+                                });
+
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '/DataPlace',
+                                }).done(function (data, state, xhr) {
+                                    let createOption = "";
+                                    for (let i = 0; i < data.length; i++) {
+                                        createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+                                    }
+                                    $("#EditRoute_Origin").html(createOption);
+                                    $("#EditRoute_Destination").html(createOption);
+                                    $("#EditRoute_Origin").val(tableallroute.IDorigin);
+                                    $("#EditRoute_Destination").val(tableallroute.IDdestination);
+                                    // $("#EditTypeplace").html(createOption);
+                                }).fail(function (xhr, state) {
+                                    alert(xhr.responeText);
+                                });
+                                $("#EditRouteID").val(tableallroute.Route_ID);
+                                $("#Editprice_route").val(tableallroute.price_route);
+                                $("#Edittime_route").val(tableallroute.time_route);
+                                $("#Editshowplace").text(numberEditplaceinR);
+                                $("#modelEditRoute").modal("show");
+                            });
+
+                            $("#myTable tbody").on("click", ".btnDeleteRoute", function () {
+                                const currentRow = $(this).parents("tr");
+                                let checktableRoute = table.row(currentRow).data();
+                                rowID = table.row(currentRow).index();
+                                Swal.fire({
+                                    title: "Warning",
+                                    text: "Are you sure to delete ID " + checktableRoute.Route_ID,
+                                    icon: "warning",
+                                    showCancelButton: true
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        $.ajax({
+                                            method: 'POST',
+                                            url: '/DeleteRoute',
+                                            data: { Route_ID: checktableRoute.Route_ID }
+                                        }).done(function (data, state, xhr) {
+                                            table.row(rowID).remove().draw();
+                                            Swal.fire({
+                                                title: "Deleted!",
+                                                text: "The record has been deleted.",
+                                                icon: "success"
+                                            })
+                                        }).fail(function (xhr, state) {
+                                            Swal.fire({
+                                                title: "Delete error!",
+                                                text: "It's has something wrong.",
+                                                icon: "error"
+                                            })
+                                        })
+
+                                    }
+                                });
+                            });
+
+                        }).fail(function (xhr, state) {
+                            alert(xhr.responeText);
+                        })
+                        numberAddplaceinR = "";
+                        $("#showplace").text(numberAddplaceinR);
+                        $("#price_route").val("");
+                        $("#time_route").val("");
+                        $("#modelAddRoute").modal("hide");
+                    }).fail(function (xhr, state) {
+                        alert(xhr.responeText);
+                    });
                 }
             }
         }
 
     });
 
+    $("#btnSaveEditRoute").click(function () {
+        // alert("test");
+        let route_id = $("#EditRouteID").val();
+        let origin = $("#EditRoute_Origin").val();
+        let destination = $("#EditRoute_Destination").val();
+        let route_carid = $("#EditRoute_carid").val();
+        let price_route = $("#Editprice_route").val();
+        let time_route = $("#Edittime_route").val();
+        // alert(route_id+" "+origin+" "+destination+" "+route_carid+" "+price_route+" "+time_route+" "+numberplaceinR);
+        $.ajax({
+            method: 'POST',
+            url: '/EditRoute',
+            data: { Route_ID: route_id, Origin: origin, Destination: destination, carID: route_carid, price_route: price_route, time_route: time_route, place_in_route: numberEditplaceinR }
+        }).done(function (data, state, xhr) {
+            table.clear();
+            table = $("#myTable").dataTable().fnDestroy();
+            $('#myTable').empty();
+            $.ajax({
+                method: 'GET',
+                url: '/Routes'
+            }).done(function (data, state, xhr) {
+                console.log(data);
+                table = $('#myTable').DataTable({
+                    responsive: true,
+                    data: data,
+                    columns: [
+                        { data: "Route_ID", title: "รหัส" },
+                        { data: "Origin", title: "ต้นทาง" },
+                        { data: "Destination", title: "ปลายทาง" },
+                        { data: "name_car", title: "ประเภทรถ" },
+                        { data: "price_route", title: "ราคาต่อการเดินทาง" },
+                        { data: "time_route", title: "เวลาที่ใช้ในการเดินทาง" },
+                        { data: "place_in_route", title: "สถานที่ระหว่างทาง" },
+                        { title: "Action", defaultContent: "<button class='btn btn-danger mr-2 btnDeleteRoute'>Delete</button><button class='btn btn-warning btnEditroute mr-2'>Edit</button>" }
+                    ]
 
+                });
+
+                $("#myTable tbody").on("click", ".btnEditroute", function () {
+                    const currentRow = $(this).parents("tr");
+                    const tableallroute = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    console.log(tableallroute.Route_ID + " " + rowID);
+                    console.log(tableallroute);
+                    $.ajax({
+                        method: 'POST',
+                        url: '/DataCar',
+                    }).done(function (data, state, xhr) {
+                        let createOption = "";
+                        for (let i = 0; i < data.length; i++) {
+                            createOption += "<option value='" + data[i].carID + "'>" + ("ชื่อ " + data[i].name_car + " ความจุ " + data[i].capacity) + "</option>";
+                        }
+                        $("#EditRoute_carid").html(createOption);
+                        $("#EditRoute_carid").val(tableallroute.carID);
+                        // $("#EditTypeplace").html(createOption);
+                    }).fail(function (xhr, state) {
+                        alert(xhr.responeText);
+                    });
+
+                    $.ajax({
+                        method: 'POST',
+                        url: '/DataPlace',
+                    }).done(function (data, state, xhr) {
+                        let createOption = "";
+                        for (let i = 0; i < data.length; i++) {
+                            createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+                        }
+                        $("#EditRoute_Origin").html(createOption);
+                        $("#EditRoute_Destination").html(createOption);
+                        $("#EditRoute_Origin").val(tableallroute.IDorigin);
+                        $("#EditRoute_Destination").val(tableallroute.IDdestination);
+                        // $("#EditTypeplace").html(createOption);
+                    }).fail(function (xhr, state) {
+                        alert(xhr.responeText);
+                    });
+                    $("#EditRouteID").val(tableallroute.Route_ID);
+                    $("#Editprice_route").val(tableallroute.price_route);
+                    $("#Edittime_route").val(tableallroute.time_route);
+                    $("#Editshowplace").text(numberEditplaceinR);
+                    $("#modelEditRoute").modal("show");
+                });
+
+                $("#myTable tbody").on("click", ".btnDeleteRoute", function () {
+                    const currentRow = $(this).parents("tr");
+                    let checktableRoute = table.row(currentRow).data();
+                    rowID = table.row(currentRow).index();
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Are you sure to delete ID " + checktableRoute.Route_ID,
+                        icon: "warning",
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                method: 'POST',
+                                url: '/DeleteRoute',
+                                data: { Route_ID: checktableRoute.Route_ID }
+                            }).done(function (data, state, xhr) {
+                                table.row(rowID).remove().draw();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The record has been deleted.",
+                                    icon: "success"
+                                })
+                            }).fail(function (xhr, state) {
+                                Swal.fire({
+                                    title: "Delete error!",
+                                    text: "It's has something wrong.",
+                                    icon: "error"
+                                })
+                            })
+
+                        }
+                    });
+                });
+
+                $("#modelEditRoute").modal("hide");
+
+            }).fail(function (xhr, state) {
+                alert(xhr.responeText);
+            })
+        }).fail(function (xhr, state, err) {
+            alert(err);
+        });
+    });
 
     // navbar menu sign out
     $("#Adminlogout").click(function () {
-        window.location.replace("index.html");
+        localStorage.id = 0;
+        localStorage.role = 0;
+        window.location.replace("/");
     });
 
+    $("#btnCloseAddRoute").click(function () {
+        $("#price_route").val("");
+        $("#time_route").val("");
+    })
 
+    $("#btnCloseRoute").click(function () {
+        $("#price_route").val("");
+        $("#time_route").val("");
+    })
+
+
+    $("#btnCloseAddplace").click(function () {
+        $("#gallery-photo-add").val('');
+        $(".gallery img:last-child").remove();
+    });
+
+    $("#btnClosemodalplace").click(function () {
+        // alert("test");
+        $("#gallery-photo-add").val('');
+        $(".gallery img:last-child").remove();
+    });
+
+    $("#btnCloseAddhotel").click(function () {
+        $("#gallery-hotel-add").val('');
+        $(".galleryhotel img:last-child").remove();
+    });
+
+    $("#btnClosemodalhotel").click(function () {
+        // alert("test");
+        $("#gallery-hotel-add").val('');
+        $(".galleryhotel img:last-child").remove();
+    });
+
+});
+
+$(function () {
+    // Multiple images preview in browser
+    var imagesPreview = function (input, placeToInsertImagePreview) {
+
+        if (input.files) {
+            var filesAmount = input.files.length;
+
+            for (i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                    $($.parseHTML('<img class="col-12 rounded shadow m-3 p-0">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                }
+
+                reader.readAsDataURL(input.files[i]);
+            }
+        }
+
+    };
+
+    $('#gallery-photo-add').on('change', function () {
+        imagesPreview(this, 'div.gallery');
+    });
+
+});
+
+
+
+$(function () {
+    // Multiple images preview in browser
+    var imagesPreview = function (input, placeToInsertImagePreview) {
+
+        if (input.files) {
+            var filesAmount = input.files.length;
+
+            for (i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                    $($.parseHTML('<img class="col-12 rounded shadow m-3 p-0 Imageinput">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                }
+
+                reader.readAsDataURL(input.files[i]);
+            }
+        }
+
+    };
+
+    $('#gallery-hotel-add').on('change', function () {
+        imagesPreview(this, 'div.galleryhotel');
+    });
 });

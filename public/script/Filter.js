@@ -1,13 +1,23 @@
 
 $(document).ready(function () {
-  var weathercheck;
-  // var cardper = 0;
-  // var cardgroup = 0;
-  // var cardfamily = 0;
-  var numberPer = 1;
-  var numfam = 3;
-
-
+  var haveroute = 0;
+  var checkroute = 0;
+  var GFselect = 1;
+  var personselect = 0;
+  var startprice = 0;
+  var totalprice = 0;
+  var selecthotel = 0;
+  var saveRoute = "";
+  var idhotel = 0;
+  if (localStorage.id == 0 || localStorage.id == undefined) {
+    window.location.replace("/");
+  }
+  if (localStorage.role == 1) {
+    window.location.replace("/Admin");
+  }
+  $("body").toggleClass("GFselect");
+  // alert(localStorage.Origin);
+  // alert(localStorage.Destination);
   $(window).scroll(function () {
     var scroll = $(window).scrollTop();
     if (scroll > 100) {
@@ -19,13 +29,6 @@ $(document).ready(function () {
 
     }
   })
-
-
-  // carousel
-  $('.carousel').carousel({
-    interval: false,
-    wrap: false
-  });
 
   // select date
   $('#sandbox-container').datepicker({
@@ -52,254 +55,626 @@ $(document).ready(function () {
     $("#txtdate").text(btndate);
   });
 
+  $.ajax({
+    method: 'GET',
+    url: '/Datahotel'
+  }).done(function (data, state, xhr) {
+    var createhotel = "";
+    for (let i = 0; i < data.length; i++) {
+      // alert(data[i].pic_hotel);
+      var pichotelA = data[i].pic_hotel;
+      var picH = pichotelA.split(',');
+      for (let r = 0; r < picH.length; r++) {
+        if (picH[r] == "") {
+          // console.log(r);
+          // alert("test");
+          picH.splice(r, 1);
+        }
+      }
 
-  // change picture
-  weathercheck = $("#weather").val();
-  console.log(weathercheck);
-  if (weathercheck == "winter") {
-    $("#selecttemp").prop("src", "../public/image/win.jpg");
-  }
-  else if (weathercheck == "summer") {
-    $("#selecttemp").prop("src", "../public/image/sum.jpg");
-  }
-  else if (weathercheck == "Rainly") {
-    $("#selecttemp").prop("src", "../public/image/rain.jpg");
-  }
+      var randomhotel = Math.floor(Math.random() * picH.length);
+      // alert(picH[randomhotel]);
+      createhotel += "<img src='upload/" + picH[randomhotel] + "'class='m-3 rounded shadow col-8 p-0 hotel-card' style='cursor: pointer;' id='" + data[i].hotelID + "'>";
+      // for (let i = 0; i < data.length; i++) {
+      // }
+      $("#area-showhotel").html(createhotel);
+      $(".hotel-card").click(function () {
+        // alert($(this).attr('id'));
+        idhotel = $(this).attr('id');
+        // alert(idhotel);
+        $.ajax({
+          method: 'POST',
+          url: '/getsomehotel',
+          data: { idhotel: idhotel }
+        }).done(function (data, state, xhr) {
+          // console.log(data);
+          selecthotel = data[0].price_per_day;
+          // alert(totalprice);
+          $("#Namehotel").text("โรงแรม " + data[0].name_hotel);
+          $("#Pricehotel").text("ราคา " + data[0].price_per_day + " บาท");
+        }).fail(function (xhr, state, err) {
+          alert(err);
+        })
+      });
+
+    }
+
+    $("#btncancelhotel").click(function () {
+      selecthotel = 0;
+      $("#Namehotel").text("โรงแรม ");
+      $("#Pricehotel").text("ราคา " + 0 + " บาท");
+    });
+    // var pichotelA = data.pic_hotel;
+    // console.log(picplaceInR);
+    // 
+
+    // alert(picH);
+
+  }).fail(function (xhr, state, err) {
+    alert(err);
+  })
+
+  $.ajax({
+    method: 'POST',
+    url: '/DataPlace',
+  }).done(function (data, state, xhr) {
+    // alert(data);
+    let createOption = "";
+    for (let i = 0; i < data.length; i++) {
+      createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+    }
+    // console.log(createOption);
+    $("#pinOrigin").html(createOption);
+    $("#pinDestination").html(createOption);
+    // $("#pinOrigin option[value='"+ 13 +"']").attr('selected', 'selected');
+    $("#pinOrigin").val(localStorage.Origin);
+    $("#pinDestination").val(localStorage.Destination);
+    // $("#EditTypeplace").html(createOption);
+  }).fail(function (xhr, state) {
+    alert(xhr.responeText);
+  });
+
+  $.ajax({
+    method: 'POST',
+    url: '/getplace_Route',
+    data: { Origin: localStorage.Origin, Destination: localStorage.Destination }
+  }).done(function (data, state, xhr) {
+    // console.log(data);
+    if (data == "") {
+      alert("ไม่มีข้อมูลเส้นนี้");
+      haveroute = 0;
+      if (checkroute == 1) {
+        checkroute = 1;
+        $('body').toggleClass("notifi");
+      }
+    } else {
+      if (data[0].place_in_route == undefined || data[0].place_in_route == "") {
+        // alert("เส้นทางนี้ไม่มีสถานที่เที่ยวระหว่างทาง");
+        haveroute = 1;
+        if (checkroute == 0) {
+          checkroute = 0;
+          $('body').toggleClass("notifi");
+        } else {
+
+        }
+      } else {
+        haveroute = 1;
+        startprice = data[0].price_route;
+        totalprice += data[0].price_route;
+        $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+        var placebetweenroute = data[0].place_in_route;
+        var PlaceInR = placebetweenroute.split(',');
+        let htmlspawncard = "";
+        // alert(PlaceInR + " " + PlaceInR[0]);
+        // alert(PlaceInR[1]);
+        for (let i = 0; i < PlaceInR.length; i++) {
+
+          $.ajax({
+            method: 'POST',
+            url: '/getsomeplaceInRoute',
+            data: { someplace: PlaceInR[i] }
+          }).done(function (data, state, xhr) {
+            // console.log(PlaceInR[i]);
+
+            if (data[0] == undefined || data[0].place_in_route == "") {
+              // alert("test");
+            } else {
+              // console.log(data[0].pic_place);
+              var picplaceInR = data[0].pic_place;
+              // console.log(picplaceInR);
+              var picInR = picplaceInR.split(',');
+              for (let r = 0; r < picInR.length; r++) {
+                if (picInR[r] == "") {
+                  // console.log(r);
+                  // alert("test");
+                  picInR.splice(r, 1);
+                }
+              }
+              // console.log(picInR);
+              let randompic = Math.floor(Math.random() * picInR.length);
+              // console.log(randompic);
+              // console.log(picInR);
+              // console.log(picInR[randompic]);
+              htmlspawncard += "<div class='card col-4 p-0 m-5 shadow rounded' style='height: auto;'><img class='card-img-top' src='upload/" + picInR[randompic] + "'><h4 class='card-title'>" + data[0].name_place + "</h4><p class='card-text'>" + data[0].info_place + "</p><label for=''>เลือก</label><div class='form-check m-auto p-0'><input class='m-auto' type='checkbox' value='" + data[0].placeID + "' name='place_inR' style='height: 2rem; width: 2rem;'></div></div>";
+              // console.log(randompic);
+
+
+            }
+            //  alert(data[0].pic_place);
+            $("#spawn-place-area").html(htmlspawncard);
+            $(".card").click(function () {
+              var checkplace = $("input[name='place_inR']:checked");
+              // console.log(checkplace);
+              totalprice = 0;
+              totalprice = startprice;
+              $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+              var placeR = "";
+              for (let i = 0; i < checkplace.length; i++) {
+                placeR += checkplace[i].value + ",";
+              }
+              let pricecard = placeR.split(',');
+              for (let r = 0; r < pricecard.length; r++) {
+                if (pricecard[r] == "") {
+                  // console.log(r);
+                  // alert("test");
+                  pricecard.splice(r, 1);
+                }
+              }
+              saveRoute = pricecard;
+              for (let i = 0; i < pricecard.length; i++) {
+                $.ajax({
+                  method: 'POST',
+                  url: '/getsomeplaceInRoute',
+                  data: { someplace: pricecard[i] }
+                }).done(function (data, state, xhr) {
+                  // alert(data[0].carID);
+                  totalprice += data[0].price_place;
+                  // alert($("#amountperson").val());
+                  $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+                }).fail(function (xhr, state, err) {
+                  alert(err);
+                })
+              }
+              // alert(pricecard[0]);
+            });
+          }).fail(function (xhr, state, err) {
+            alert(err);
+          })
+        }
+        console.log(htmlspawncard);
+      }
+    }
+
+  }).fail(function (xhr, state, err) {
+    alert(err);
+  });
+
+  $("#pinOrigin").change(function () {
+    totalprice = 0;
+    // alert("test");
+    // alert($(this).children(":selected").attr("value"))
+    var valplace1 = $("#pinOrigin").children(":selected").attr("value");
+    var valplace2 = $("#pinDestination").children(":selected").attr("value");
+    // $("#Route_Destination[value='"+ valplace +"']").remove();
+    // alert(valplace1 + " " + valplace2);
+    if (valplace1 == valplace2) {
+      $.ajax({
+        method: 'POST',
+        url: '/select_Route',
+        data: { selectRoute: valplace1 }
+      }).done(function (data, state, xhr) {
+        // alert(data[0].);
+        let createOption = "";
+        for (let i = 0; i < data.length; i++) {
+          createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+        }
+        console.log(createOption);
+        // $("#txtOrigin").text(text);
+        $("#pinDestination").html(createOption);
+      }).fail(function (xhr, state) {
+        alert(xhr.responeText);
+      })
+    } else {
+      $.ajax({
+        method: 'POST',
+        url: '/getplace_Route',
+        data: { Origin: valplace1, Destination: valplace2 }
+      }).done(function (data, state, xhr) {
+        // alert(data[0].place_in_route);
+        // alert(data);
+        if (data == "") {
+          alert("ไม่มีข้อมูลเส้นนี้");
+          haveroute = 0;
+          $(".card").remove();
+          if (checkroute == 1) {
+            checkroute = 1;
+            $('body').toggleClass("notifi");
+          }
+        } else {
+          if (data[0].place_in_route == undefined || data[0].place_in_route == "") {
+            // alert("เส้นทางนี้ไม่มีสถานที่เที่ยวระหว่างทาง");
+            haveroute = 1;
+            if (checkroute == 0) {
+              checkroute = 0;
+              $('body').toggleClass("notifi");
+            } else {
+
+            }
+          } else {
+            haveroute = 1;
+            startprice = data[0].price_route;
+            totalprice += data[0].price_route;
+            $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+            var placebetweenroute = data[0].place_in_route;
+            var PlaceInR = placebetweenroute.split(',');
+            let htmlspawncard = "";
+            // alert(PlaceInR + " " + PlaceInR[0]);
+            // alert(PlaceInR[1]);
+            for (let i = 0; i < PlaceInR.length; i++) {
+
+              $.ajax({
+                method: 'POST',
+                url: '/getsomeplaceInRoute',
+                data: { someplace: PlaceInR[i] }
+              }).done(function (data, state, xhr) {
+                // console.log(PlaceInR[i]);
+
+                if (data[0] == undefined) {
+                  // alert("test");
+                } else {
+                  // console.log(data[0].pic_place);
+                  var picplaceInR = data[0].pic_place;
+                  // console.log(picplaceInR);
+                  var picInR = picplaceInR.split(',');
+                  for (let r = 0; r < picInR.length; r++) {
+                    if (picInR[r] == "") {
+                      // console.log(r);
+                      // alert("test");
+                      picInR.splice(r, 1);
+                    }
+                  }
+                  // console.log(picInR);
+                  let randompic = Math.floor(Math.random() * picInR.length);
+                  // console.log(randompic);
+                  // console.log(picInR);
+                  // console.log(picInR[randompic]);
+                  htmlspawncard += "<div class='card col-4 p-0 m-5 shadow rounded' style='height: auto;'><img class='card-img-top' src='upload/" + picInR[randompic] + "'><h4 class='card-title'>" + data[0].name_place + "</h4><p class='card-text'>" + data[0].info_place + "</p><label for=''>เลือก</label><div class='form-check m-auto p-0'><input class='m-auto' type='checkbox' value='" + data[0].placeID + "' name='place_inR' style='height: 2rem; width: 2rem;'></div></div>";
+                  // console.log(randompic);
+
+
+                }
+                //  alert(data[0].pic_place);
+                $("#spawn-place-area").html(htmlspawncard);
+                $(".card").click(function () {
+                  var checkplace = $("input[name='place_inR']:checked");
+                  totalprice = 0;
+                  totalprice = startprice;
+                  $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+                  var placeR = "";
+                  for (let i = 0; i < checkplace.length; i++) {
+                    placeR += checkplace[i].value + ",";
+                  }
+                  let pricecard = placeR.split(',');
+                  for (let r = 0; r < pricecard.length; r++) {
+                    if (pricecard[r] == "") {
+                      // console.log(r);
+                      // alert("test");
+                      pricecard.splice(r, 1);
+                    }
+                  }
+                  saveRoute = pricecard;
+                  for (let i = 0; i < pricecard.length; i++) {
+                    $.ajax({
+                      method: 'POST',
+                      url: '/getsomeplaceInRoute',
+                      data: { someplace: pricecard[i] }
+                    }).done(function (data, state, xhr) {
+                      // alert(data[0].carID);
+                      totalprice += data[0].price_place;
+                      $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+                    }).fail(function (xhr, state, err) {
+                      alert(err);
+                    })
+                  }
+                  // alert(pricecard[0]);
+                });
+              }).fail(function (xhr, state, err) {
+                alert(err);
+              })
+            }
+            console.log(htmlspawncard);
+          }
+        }
+      }).fail(function (xhr, state, err) {
+        alert(err);
+      });
+    }
+
+  });
+
+  $("#pinDestination").change(function () {
+    // alert("test");
+    // alert($(this).children(":selected").attr("value"))
+    totalprice = 0;
+    var valplace1 = $("#pinOrigin").children(":selected").attr("value");
+    var valplace2 = $("#pinDestination").children(":selected").attr("value");
+    // alert(valplace);
+    if (valplace1 == valplace2) {
+      $.ajax({
+        method: 'POST',
+        url: '/select_Route',
+        data: { selectRoute: valplace2 }
+      }).done(function (data, state, xhr) {
+        // alert(data[0].);
+        let createOption = "";
+        for (let i = 0; i < data.length; i++) {
+          createOption += "<option value='" + data[i].placeID + "'>" + data[i].name_place + "</option>";
+        }
+        console.log(createOption);
+        $("#pinOrigin").html(createOption);
+      }).fail(function (xhr, state) {
+        alert(xhr.responeText);
+      })
+    } else {
+      $.ajax({
+        method: 'POST',
+        url: '/getplace_Route',
+        data: { Origin: valplace1, Destination: valplace2 }
+      }).done(function (data, state, xhr) {
+        // alert(data[0].place_in_route);
+        // alert(data);
+        if (data == "") {
+          haveroute = 0;
+          alert("ไม่มีข้อมูลเส้นนี้");
+          $(".card").remove();
+          if (checkroute == 1) {
+            checkroute = 1;
+            $('body').toggleClass("notifi");
+          }
+        } else {
+          if (data[0].place_in_route == undefined || data[0].place_in_route == "") {
+            // alert("เส้นทางนี้ไม่มีสถานที่เที่ยวระหว่างทาง");
+            haveroute = 1;
+            if (checkroute == 0) {
+              checkroute = 0;
+              $('body').toggleClass("notifi");
+            } else {
+
+            }
+          } else {
+            haveroute = 1;
+            startprice = data[0].price_route;
+            totalprice += data[0].price_route;
+            $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+            var placebetweenroute = data[0].place_in_route;
+            var PlaceInR = placebetweenroute.split(',');
+            let htmlspawncard = "";
+            // alert(PlaceInR + " " + PlaceInR[0]);
+            // alert(PlaceInR[1]);
+            for (let i = 0; i < PlaceInR.length; i++) {
+
+              $.ajax({
+                method: 'POST',
+                url: '/getsomeplaceInRoute',
+                data: { someplace: PlaceInR[i] }
+              }).done(function (data, state, xhr) {
+                // console.log(PlaceInR[i]);
+
+                if (data[0] == undefined) {
+                  // alert("test");
+                } else {
+                  // console.log(data[0].pic_place);
+                  var picplaceInR = data[0].pic_place;
+                  // console.log(picplaceInR);
+                  var picInR = picplaceInR.split(',');
+                  for (let r = 0; r < picInR.length; r++) {
+                    if (picInR[r] == "") {
+                      // console.log(r);
+                      // alert("test");
+                      picInR.splice(r, 1);
+                    }
+                  }
+                  // console.log(picInR);
+                  let randompic = Math.floor(Math.random() * picInR.length);
+                  // console.log(randompic);
+                  // console.log(picInR);
+                  // console.log(picInR[randompic]);
+                  htmlspawncard += "<div class='card col-md-4 col-12 p-0 m-5 shadow rounded' style='height: auto;'><img class='card-img-top' src='upload/" + picInR[randompic] + "'><h4 class='card-title'>" + data[0].name_place + "</h4><p class='card-text'>" + data[0].info_place + "</p><label for=''>เลือก</label><div class='form-check m-auto p-0'><input class='m-auto' type='checkbox' value='" + data[0].placeID + "' name='place_inR' style='height: 2rem; width: 2rem;'></div></div>";
+                  // console.log(randompic);
+                  
+
+                }
+                //  alert(data[0].pic_place);
+                $("#spawn-place-area").html(htmlspawncard);
+                $(".card").click(function () {
+                  var checkplace = $("input[name='place_inR']:checked");
+                  totalprice = 0;
+                  totalprice = startprice;
+                  $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+                  var placeR = "";
+                  for (let i = 0; i < checkplace.length; i++) {
+                    placeR += checkplace[i].value + ",";
+                  }
+                  let pricecard = placeR.split(',');
+                  for (let r = 0; r < pricecard.length; r++) {
+                    if (pricecard[r] == "") {
+                      // console.log(r);
+                      // alert("test");
+                      pricecard.splice(r, 1);
+                    }
+                  }
+                  saveRoute = pricecard;
+                  for (let i = 0; i < pricecard.length; i++) {
+                    $.ajax({
+                      method: 'POST',
+                      url: '/getsomeplaceInRoute',
+                      data: { someplace: pricecard[i] }
+                    }).done(function (data, state, xhr) {
+                      // alert(data[0].carID);
+                      totalprice += data[0].price_place;
+                      $("#txttotalprice").text("ราคา " + totalprice + " บาท");
+                    }).fail(function (xhr, state, err) {
+                      alert(err);
+                    })
+                  }
+                  // alert(pricecard[0]);
+                });
+              }).fail(function (xhr, state, err) {
+                alert(err);
+              })
+            }
+            console.log(htmlspawncard);
+          }
+        }
+      }).fail(function (xhr, state, err) {
+        alert(err);
+      });
+    }
+  });
+
+  $("#TypeTravel").change(function () {
+
+    let Typetravel = $("#TypeTravel").val();
+    // alert(Typetravel);
+    if (Typetravel == "person") {
+      if (GFselect == 1) {
+
+      } else if (GFselect != 1) {
+        GFselect = 1;
+        $("body").toggleClass("GFselect");
+      }
+      if (personselect == 1) {
+        personselect = 0;
+        $("body").toggleClass("personselect");
+
+      }
+
+    } else if (Typetravel == "friend" || Typetravel == "family") {
+      if (personselect == 1) {
+
+      } else if (personselect != 1) {
+        personselect = 1
+        $("body").toggleClass("personselect");
+      }
+
+      if (GFselect == 1) {
+        GFselect = 0
+        $("body").toggleClass("GFselect");
+      }
+
+    }
+  });
+
+  $("#btncomfirmplan").click(function () {
+    // alert(totalprice+" "+selecthotel);
+    let txtbudget = $("#txtbudget").val();
+    let TypeTravel = $("#TypeTravel").val();
+    let date = $("#date").val();
+    let checktotalpeople = $("#amountperson").val();
+    let getweather = $("#weather").val();
+    let RangeAge = $("#selectRangeAge").val();
+
+    if (haveroute == 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Not have this route!',
+        text: 'Please select another route'
+      })
+    } else {
+      if (txtbudget == "") {
+        Swal.fire({
+          icon: 'info',
+          title: 'Please tell your budget!'
+        })
+      } else {
+        if (TypeTravel == "person") {
+          let amountallprice = totalprice + selecthotel;
+          if (amountallprice > txtbudget) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Total price is more than budget!',
+              text: 'Try to manage your total price!'
+            })
+          } else {
+
+            if (date == "") {
+              Swal.fire({
+                icon: 'info',
+                title: 'Please select your date!',
+              })
+            } else {
+              // alert("test");
+              // alert(saveRoute);
+              localStorage.budget = txtbudget;
+              localStorage.TypeTravel = TypeTravel;
+              localStorage.date = date;
+              localStorage.getweather = getweather;
+              localStorage.RangeAge = RangeAge;
+              localStorage.saveRoute = saveRoute;
+              localStorage.idhotel = idhotel;
+              window.location.href = "/Detailplan";
+            }
+          }
+        } else if (TypeTravel == "friend" || TypeTravel == "family") {
+          if (checktotalpeople == "") {
+            Swal.fire({
+              icon: 'info',
+              title: 'Please tell your number of your friend or family!'
+            })
+          } else {
+            let amountallprice = checktotalpeople * (totalprice + selecthotel);
+            if (amountallprice > txtbudget) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Total price is more than budget!',
+                text: 'Try to manage your total price!'
+              })
+            } else {
+              if (date == "") {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Please select your date!',
+                })
+              } else {
+                // alert("test");
+                localStorage.budget = txtbudget;
+                localStorage.TypeTravel = TypeTravel;
+                localStorage.date = date;
+                localStorage.getweather = getweather;
+                localStorage.RangeAge = RangeAge;
+                localStorage.saveRoute = saveRoute;
+                localStorage.idhotel = idhotel;
+                window.location.href = "/Detailplan";
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
   $("#weather").change(function () {
-    weathercheck = $(this).val();
-    if (weathercheck == "winter") {
-      $("#picturetemp").prop("src", "../public/image/win.jpg");
-      $("#selecttemp").prop("src", "../public/image/win.jpg");
-    }
-    else if (weathercheck == "summer") {
-      $("#picturetemp").prop("src", "../public/image/sum.jpg");
-      $("#selecttemp").prop("src", "../public/image/sum.jpg");
-    }
-    else if (weathercheck == "Rainly") {
-      $("#picturetemp").prop("src", "../public/image/rain.jpg");
-      $("#selecttemp").prop("src", "../public/image/rain.jpg");
+    // alert("test");
+    let checkweather = $("#weather").val();
+    // alert(checkweather);
+    if (checkweather == "winter") {
+      $("#txtweather").text("ฤดูที่ต้องการเที่ยว : ฤดูหนาว");
+    } else if (checkweather == "summer") {
+      $("#txtweather").text("ฤดูที่ต้องการเที่ยว : ฤดูร้อน");
+    } else if (checkweather == "Rainly") {
+      $("#txtweather").text("ฤดูที่ต้องการเที่ยว : ฤดูหนาว");
     }
   });
 
-  //card
-  // group
-  $("#frontGroupCard").click(function () {
-    // numberPer = 1;
-    $("body").toggleClass("PersonCard_");
-    $("body").toggleClass("famCard");
-    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน  " + numberPer + " คน");
-    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer + " คน");
-    // var $rotbackPerson = $("#btnbackPersonCard").closest('.card-container');
-    // console.log($rotbackPerson);
-    // if ($rotbackPerson.hasClass('hover')) {
-    //   $rotbackPerson.removeClass('hover');
-    // }
-    // if (cardper == 0) {
-    //   $("body").toggleClass("PersonCard_");
-    //   cardper = 1;
-    // }
-    // if (cardfamily == 0) {
-    //   $("body").toggleClass("famCard");
-    //   cardfamily = 1;
-    // }
-
-  });
-  $("#backGroupCard").click(function () {
-    // numberPer = 1;
-    $("body").toggleClass("PersonCard_");
-    $("body").toggleClass("famCard");
-    $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
-    $("#txttypeTravel").text("การเดินทาง : ยังไม่ได้เลือก");
-    numberPer = 1;
-    $("#countNumofgroup").text(numberPer);
-    // if (cardper == 1) {
-    //   $("body").toggleClass("PersonCard_");
-    //   cardper = 0;
-    // }
-    // if (cardgroup == 0) {
-    //   $("body").toggleClass("GroupCard_");
-    //   cardgroup = 1;
-    // }
-    // if (cardgroup == 1) {
-    //   $("body").toggleClass("GroupCard_");
-    //   cardgroup = 0;
-    // }
-    // if (cardfamily == 1) {
-    //   $("body").toggleClass("famCard");
-    //   cardfamily = 0;
-    // }
-
-  });
-
-  $("#btnPlus").click(function () {
-    numberPer++;
-    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer + " คน");
-    $("#countNumofgroup").text(numberPer);
-    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer + " คน");
-  });
-
-  $("#btnMinus").click(function () {
-    if (numberPer < 1) {
-      numberPer = 1;
-    } else if (numberPer > 1) {
-      numberPer--;
-    }
-    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer + " คน");
-    $("#countNumofgroup").text(numberPer);
-    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numberPer + " คน");
-  });
-
-  // person
-  $("#btnfrontPersonCard").click(function () {
-    // numberPer = 1;
-    $("body").toggleClass("GroupCard_");
-    $("body").toggleClass("famCard");
-    $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
-    $("#txttypeTravel").text("การเดินทาง : ยังไม่ได้เลือก");
-    // var $rotbackGroup = $("#backGroupCard").closest('.card-container');
-    // console.log($rotbackGroup);
-    // if ($rotbackGroup.hasClass('hover')) {
-    //   $rotbackGroup.removeClass('hover');
-    // }
-    // if (cardgroup == 0) {
-    //   $("body").toggleClass("GroupCard_");
-    //   cardgroup = 1;
-    // }
-    // if (cardfamily == 0) {
-    //   $("body").toggleClass("famCard");
-    //   cardfamily = 1;
-    // }
-
-  });
-  $("#btnbackPersonCard").click(function () {
-    // numberPer = 1;
-    $("body").toggleClass("GroupCard_");
-    $("body").toggleClass("famCard");
-    $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
-    $("#txttypeTravel").text("การเดินทาง : ยังไม่ได้เลือก");
-    // if (cardgroup == 1) {
-    //   $("body").toggleClass("GroupCard_");
-    //   cardgroup = 0;
-    // }
-    // if (cardper == 0) {
-    //   $("body").toggleClass("PersonCard_");
-    //   cardper = 1;
-    // }
-    // if (cardper == 1) {
-    //   $("body").toggleClass("PersonCard_");
-    //   cardper = 0;
-    // }
-    // if (cardfamily == 1) {
-    //   $("body").toggleClass("famCard");
-    //   cardfamily = 0;
-    // }
-  });
-
-  $("#btnPerson18-25").click(function () {
-    $("#txtconcludeType").text("การเดินทาง : ช่วงอายุ 18-25 เดินทางปลอดภัยนะ");
-    $("#txttypeTravel").text("การเดินทาง : เดินทางคนเดียว");
-  });
-
-  $("#btnPerson26-30").click(function () {
-    $("#txtconcludeType").text("การเดินทาง : ช่วงอายุ 26-30 เดินทางปลอดภัยนะ");
-    $("#txttypeTravel").text("การเดินทาง : เดินทางคนเดียว");
-  });
-
-  $("#btnPerson31-60").click(function () {
-    $("#txtconcludeType").text("การเดินทาง : ช่วงอายุ 31-60 เดินทางปลอดภัยนะ");
-    $("#txttypeTravel").text("การเดินทาง : เดินทางคนเดียว");
-  });
 
 
-
-  // family
-  $("#frontFamilyCard").click(function () {
-    $("body").toggleClass("GroupCard_");
-    $("body").toggleClass("PersonCard_");
-    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับครอบครัว " + numfam + " คน ขอให้สนุกนะ");
-    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับครอบครัว " + numfam + " คน ขอให้สนุกนะ");
-    // numberPer = 1;
-    // var $rotbackGroup = $("#backGroupCard").closest('.card-container');
-    // // console.log($rotbackGroup);
-    // if ($rotbackGroup.hasClass('hover')) {
-    //   $rotbackGroup.removeClass('hover');
-    // }
-    // var $rotbackPerson = $("#btnbackPersonCard").closest('.card-container');
-    // // console.log($rotbackPerson);
-    // if ($rotbackPerson.hasClass('hover')) {
-    //   $rotbackPerson.removeClass('hover');
-    // }
-
-    // if (checkfam == 0) {
-    //   $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับครอบครัว ขอให้สนุกนะ");
-    //   $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับครอบครัว");
-    //   checkfam = 1;
-    // } else if (checkfam == 1) {
-    //   $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
-    //   $("#txttypeTravel").text("การเดินทาง : ยังไม่ได้เลือก");
-    //   checkfam = 0;
-    // }
-
-    // if (cardgroup == 0) {
-    //   $("body").toggleClass("GroupCard_");
-    //   cardgroup = 1;
-    // }
-
-    // if (cardper == 0) {
-    //   $("body").toggleClass("PersonCard_");
-    //   cardper = 1;
-    // }
-
-
-  });
-
-  $("#btnbackFamily").click(function () {
-    $("body").toggleClass("GroupCard_");
-    $("body").toggleClass("PersonCard_");
-    $("#txtconcludeType").text("การเดินทาง : ยังไม่ได้เลือก");
-    $("#txttypeTravel").text("การเดินทาง : ยังไม่ได้เลือก");
-    numfam = 3;
-    $("#countNumofFam").text(numfam);
-  });
-
-  $("#btnPlusFam").click(function () {
-    numfam++;
-    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numfam + " คน ขอให้สนุกนะ");
-    $("#countNumofFam").text(numfam);
-    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numfam + " คน ขอให้สนุกนะ");
-  });
-
-  $("#btnMinusFam").click(function () {
-    if (numfam < 3) {
-      numfam = 3;
-    } else if (numfam > 3) {
-      numfam--;
-    }
-    $("#txtconcludeType").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numfam + " คน ขอให้สนุกนะ");
-    $("#countNumofFam").text(numfam);
-    $("#txttypeTravel").text("การเดินทาง : เดินทางไปกับกลุ่มเพื่อนอีกจำนวน " + numfam + " คน ขอให้สนุกนะ");
-  });
-
-  //input money
-  $("#inmoney").keyup(function () {
-    $("#txtmoney").text("ใช้เงิน " + $("#inmoney").val() + " Baht");
-  });
-
-  // btn create plan
-  $("#btnCreateplan").click(function () {
-    window.location.replace("viewplan.html");
+  $("#logout").click(function () {
+    localStorage.id = 0;
+    // alert("test");
+    window.location.replace("/");
   });
 
 })
 
-function rotateCard(btn) {
-  var $card = $(btn).closest('.card-container');
-  console.log($card);
-  if ($card.hasClass('hover')) {
-    $card.removeClass('hover');
-  } else {
-    $card.addClass('hover');
-  }
-}
 
 
